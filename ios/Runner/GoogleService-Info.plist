@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>386799374003-hu43kk9t6otd4si48tj92fudr7vtoea7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.386799374003-hu43kk9t6otd4si48tj92fudr7vtoea7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>386799374003-hj15ao1oa44agmav00cenu871c4dhs70.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA3TpUHqsrMWSpPqWD1_BdRzveg9yboPfM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>386799374003</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.teoromens.sdeng</string>
+	<key>PROJECT_ID</key>
+	<string>sdeng-84fe4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sdeng-84fe4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:386799374003:ios:7a442586d18c70c09daac6</string>
+</dict>
+</plist>

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "386799374003",
+    "project_id": "sdeng-84fe4",
+    "storage_bucket": "sdeng-84fe4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386799374003:android:3b8aebaabed91fa19daac6",
+        "android_client_info": {
+          "package_name": "com.teoromens.sdeng"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386799374003-s4g3tlrl4sicv9um0h77udv5vrkmij7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCseUSah8kgOXClqSVoL-9lSCXDXrVS5tI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "386799374003-s4g3tlrl4sicv9um0h77udv5vrkmij7s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "386799374003-0m8tbaqo5tq8i1fl0cc899ltfau1kbri.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sdeng.it.sdeng"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
