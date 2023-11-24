@@ -7,6 +7,7 @@ import 'package:sdeng/model/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/ui/homepage_staff/bloc/home_staff_bloc.dart';
+import 'package:sdeng/ui/search/view/search.dart';
 
 class HomeStaffMobile extends StatelessWidget {
   const HomeStaffMobile({super.key});
@@ -103,13 +104,35 @@ class HomeStaffMobile extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 2,
-                        children: const [
+                        children: [
                           InkWell(
-                            child: ToolCard(title: 'Calendar', asset: 'assets/illustrations/calendar.svg',),
+                            onTap: () {
+
+                            },
+                            child: const ToolCard(title: 'Calendar', asset: 'assets/illustrations/calendar.svg',),
                           ),
-                          ToolCard(title: 'Search', asset: 'assets/illustrations/calendar.svg',),
-                          ToolCard(title: 'Payments', asset: 'assets/illustrations/payments.svg',),
-                          ToolCard(title: 'Med Visits', asset: 'assets/illustrations/medicine.svg',),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const Search()
+                                )
+                              );
+                            },
+                            child: const ToolCard(title: 'Search', asset: 'assets/illustrations/calendar.svg',)
+                          ),
+                          InkWell(
+                            onTap: () {
+
+                            },
+                            child: ToolCard(title: 'Payments', asset: 'assets/illustrations/payments.svg',)
+                          ),
+                          InkWell(
+                            onTap: () {
+
+                            },
+                            child: ToolCard(title: 'Med Visits', asset: 'assets/illustrations/medicine.svg',)
+                          ),
                         ],
                       )
                     ],

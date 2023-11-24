@@ -14,10 +14,19 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SearchBloc>(
-      create: (context) => SearchBloc(),
-      child: const Scaffold(
-         body: SearchMobile(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Search Athlete',
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
+        ),
+      ),
+      body: BlocProvider<SearchBloc>(
+        create: (context) => SearchBloc(),
+        child: const Scaffold(
+           body: SearchMobile(),
+        ),
       ),
     );
   }

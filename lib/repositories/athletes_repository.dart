@@ -188,7 +188,7 @@ class AthletesRepository{
     // Query the Firestore database to find athletes by matching 'name' with the provided [string].
     var data = await _firebaseFirestore
         .collection('athletes/${Variables.uid}/athletes')
-        .where('name', isEqualTo: string)
+        .where('name', isGreaterThanOrEqualTo: string)
         .get();
 
     // Iterate through the retrieved athlete documents.

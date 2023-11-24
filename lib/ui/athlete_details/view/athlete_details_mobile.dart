@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/common/payment_card.dart';
 import 'package:sdeng/common/payment_tile.dart';
 import 'package:sdeng/common/text_title.dart';
+import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/ui/athlete_details/bloc/athlete_bloc.dart';
 import 'package:sdeng/ui/athlete_details/components/document_dialog.dart';
@@ -134,13 +135,62 @@ class AthleteDetailsMobile extends StatelessWidget {
                         )
                         : ListView.builder(
                             shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.payments.length,
                             itemBuilder: (context, index) {
-                              return PaymentTile(
-                                  payment: state.payments[index],
-                                  onTap: (dialogContext) {
+                              return Slidable(
+                                startActionPane: ActionPane(
+                                  motion: const BehindMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (BuildContext dialogContext) async {
+                                        final result = await
+                                        showDialog<bool>(
+                                            context: dialogContext,
+                                            builder: (BuildContext dialogContext) =>
+                                                AlertDialog(
+                                                  title: const Text('Are you sure to remove this payment?', style: TextStyle(color: Colors.black, fontSize: 20),),
+                                                  content: const Text('This action can\'t be undo!',  style: TextStyle(color: Colors.black)),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () => Navigator.pop(dialogContext, false),
+                                                        child: const Text(
+                                                          'Cancel',
+                                                          style: TextStyle(
+                                                              color: Colors.white
+                                                          ),
+                                                        )
+                                                    ),
+                                                    TextButton(
+                                                        onPressed: () => Navigator.pop(dialogContext, true),
+                                                        child: const Text(
+                                                          'Yes',
+                                                          style: TextStyle(
+                                                              color: Colors.white
+                                                          ),
+                                                        )
+                                                    )
+                                                  ],
+                                                )
+                                        );
+                                        if (result == true) {
+                                          context.read<AthleteBloc>().removePayment(state.payments[index].docId);
+                                          context.read<AthleteBloc>().loadAthleteDetails(state.athlete.parentId);
+                                        }
+                                      },
+                                      backgroundColor: const Color(0xFFFE4A49),
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete_rounded,
+                                      label: 'Delete',
+                                    ),
+                                  ],
+                                ),
+                                child: PaymentTile(
+                                    payment: state.payments[index],
+                                    onTap: (dialogContext) {
 
-                                  }
+                                    }
+                                ),
                               );
                             }
                         ),
@@ -228,7 +278,7 @@ class AthleteDetailsMobile extends StatelessWidget {
                                                         )
                                                 );
                                                 if (result == true) {
-                                                  bloc.deleteDocumentEventHandler('altri/${state.athlete.teamId}/${state.athlete.docId}/${state.otherFilesMap.keys.elementAt(index)}');
+                                                  bloc.deleteDocumentEventHandler('${Variables.uid}/other/${state.athlete.teamId}/${state.athlete.docId}/${state.otherFilesMap.keys.elementAt(index)}');
                                                 }
                                               },
                                               backgroundColor: const Color(0xFFFE4A49),
@@ -273,15 +323,16 @@ class AthleteDetailsMobile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: ElevatedButton(
-                                onPressed: () {
-                                  showDialog(
+                                onPressed: () async {
+                                  await showDialog(
                                       context: context,
                                       builder: (dialogContext) => PaymentDialog(context)
                                   );
+                                  context.read<AthleteBloc>().loadAthleteDetails(state.athlete.parentId);
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff4D46B2),
-                                    foregroundColor: const Color(0xffE7E6FF),
+                                    foregroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         side: const BorderSide(
@@ -303,7 +354,7 @@ class AthleteDetailsMobile extends StatelessWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff4D46B2),
-                                    foregroundColor: const Color(0xffE7E6FF),
+                                    foregroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         side: const BorderSide(

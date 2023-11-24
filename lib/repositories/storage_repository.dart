@@ -1,9 +1,15 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:sdeng/globals/variables.dart';
 
-class StorageRepository{
+class StorageRepository {
   StorageRepository();
+
+  final String pathMed = '${Variables.uid}/med';
+  final String pathTessFIP = '${Variables.uid}/tessFIP';
+  final String pathIscr = '${Variables.uid}/mod_iscr';
+  final String pathOther = '${Variables.uid}/other';
 
   Future<void> uploadFile(String path, File file, [SettableMetadata? metadata]) async {
     try{
@@ -15,7 +21,7 @@ class StorageRepository{
 
   Future<String> checkMedFile(String athleteId, String teamId) async {
     try{
-      final link = await FirebaseStorage.instance.ref().child('visiteMediche/$teamId/$athleteId.pdf').getDownloadURL();
+      final link = await FirebaseStorage.instance.ref().child('$pathMed/$teamId/$athleteId').getDownloadURL();
       log('Med File found');
       return link;
     } catch (e){
@@ -26,18 +32,18 @@ class StorageRepository{
 
   Future<String> checkModIscrFile(String athleteId, String teamId) async {
     try{
-      final link = await FirebaseStorage.instance.ref().child('moduloIscrizioni/$teamId/$athleteId.pdf').getDownloadURL();
-      log('modIscrizione File found');
+      final link = await FirebaseStorage.instance.ref().child('$pathIscr/$teamId/$athleteId').getDownloadURL();
+      log('Mod Iscrizione File found');
       return link;
     } catch (e){
-      log('modIscrizione File not found');
+      log('Mod Iscrizione File not found');
       return '';
     }
   }
 
   Future<String> checkTessFile(String athleteId, String teamId) async {
     try{
-      final link = await FirebaseStorage.instance.ref().child('tessFIP/$teamId/$athleteId.pdf').getDownloadURL();
+      final link = await FirebaseStorage.instance.ref().child('$pathTessFIP/$teamId/$athleteId').getDownloadURL();
       log('tessFIP File found');
       return link;
     } catch (e){
@@ -49,7 +55,7 @@ class StorageRepository{
   Future<Map<String, String>> checkOtherFile(String athleteId, String teamId) async {
     Map<String, String> map = {};
     try{
-      final list = await FirebaseStorage.instance.ref().child('altri/$teamId/$athleteId').listAll();
+      final list = await FirebaseStorage.instance.ref().child('$pathOther/$teamId/$athleteId').listAll();
       for(var item in list.items){
         map[item.name] = await item.getDownloadURL();
       }
@@ -74,7 +80,7 @@ class StorageRepository{
   Future<List<DateTime>> getExpiresFromTeam(String teamId) async {
     List<DateTime> expires = [];
     try{
-      final ref = FirebaseStorage.instance.ref().child('visiteMediche/$teamId');
+      final ref = FirebaseStorage.instance.ref().child('$pathMed/$teamId');
       final results = await ref.listAll();
       for(var item in results.items){
         expires.add(DateTime.parse(await item.getMetadata().then((value) => value.customMetadata!.values.first)));

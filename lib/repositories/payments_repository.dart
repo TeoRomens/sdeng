@@ -49,6 +49,17 @@ class PaymentsRepository{
     }
   }
 
+  Future<void> removePayment(String paymentId) async {
+    try{
+      await _firebaseFirestore
+          .collection('payments/${Variables.uid}/payments')
+          .doc(paymentId)
+          .delete();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   Future<List<Payment>> getPayments(String athleteId) async {
     try{
       final data = await _firebaseFirestore.collection('payments/${Variables.uid}/payments')

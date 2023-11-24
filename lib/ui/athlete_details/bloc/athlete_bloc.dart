@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/parent.dart';
 import 'package:sdeng/model/payment.dart';
@@ -48,6 +48,10 @@ class AthleteBloc extends Cubit<AthleteState> {
        log('Documents checked!');
 
        emit(state.copyWith(parent: parent, payments: payments, medLink: medLink, modIscrLink: modIscrLink, tessFIPLink: tessFIPLink, otherFilesMap: otherFilesMap));
+
+       if(payments.isEmpty && DateTime.now().isAfter(Variables.firstPaymentDate)){
+         emit(state.copyWith(banner: 'Payment in delay'));
+       }
      } catch (e) {
        log(e.toString());
        emit(state.copyWith(pageStatus: PageStatus.failure));
@@ -75,7 +79,7 @@ class AthleteBloc extends Cubit<AthleteState> {
 
      log('Uploading Med Doc...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final path = 'visiteMediche/${state.athlete.teamId}/${state.athlete.docId}.pdf';
+     final path = '${Variables.uid}/med/${state.athlete.teamId}/${state.athlete.docId}';
      final metadata = SettableMetadata(
        customMetadata: {
          "expiring-date": expire.toIso8601String(),
@@ -94,7 +98,7 @@ class AthleteBloc extends Cubit<AthleteState> {
 
      log('Uploading ModIscr Doc...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final path = 'moduloIscrizioni/${state.athlete.teamId}/${state.athlete.docId}.pdf';
+     final path = '${Variables.uid}/mod_iscr/${state.athlete.teamId}/${state.athlete.docId}';
      await _storageRepository.uploadFile(path, file);
      log('Upload Success!');
      log('Path: $path');
@@ -108,7 +112,7 @@ class AthleteBloc extends Cubit<AthleteState> {
 
      log('Uploading TessFIP Doc...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final path = 'tessFIP/${state.athlete.teamId}/${state.athlete.docId}.pdf';
+     final path = '${Variables.uid}/tessFIP/${state.athlete.teamId}/${state.athlete.docId}.pdf';
      await _storageRepository.uploadFile(path, file);
      log('Upload Success!');
      log('Path: $path');
@@ -122,7 +126,7 @@ class AthleteBloc extends Cubit<AthleteState> {
 
      log('Uploading $name ...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final path = 'altri/${state.athlete.teamId}/${state.athlete.docId}/$name';
+     final path = '${Variables.uid}/other/${state.athlete.teamId}/${state.athlete.docId}/$name';
      await _storageRepository.uploadFile(path, file);
      log('Upload Success! \n path: $path');
      Map<String, String> otherFilesMap = await _storageRepository.checkOtherFile(state.athlete.docId, state.athlete.teamId);
@@ -167,4 +171,8 @@ class AthleteBloc extends Cubit<AthleteState> {
       await _paymentsRepository.addPayment(payment);
       MessageUtil.hideLoading();
     }
+
+  Future<void> removePayment(String docId) async {
+     await _paymentsRepository.removePayment(docId);
+  }
 }

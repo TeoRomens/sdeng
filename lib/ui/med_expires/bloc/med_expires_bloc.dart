@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/model/team.dart';
@@ -46,7 +47,7 @@ class MedExpiresBloc extends Cubit<MedExpiresState> {
     log('Uploading Med Doc...');
     emit(state.copyWith(uploadStatus: UploadStatus.uploading));
     final file = File(platformFile.path!);
-    final path = 'visiteMediche/$teamId/$athleteId.pdf';
+    final path = '${Variables.uid}/med/$teamId/$athleteId';
     final metadata = SettableMetadata(
       customMetadata: {
         "expiring-date": expire.toIso8601String(),
