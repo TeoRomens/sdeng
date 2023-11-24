@@ -7,6 +7,8 @@ import 'package:sdeng/model/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/ui/homepage_staff/bloc/home_staff_bloc.dart';
+import 'package:sdeng/ui/payments/view/payments.dart';
+import 'package:sdeng/ui/payments/view/payments_mobile.dart';
 import 'package:sdeng/ui/search/view/search.dart';
 
 class HomeStaffMobile extends StatelessWidget {
@@ -123,15 +125,19 @@ class HomeStaffMobile extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => const Payments()
+                                  )
+                              );
                             },
-                            child: ToolCard(title: 'Payments', asset: 'assets/illustrations/payments.svg',)
+                            child: const ToolCard(title: 'Payments', asset: 'assets/illustrations/payments.svg',)
                           ),
                           InkWell(
                             onTap: () {
 
                             },
-                            child: ToolCard(title: 'Med Visits', asset: 'assets/illustrations/medicine.svg',)
+                            child: const ToolCard(title: 'Med Visits', asset: 'assets/illustrations/medicine.svg',)
                           ),
                         ],
                       )

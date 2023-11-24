@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sdeng/globals/colors.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/ui/athlete_details/view/responsive.dart';
 

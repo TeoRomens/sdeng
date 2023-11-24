@@ -203,4 +203,19 @@ class AthletesRepository{
     // Return the list of athletes that match the search criteria.
     return athleteList;
   }
+
+  Future<List<Athlete>> getAllAthletes() async {
+    List<Athlete> athletes = [];
+    try{
+      final data = await _firebaseFirestore
+          .collection('athletes/${Variables.uid}/athletes')
+          .get();
+
+      athletes = data.docs.map((e) => Athlete.fromSnapshot(e)).toList();
+
+    } catch (e){
+      log(e.toString());
+    }
+    return athletes;
+  }
 }

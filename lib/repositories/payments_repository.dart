@@ -29,8 +29,6 @@ class PaymentsRepository{
     return '';
   }
 
-
-
   Future<void> removePayments(String athleteId)  async {
     try{
       final data = await _firebaseFirestore
@@ -77,37 +75,19 @@ class PaymentsRepository{
     return [];
   }
 
-  Future<List<Payment>> getExpiredPayments() async {
-    List<Payment> expired = [];
-    if(DateTime.now().isAfter(Variables.secondPaymentDate)){
-      log('Checking seconda rata');
-      try{
-        final data = await _firebaseFirestore
-            .collection('payments/${Variables.uid}/payments')
-            .where('rataUnica', isEqualTo: false)
-            .where('secondaRataPaid', isEqualTo: false,)
-            .get();
+  Future<List<Payment>> getAllPayments() async {
+    List<Payment> payments = [];
+    try{
+      final data = await _firebaseFirestore
+          .collection('payments/${Variables.uid}/payments')
+          .get();
 
-        expired = data.docs.map((e) => Payment.fromSnapshot(e)).toList();
+      payments = data.docs.map((e) => Payment.fromSnapshot(e)).toList();
 
-      } catch (e){
-        log(e.toString());
-      }
+    } catch (e){
+      log(e.toString());
     }
-    else if(DateTime.now().isAfter(Variables.firstPaymentDate)){
-      log('Checking prima rata');
-      try{
-        final data = await _firebaseFirestore
-            .collection('payments/${Variables.uid}/payments')
-            .where('primaRataPaid', isEqualTo: false)
-            .get();
-        
-        expired = data.docs.map((e) => Payment.fromSnapshot(e)).toList();
-      } catch (e){
-        log(e.toString());
-      }
-    }
-    return expired;
+    return payments;
   }
 
   Future<int> getNumPrimaRataPaid() async {

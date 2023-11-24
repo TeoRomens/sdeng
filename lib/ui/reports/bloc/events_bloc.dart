@@ -58,7 +58,7 @@ class EventsBloc extends Cubit<EventsState> {
       emit(state.copyWith(paymentsStatus: PaymentsStatus.loading));
 
       log('Getting Payments Expires...');
-      List<Payment> expired = await paymentsRepository.getExpiredPayments();
+      List<Payment> expired = await paymentsRepository.getAllPayments();
       log('Payments Expires Getted Successfully!');
 
       int totalAthletes = await athletesRepository.getNumAthletes();
