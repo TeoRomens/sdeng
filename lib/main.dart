@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
             color: Colors.black
           )
         ),
+        dialogBackgroundColor: Colors.white,
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xffE7E6FF),
@@ -89,9 +90,21 @@ class MyApp extends StatelessWidget {
           hintStyle: TextStyle(
             color: Color.fromARGB(255, 174, 174, 174),
           ),
+          labelStyle: TextStyle(
+              color: Colors.black
+          ),
           border: defaultOutlineInputBorder,
           enabledBorder: defaultOutlineInputBorder,
           focusedBorder: defaultOutlineInputBorder,
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.grey.shade400,
+          selectedColor: Colors.green.shade400,
+          showCheckmark: false,
+          side: BorderSide.none,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+          ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -110,6 +123,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         dialogTheme: const DialogTheme(
+          surfaceTintColor: Colors.white,
           titleTextStyle: TextStyle(
               fontFamily: 'ProductSans',
           ),
@@ -119,8 +133,8 @@ class MyApp extends StatelessWidget {
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: MyColors.primaryColor,
-            backgroundColor: MyColors.primaryColor,
+            foregroundColor: Colors.white,
+            backgroundColor: Color(0xff4D46B2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16)
             ),
@@ -130,7 +144,7 @@ class MyApp extends StatelessWidget {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12)
           ),
-          tileColor: const Color(0xffe7e6ff),
+          tileColor: Color(0xffe7e6ff),
           titleTextStyle: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -139,8 +153,8 @@ class MyApp extends StatelessWidget {
           )
         ),
         expansionTileTheme: ExpansionTileThemeData(
-          backgroundColor: const Color(0xffe8e8e8),
-          collapsedBackgroundColor: const Color(0xffe8e8e8),
+          backgroundColor: Color(0xffe8e8e8),
+          collapsedBackgroundColor: Color(0xffe8e8e8),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12)
           ),

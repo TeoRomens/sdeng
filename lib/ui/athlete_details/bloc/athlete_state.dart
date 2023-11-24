@@ -17,7 +17,7 @@ class AthleteState {
   AthleteState({
     required this.athlete,
     this.parent,
-    this.payment,
+    this.payments = const [],
     this.pageStatus = PageStatus.loading,
     this.uploadStatus = UploadStatus.none,
     this.medLink = '',
@@ -28,7 +28,7 @@ class AthleteState {
 
   Athlete athlete;
   Parent? parent;
-  Payment? payment;
+  List<Payment> payments;
   String medLink;
   String modIscrLink;
   String tessFIPLink;
@@ -39,7 +39,7 @@ class AthleteState {
   AthleteState copyWith({
     Athlete? athlete,
     Parent? parent,
-    Payment? payment,
+    List<Payment>? payments,
     PageStatus? pageStatus,
     UploadStatus? uploadStatus,
     String? medLink,
@@ -50,7 +50,7 @@ class AthleteState {
     return AthleteState(
       athlete: athlete ?? this.athlete,
       parent: parent ?? this.parent,
-      payment: payment ?? this.payment,
+      payments: payments ?? this.payments,
       pageStatus: pageStatus ?? this.pageStatus,
       medLink: medLink ?? this.medLink,
       modIscrLink: modIscrLink ?? this.modIscrLink,

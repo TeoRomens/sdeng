@@ -69,7 +69,7 @@ class TeamsRepository{
     }
   }
 
-  Future<void> removeAthlete(String teamId, String athleteId) async {
+  Future<void> removeAthleteFromTeam(String teamId, String athleteId) async {
     try{
       FirebaseFirestore.instance
           .collection('teams/${Variables.uid}/teams')

@@ -97,42 +97,13 @@ class AddAthleteBloc extends Cubit<AddAthleteState> {
   Future<void> submitted(String teamId) async {
     try {
       emit(state.copyWith(status: Status.submitting,));
+
       if(!checkForm()) {
         emit(state.copyWith(status: Status.failure, errorMessage: 'Complete all the fields'));
         return;
       }
-      log('Adding new athlete...');
-      final athlete = Athlete(
-          docId: '',
-          name: state.name,
-          surname: state.surname,
-          birth: Timestamp.fromDate(state.birthDay!),
-          teamId: teamId,
-          number: state.number ?? 999,
-          paymentId: '',
-          parentId: '',
-          bornCity: state.bornCity,
-          address: state.address,
-          phone: state.phone,
-          email: state.email,
-          taxId: state.taxId,
-          city: state.city,
-      );
-      String athleteDoc = await _athleteRepository.addAthlete(athlete);
-      log('Athlete Added!');
 
-      Payment payment = Payment(
-        athlete: athleteDoc,
-        rataUnica: state.rataUnica,
-        primaRata: state.primaRata!,
-        secondaRata: state.secondaRata,
-        amount: state.primaRata! + state.secondaRata,
-        primaRataPaid: false,
-        secondaRataPaid: false,
-      );
-      String paymentDoc = await _paymentsRepository.addPayment(payment);
-      log('Payment Added!');
-
+      log('Adding new parent...');
       Parent parent = Parent(
         docId: '',
         name: state.parentName,
@@ -144,19 +115,39 @@ class AddAthleteBloc extends Cubit<AddAthleteState> {
       String parentDocId = await _parentsRepository.addParent(parent);
       log('Parent Added!');
 
-      await _athleteRepository.updateAthlete(athleteDoc, paymentDoc, parentDocId);
+      log('Adding new athlete...');
+      final athlete = Athlete(
+          docId: '',
+          name: state.name,
+          surname: state.surname,
+          birth: Timestamp.fromDate(state.birthDay!),
+          teamId: teamId,
+          number: state.number ?? 999,
+          parentId: parentDocId,
+          bornCity: state.bornCity,
+          address: state.address,
+          phone: state.phone,
+          email: state.email,
+          taxId: state.taxId,
+          city: state.city,
+          amount: state.primaRata + state.secondaRata,
+      );
+      String athleteDoc = await _athleteRepository.addAthlete(athlete);
+      log('Athlete Added!');
+
       await _teamsRepository.updateTeam(teamId, athleteDoc);
 
       if(state.pickedFile != null){
-        log('Uploading Doc...');
+        log('Uploading Med File...');
         final file = File(state.pickedFile!.path!);
-        final path = 'med/${athlete.docId}/med.pdf';
+        final path = '$teamId/med/${athlete.docId}.pdf';
         final metadata = SettableMetadata(
           customMetadata: {
             "expiring-date": state.expiringDate!.toIso8601String(),
           },
         );
         await _storageRepository.uploadFile(path, file, metadata);
+        log('Med File uploaded!');
       }
       emit(state.copyWith(status: Status.success));
 
@@ -165,10 +156,6 @@ class AddAthleteBloc extends Cubit<AddAthleteState> {
       emit(state.copyWith(status: Status.failure, errorMessage: e.toString()));
       emit(state.copyWith(status: Status.idle, errorMessage: null));
     }
-  }
-
-  stepChanged(int step) {
-    emit(state.copyWith(currentStep: step));
   }
 
   parentName(String name) {

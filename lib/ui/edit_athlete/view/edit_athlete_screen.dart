@@ -3,31 +3,34 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/globals/colors.dart';
-import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/parent.dart';
-import 'package:sdeng/model/payment.dart';
 
 import '../bloc/edit_athlete_bloc.dart';
 
-class EditAthleteScreen extends StatelessWidget {
+class EditAthleteScreen extends StatefulWidget {
   const EditAthleteScreen({Key? key,
     required this.athlete,
     required this.parent,
-    required this.payment,
   }) : super(key: key);
 
   final Athlete athlete;
   final Parent parent;
-  final Payment payment;
 
+  @override
+  State<EditAthleteScreen> createState() => _EditAthleteScreenState();
+}
+
+class _EditAthleteScreenState extends State<EditAthleteScreen> {
+  int currentStep = 0;
+  
   @override
   Widget build(BuildContext context) {
     final keyDati = GlobalKey<FormState>();
-    final keyGenitore = GlobalKey<FormState>();
+    final keyParent = GlobalKey<FormState>();
     final keyQuota = GlobalKey<FormState>();
-    DateTime birthDay = athlete.birth.toDate();
-    bool rataUnica = payment.rataUnica;
+    DateTime birthDay = widget.athlete.birth.toDate();
+    bool rataUnica = true;
 
     return BlocProvider(
         create: (context) => EditAthleteBloc(),
@@ -102,37 +105,43 @@ class EditAthleteScreen extends StatelessWidget {
                     Stepper(
                       type: StepperType.vertical,
                       physics: const ScrollPhysics(),
-                      currentStep: state.currentStep,
+                      currentStep: currentStep,
                       controlsBuilder: (BuildContext context, ControlsDetails details) {
                         int lastStep = 2;
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            if(state.currentStep != 0)
+                            if(currentStep != 0)
                               ElevatedButton(
                                 onPressed: () {
                                   keyDati.currentState!.save();
                                   keyQuota.currentState!.save();
-                                  if(state.currentStep != 0) {
-                                    context.read<EditAthleteBloc>().add(StepChangedEvent(step: state.currentStep - 1));
+                                  if(currentStep != 0) {
+                                    setState(() {
+                                      currentStep--;
+                                    });
                                   }
                                 },
                                 child: const Text('Back'),
                               ),
                             const SizedBox(width: 12,),
-                            if(state.currentStep != lastStep)
+                            if(currentStep != lastStep)
                               ElevatedButton(
                                 onPressed: () {
-                                  switch(state.currentStep){
+                                  switch(currentStep){
                                     case 0: {
                                       if(keyDati.currentState!.validate()) {
-                                        context.read<EditAthleteBloc>().add(StepChangedEvent(step: state.currentStep + 1));
+                                        setState(() {
+                                          currentStep++;
+                                        });
                                       }
                                       break;
                                     }
                                     case 1: {
-                                      if(keyGenitore.currentState!.validate()) {
-                                        context.read<EditAthleteBloc>().add(StepChangedEvent(step: state.currentStep + 1));
+                                      if(keyParent.currentState!.validate()) {
+                                        setState(() {
+                                          currentStep++;
+                                        });
                                       }
                                       break;
                                     }
@@ -141,11 +150,11 @@ class EditAthleteScreen extends StatelessWidget {
                                 child: const Text('Continue'),
                               ),
                             const SizedBox(width: 12,),
-                            if(state.currentStep == lastStep)
+                            if(currentStep == lastStep)
                               ElevatedButton(
                                 onPressed: () {
-                                  if(keyGenitore.currentState!.validate() && keyDati.currentState!.validate() && keyQuota.currentState!.validate()) {
-                                    context.read<EditAthleteBloc>().add(SubmittedEvent(athlete: athlete, parent: parent, payment: payment));
+                                  if(keyParent.currentState!.validate() && keyDati.currentState!.validate() && keyQuota.currentState!.validate()) {
+                                    context.read<EditAthleteBloc>().submittedEventHandler(widget.athlete, widget.parent);
                                   }
                                 },
                                 style: ButtonStyle(
@@ -158,7 +167,9 @@ class EditAthleteScreen extends StatelessWidget {
                         );
                       },
                       onStepTapped: (int tapped) {
-                          context.read<EditAthleteBloc>().add(StepChangedEvent(step: tapped));
+                        setState(() {
+                          currentStep = tapped;
+                        });
                       },
                       steps: <Step>[
                         Step(
@@ -173,7 +184,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(NameChanged(name: value));
+                                      context.read<EditAthleteBloc>().nameChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -181,7 +192,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.name,
+                                    initialValue: widget.athlete.name,
                                     decoration: const InputDecoration(hintText: 'Name'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -191,7 +202,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(SurnameChanged(surname: value));
+                                      context.read<EditAthleteBloc>().surnameChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -199,7 +210,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.surname,
+                                    initialValue: widget.athlete.surname,
                                     decoration: const InputDecoration(hintText: 'Surname'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -209,7 +220,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(BornCityChanged(bornCity: value));
+                                      context.read<EditAthleteBloc>().bornCityChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -217,7 +228,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.bornCity,
+                                    initialValue: widget.athlete.bornCity,
                                     decoration: const InputDecoration(hintText: 'Born City'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -227,7 +238,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(AddressChanged(address: value));
+                                      context.read<EditAthleteBloc>().addressChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -235,7 +246,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.address,
+                                    initialValue: widget.athlete.address,
                                     decoration: const InputDecoration(hintText: 'Address'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -245,7 +256,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(CityChanged(city: value));
+                                      context.read<EditAthleteBloc>().cityChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -253,7 +264,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.city,
+                                    initialValue: widget.athlete.city,
                                     decoration: const InputDecoration(hintText: 'City'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -263,7 +274,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(TaxIdChanged(taxId: value.toUpperCase()));
+                                      context.read<EditAthleteBloc>().taxIdChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -274,7 +285,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.taxId,
+                                    initialValue: widget.athlete.taxId,
                                     decoration: const InputDecoration(hintText: 'Fiscal Code'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -284,7 +295,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(PhoneChanged(phone: value));
+                                      context.read<EditAthleteBloc>().phoneChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -295,7 +306,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.phone,
+                                    initialValue: widget.athlete.phone,
                                     decoration: const InputDecoration(hintText: 'Athlete\'s Phone'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -305,7 +316,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(EmailChanged(email: value));
+                                      context.read<EditAthleteBloc>().emailChangedEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -313,7 +324,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: athlete.email,
+                                    initialValue: widget.athlete.email,
                                     decoration: const InputDecoration(hintText: 'Athlete\'s Email'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -329,9 +340,9 @@ class EditAthleteScreen extends StatelessWidget {
                                         textAlign: TextAlign.center,
                                         keyboardType: TextInputType.number,
                                         onChanged: ((value) {
-                                          context.read<EditAthleteBloc>().add(NumberChanged(number: value));
+                                          context.read<EditAthleteBloc>().numberChangedEventHandler(value);
                                         }),
-                                        initialValue: athlete.number.toString(),
+                                        initialValue: widget.athlete.number.toString(),
                                         decoration: const InputDecoration(
                                             hintText: 'Jersey',
                                         ),
@@ -342,7 +353,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       onPressed: () async {
                                         DateTime? selectedDate = await showDatePicker(
                                           context: context,
-                                          initialDate: athlete.birth.toDate(),
+                                          initialDate: widget.athlete.birth.toDate(),
                                           firstDate: DateTime(1930),
                                           lastDate: DateTime.now(),
                                           builder: (context, child) {
@@ -360,7 +371,7 @@ class EditAthleteScreen extends StatelessWidget {
                                         );
                                         if(selectedDate != null) {
                                           birthDay = selectedDate;
-                                          context.read<EditAthleteBloc>().add(BirthdayChanged(date: selectedDate));
+                                          context.read<EditAthleteBloc>().birthDayChangedEventHandler(selectedDate);
                                         }
                                       },
                                       style: TextButton.styleFrom(
@@ -398,7 +409,7 @@ class EditAthleteScreen extends StatelessWidget {
                           title: const Text('Parent Data'),
                           isActive: true,
                           content: Form(
-                            key: keyGenitore,
+                            key: keyParent,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -406,7 +417,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(ParentNameChanged(name: value));
+                                      context.read<EditAthleteBloc>().parentNameEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -414,7 +425,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: parent.name,
+                                    initialValue: widget.parent.name,
                                     decoration: const InputDecoration(hintText: 'Name'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -424,7 +435,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(ParentSurnameChanged(surname: value));
+                                      context.read<EditAthleteBloc>().parentSurnameEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -432,7 +443,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: parent.surname,
+                                    initialValue: widget.parent.surname,
                                     decoration: const InputDecoration(hintText: 'Surname'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -442,7 +453,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(ParentEmailChanged(email: value));
+                                      context.read<EditAthleteBloc>().parentEmailEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -450,7 +461,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: parent.email,
+                                    initialValue: widget.parent.email,
                                     decoration: const InputDecoration(hintText: 'Email'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -460,7 +471,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(ParentPhoneChanged(phone: value));
+                                      context.read<EditAthleteBloc>().parentPhoneEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -469,7 +480,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       return null;
                                     },
                                     keyboardType: TextInputType.number,
-                                    initialValue: parent.phone,
+                                    initialValue: widget.parent.phone,
                                     decoration: const InputDecoration(hintText: 'Phone'),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -479,7 +490,7 @@ class EditAthleteScreen extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     onChanged: ((value) {
-                                      context.read<EditAthleteBloc>().add(ParentTaxIdChanged(taxId: value));
+                                      context.read<EditAthleteBloc>().parentTaxIdEventHandler(value);
                                     }),
                                     validator: (value) {
                                       if(value == null || value.isEmpty) {
@@ -487,7 +498,7 @@ class EditAthleteScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    initialValue: parent.taxId,
+                                    initialValue: widget.parent.taxId,
                                     decoration: const InputDecoration(hintText: 'Tax ID'),
                                   ),
                                 ),
@@ -511,8 +522,9 @@ class EditAthleteScreen extends StatelessWidget {
                                       activeColor: Colors.green,
                                       value: rataUnica,
                                       onChanged: (bool value) {
-                                        rataUnica = value;
-                                        context.read<EditAthleteBloc>().add(RataSwitchChangedEvent(rataUnica: value));
+                                        setState(() {
+                                          rataUnica = value;
+                                        });
                                       }
                                   ),
                                 ),
@@ -525,7 +537,7 @@ class EditAthleteScreen extends StatelessWidget {
                                             width: MediaQuery.of(context).size.width / 1.3,
                                             child: TextFormField(
                                               onChanged: ((value) {
-                                                context.read<EditAthleteBloc>().add(PrimaRataChangedEvent(primaRata: value));
+                                                context.read<EditAthleteBloc>().primaRataChangedEventHandler(value);
                                               }),
                                               validator: (value) {
                                                 if(value == null || value.isEmpty) {
@@ -534,7 +546,7 @@ class EditAthleteScreen extends StatelessWidget {
                                                 return null;
                                               },
                                               keyboardType: TextInputType.number,
-                                              initialValue: payment.amount.toString(),
+                                              initialValue: widget.athlete.amount.toString(),
                                               decoration: const InputDecoration(
                                                   hintText: 'Quota',
                                                   suffixText: '€'
@@ -559,7 +571,7 @@ class EditAthleteScreen extends StatelessWidget {
                                                     FilteringTextInputFormatter.digitsOnly
                                                   ],
                                                   onChanged: ((value) {
-                                                    context.read<EditAthleteBloc>().add(PrimaRataChangedEvent(primaRata: value));
+                                                    context.read<EditAthleteBloc>().primaRataChangedEventHandler(value);
                                                   }),
                                                   validator: (value) {
                                                     if(value == null || value.isEmpty) {
@@ -571,7 +583,7 @@ class EditAthleteScreen extends StatelessWidget {
                                                       hintText: 'Prima Rata',
                                                       suffixText: '€'
                                                   ),
-                                                  initialValue: payment.primaRata.toString(),
+                                                  initialValue: widget.athlete.amount.toString(),
                                                   textInputAction: TextInputAction.next,
                                                 ),
                                               ),
@@ -586,9 +598,9 @@ class EditAthleteScreen extends StatelessWidget {
                                                   FilteringTextInputFormatter.digitsOnly
                                                 ],
                                                 onChanged: ((value) {
-                                                  context.read<EditAthleteBloc>().add(SecondaRataChangedEvent(secondaRata: value));
+                                                  context.read<EditAthleteBloc>().secondaRataChangedEventHandler(value);
                                                 }),
-                                                initialValue: payment.secondaRata.toString(),
+                                                initialValue: widget.athlete.amount.toString(),
                                                 decoration: const InputDecoration(
                                                     hintText: 'Seconda Rata',
                                                     suffixText: '€'

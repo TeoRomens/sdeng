@@ -21,7 +21,7 @@ class AthleteDetails extends StatelessWidget{
         ),
       ),
       body: BlocProvider(
-        create: (context) => AthleteBloc(athlete: athlete)..loadAthleteDetails(athlete.parentId, athlete.paymentId),
+        create: (context) => AthleteBloc(athlete: athlete)..loadAthleteDetails(athlete.parentId),
         child: AthleteDetailsMobile(athlete)
       ),
     );

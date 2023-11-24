@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sdeng/globals/colors.dart';
-import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/ui/login/bloc/login_bloc.dart';
 import 'package:sdeng/ui/signup/view/signup.dart';
 import 'package:sdeng/util/res_helper.dart';
@@ -50,7 +48,8 @@ class LoginForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 10.0),
                 CheckboxListTile(
-                  activeColor: MyColors.primaryColor,
+                  tileColor: Colors.transparent,
+                  activeColor: Color(0xff4D46B2),
                   value: state.rememberme,
                   onChanged: (value) => context.read<LoginBloc>().rememberme(value!),
                   shape: const RoundedRectangleBorder(

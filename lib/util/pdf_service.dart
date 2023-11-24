@@ -17,7 +17,7 @@ class PdfService {
   Future<Uint8List> createInvoice(Payment payment, Athlete athlete, Parent parent, InvoiceType type) async {
     final pdf = pw.Document();
     final image = (await rootBundle.load( "assets/logos/SDENG_logo.jpg" )).buffer.asUint8List();
-    final invoiceNumber = GetIt.I.get<PaymentsRepository>().getInvoiceNum(payment.docId!);
+    final invoiceNumber = GetIt.I.get<PaymentsRepository>().getNewInvoiceNum();
 
     pdf.addPage(pw.Page(
       pageFormat: PdfPageFormat.a4,
@@ -88,7 +88,7 @@ class PdfService {
                               style: pw.TextStyle(fontWeight: pw.FontWeight.bold)
                           )),
                       pw.Expanded(
-                          child: pw.Text(payment.primaRata.toStringAsFixed(2),
+                          child: pw.Text(payment.amount.toStringAsFixed(2),
                               textAlign: pw.TextAlign.right,
                               style: pw.TextStyle(fontWeight: pw.FontWeight.bold)
                           )),
@@ -116,7 +116,7 @@ class PdfService {
                   pw.SizedBox(height: 10),
                   pw.Align(
                     alignment: pw.Alignment.centerLeft,
-                    child: pw.Text('Pagamento Bonifico Bancario\nIBAN: IT94P0306909606100000146005\nData Bonifico: ${payment.date1!.toDate().day}-${payment.date1!.toDate().month}-${payment.date1!.toDate().year}'),
+                    child: pw.Text('Pagamento Bonifico Bancario\nIBAN: IT94P0306909606100000146005\nData Bonifico: ${payment.date.toDate().day}-${payment.date.toDate().month}-${payment.date.toDate().year}'),
                   ),
                 ],
               ),

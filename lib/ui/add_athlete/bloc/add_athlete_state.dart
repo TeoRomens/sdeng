@@ -25,14 +25,13 @@ class AddAthleteState extends Equatable {
     this.phone = '',
     this.taxId = '',
     this.expiringDate,
-    this.primaRata,
+    this.primaRata = 0,
     this.secondaRata = 0,
     this.rataUnica = true,
     this.status = Status.idle,
     this.pickedFile,
     this.uploadStatus = UploadStatus.idle,
     this.errorMessage = '',
-    this.currentStep = 0,
     this.parentName = '',
     this.parentSurname = '',
     this.parentEmail = '',
@@ -51,7 +50,7 @@ class AddAthleteState extends Equatable {
   final String phone;
   final DateTime? birthDay;
   final DateTime? expiringDate;
-  final int? primaRata;
+  final int primaRata;
   final int secondaRata;
   final bool rataUnica;
 
@@ -65,8 +64,6 @@ class AddAthleteState extends Equatable {
   final String parentPhone;
   final String parentEmail;
   final String parentTaxId;
-
-  final int currentStep;
 
   AddAthleteState copyWith({
     String? name,
@@ -89,7 +86,6 @@ class AddAthleteState extends Equatable {
     PlatformFile? pickedFile,
     UploadStatus? uploadStatus,
     String? errorMessage,
-    int? currentStep,
     String? parentName,
     String? parentSurname,
     String? parentPhone,
@@ -115,7 +111,6 @@ class AddAthleteState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       pickedFile: pickedFile ?? this.pickedFile,
       uploadStatus: uploadStatus ?? this.uploadStatus,
-      currentStep: currentStep ?? this.currentStep,
       parentName: parentName ?? this.parentName,
       parentSurname: parentSurname ?? this.parentSurname,
       parentEmail: parentEmail ?? this.parentEmail,

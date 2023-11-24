@@ -74,7 +74,7 @@ class LoginDesktop extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/logos/SDENG_logo.svg',
                   width: resHelper.deviceSize.width / 3,
-                  color: MyColors.primaryColor,
+                  color: Color(0xff4D46B2),
                 ),
               ),
             ),

@@ -74,7 +74,7 @@ class TeamDetailsDesktop extends StatelessWidget {
                         child: Text('No athlete selected'),
                       ) :
                       BlocProvider(
-                        create: (context) => AthleteBloc(athlete: state.selectedAthlete!)..loadAthleteDetails(state.selectedAthlete!.parentId, state.selectedAthlete!.paymentId),
+                        create: (context) => AthleteBloc(athlete: state.selectedAthlete!)..loadAthleteDetails(state.selectedAthlete!.parentId),
                         child: AthleteDetailsMobile(state.selectedAthlete!)
                       )
                   )

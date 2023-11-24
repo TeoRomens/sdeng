@@ -203,12 +203,5 @@ void main() {
       ],
     );
 
-    blocTest<AddAthleteBloc, AddAthleteState>(
-      'emits [AddAthleteState] when stepChanged is called',
-      build: () => AddAthleteBloc(),
-      act: (bloc) => bloc.stepChanged(1),
-      expect: () => [const AddAthleteState(currentStep: 1)],
-    );
-
   });
 }

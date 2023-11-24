@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/globals/colors.dart';
-import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/ui/add_athlete/bloc/add_athlete_bloc.dart';
 
 class AddAthleteForm extends StatefulWidget{
@@ -30,7 +29,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if(state.currentStep != lastStep)
+                if(currentStep != lastStep)
                   ElevatedButton(
                     onPressed: () {
                       setState(() {

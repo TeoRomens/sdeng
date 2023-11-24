@@ -1,19 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/common/payment_card.dart';
+import 'package:sdeng/common/payment_tile.dart';
 import 'package:sdeng/common/text_title.dart';
-import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
-import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/ui/athlete_details/bloc/athlete_bloc.dart';
+import 'package:sdeng/ui/athlete_details/components/document_dialog.dart';
+import 'package:sdeng/ui/athlete_details/components/payment_dialog.dart';
 import 'package:sdeng/ui/athlete_details/view/shimmer.dart';
 import 'package:sdeng/ui/edit_athlete/view/edit_athlete_screen.dart';
-import 'package:sdeng/util/message_util.dart';
 
 class AthleteDetailsMobile extends StatelessWidget {
   const AthleteDetailsMobile(this.athlete, {super.key});
@@ -49,8 +47,7 @@ class AthleteDetailsMobile extends StatelessWidget {
           else {
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<AthleteBloc>().loadAthlete(athlete.docId);
-                context.read<AthleteBloc>().loadAthleteDetails(athlete.parentId, athlete.paymentId);
+                context.read<AthleteBloc>()..loadAthlete(athlete.docId)..loadAthleteDetails(athlete.parentId);
               },
               child: SingleChildScrollView(
                 child: Padding(
@@ -120,78 +117,36 @@ class AthleteDetailsMobile extends StatelessWidget {
                         height: 40,
                       ),
                       const TextTitle('Payments'),
-                      PaymentCard(quota: state.payment!.primaRata + state.payment!.secondaRata),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: ListTile(
-                            tileColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)
-                            ),
-                            leading: state.payment!.primaRataPaid
-                                ? const Icon(Icons.check_circle_rounded, color: Colors.green,)
-                                : const Icon(Icons.close_rounded, color: Colors.red,),
-                            title: const Text(
-                              'First Rata',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.black
-                              ),
-                            ),
-                            subtitle: state.payment!.primaRataPaid
-                                ? Text('Paid on: ${state.payment!.date1!.toDate().day}/${state.payment!.date1!.toDate().month}/${state.payment!.date1!.toDate().year}')
-                                : Text('Due to: ${Variables.firstPaymentDate.day}/${Variables.firstPaymentDate.month}/${Variables.firstPaymentDate.year}',
-                            ),
-                            trailing: Text('€${state.payment!.primaRata}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            onTap: () async {
-                              _paymentDialog(context);
+                      PaymentCard(quota: state.athlete.amount),
+                      const SizedBox(height: 12),
+                      state.payments.isEmpty
+                        ? Align(
+                          alignment: Alignment.center,
+                          child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              color: Colors.grey.shade200,
+                              elevation: 0,
+                              child: const Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Text('No payments',),
+                              )
+                          ),
+                        )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.payments.length,
+                            itemBuilder: (context, index) {
+                              return PaymentTile(
+                                  payment: state.payments[index],
+                                  onTap: (dialogContext) {
+
+                                  }
+                              );
                             }
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: ListTile(
-                            tileColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)
-                            ),
-                            leading: state.payment!.secondaRataPaid
-                                ? const Icon(Icons.check_circle_rounded, color: Colors.green,)
-                                : const Icon(Icons.close_rounded, color: Colors.red,),
-                            title: const Text(
-                              'Second Rata',
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.black
-                              ),
-                            ),
-                            subtitle: state.payment!.secondaRataPaid
-                                ? Text('Paid on: ${state.payment!.date2!.toDate().day}/${state.payment!.date2!.toDate().month}/${state.payment!.date2!.toDate().year}')
-                                : Text('Due to: ${Variables.secondPaymentDate.day}/${Variables.secondPaymentDate.month}/${Variables.secondPaymentDate.year}',
-                            ),
-                            trailing: Text('€${state.payment!.primaRata}',
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            onTap: () async {
-                              _paymentDialog2(context);
-                            }
-                        ),
-                      ),
                       const Divider(indent: 30,
                         endIndent: 30,
                         color: Colors.grey,
-                        height: 40,
                       ),
                       const TextTitle('Documents'),
                       const SizedBox(height: 10),
@@ -318,8 +273,11 @@ class AthleteDetailsMobile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: ElevatedButton(
-                                onPressed: () async {
-                                  _addPaymentDialog(context);
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (dialogContext) => PaymentDialog(context)
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff4D46B2),
@@ -337,8 +295,11 @@ class AthleteDetailsMobile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: ElevatedButton(
-                                onPressed: () async {
-                                  _addDocumentDialog(context);
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (dialogContext) => DocumentDialog(context)
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff4D46B2),
@@ -354,12 +315,12 @@ class AthleteDetailsMobile extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 26, bottom: 10),
+                            padding: const EdgeInsets.only(top: 40, bottom: 10),
                             child: InkWell(
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => EditAthleteScreen(athlete: state.athlete, parent: state.parent!, payment: state.payment!),
+                                    builder: (context) => EditAthleteScreen(athlete: state.athlete, parent: state.parent!),
                                   ),
                                 );
                               },
@@ -465,317 +426,4 @@ class LabelledText extends StatelessWidget {
       ),
     );
   }
-}
-
-List<DropdownMenuEntry<String>> getMenuEntries(Payment payment){
-  final List<DropdownMenuEntry<String>> entries = <DropdownMenuEntry<String>>[];
-  entries.add(
-    const DropdownMenuEntry<String>(
-        value: 'prima-rata', label: 'Prima rata'),
-  );
-  if(!payment.rataUnica){
-    entries.add(
-      const DropdownMenuEntry<String>(
-          value: 'seconda-rata', label: 'Seconda rata'),
-    );
-  }
-  return entries;
-}
-
-Future<void> _paymentDialog(BuildContext context) {
-  final state = context.read<AthleteBloc>().state;
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext dialogContext) {
-      if(!state.payment!.primaRataPaid){
-        return const AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text('Second Rata',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: Colors.black
-            ),
-          ),
-          content: Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
-            child: Text(
-              'No information',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black),),
-          ),
-        );
-      }
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text('First Rata',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            color: Colors.black
-          ),
-        ),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Id: ${state.payment!.docId}',
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18
-            ),),
-            Text('Amount: ${state.payment!.primaRata}',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18
-              ),
-            ),
-            Text('Date: ${state.payment!.date1!.toDate().day}/${state.payment!.date1!.toDate().month}/${state.payment!.date1!.toDate().year}',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18
-              ),
-            ),
-            const Text('Via: Bank',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18
-              ),
-            ),
-            Text('Expire: ${Variables.firstPaymentDate.day}/${Variables.firstPaymentDate.month}/${Variables.firstPaymentDate.year}',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18
-              ),
-            ),
-          ],
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: const Color(0xff4D46B2),
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Generate Invoice'),
-            onPressed: () async {
-              await context.read<AthleteBloc>().generateInvoice(state.payment!, state.athlete, state.parent!);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Future<void> _paymentDialog2(BuildContext context) {
-  final state = context.read<AthleteBloc>().state;
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext dialogContext) {
-      if(!state.payment!.secondaRataPaid){
-        return const AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text('Second Rata',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: Colors.black
-            ),
-          ),
-          content: Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
-            child: Text(
-              'No information',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black),),
-          ),
-        );
-      }
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text('Second Rata',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: Colors.black
-          ),
-        ),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Id: ${state.payment!.docId}',
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
-              ),),
-            Text('Amount: ${state.payment!.secondaRata}',
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
-              ),
-            ),
-            Text('Date: ${state.payment!.date2!.toDate().day}/${state.payment!.date2!.toDate().month}/${state.payment!.date2!.toDate().year}',
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
-              ),
-            ),
-            const Text('Via: Bank',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
-              ),
-            ),
-            Text('Expire: ${Variables.secondPaymentDate.day}/${Variables.secondPaymentDate.month}/${Variables.secondPaymentDate.year}',
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
-              ),
-            ),
-          ],
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: const Color(0xff4D46B2),
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Generate Invoice'),
-            onPressed: () async {
-              await context.read<AthleteBloc>().generateInvoice(state.payment!, state.athlete, state.parent!);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Future<void> _addDocumentDialog(BuildContext context) {
-  final state = context.read<AthleteBloc>().state;
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext dialogContext) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text('Add Document',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: Colors.black
-          ),
-        ),
-        content: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Chip(label: Text('Med Visit'))
-          ],
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: const Color(0xff4D46B2),
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Generate Invoice'),
-            onPressed: () async {
-              await context.read<AthleteBloc>().generateInvoice(state.payment!, state.athlete, state.parent!);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-Future<void> _addPaymentDialog(BuildContext context) {
-  final state = context.read<AthleteBloc>().state;
-  String? selection;
-  return showDialog<bool>(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text('Add payment', style: TextStyle(color: Colors.black, fontSize: 20),),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Select a payment to add!',  style: TextStyle(color: Colors.black)),
-              DropdownMenu<String>(
-                dropdownMenuEntries: getMenuEntries(state.payment!),
-                onSelected: (value) {
-                  selection = value;
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(dialogContext, false),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
-                )
-            ),
-            TextButton(
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  DateTime? selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(const Duration(days: 365)),
-                    lastDate: DateTime.now(),
-                    helpText: 'Select payment date',
-                    builder: (context, child) {
-                      return Theme(
-                        data: Theme.of(context).copyWith(
-                          textButtonTheme: TextButtonThemeData(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.black,
-                            ),
-                          ),
-                        ),
-                        child: child!,
-                      );
-                    },
-                  );
-                  if(selectedDate != null){
-                    if(selection == 'prima-rata' && !state.payment!.primaRataPaid) {
-                      state.payment!.primaRataPaid = true;
-                      state.payment!.date1 = Timestamp.fromDate(selectedDate);
-                      context.read<AthleteBloc>().editPayment(state.payment!);
-                    }else if(selection == 'seconda-rata' && !state.payment!.secondaRataPaid) {
-                      state.payment!.secondaRataPaid = true;
-                      state.payment!.date2 = Timestamp.fromDate(selectedDate);
-                      context.read<AthleteBloc>().editPayment(state.payment!);
-                    }
-                    else {
-                      MessageUtil.showError('Error while adding payment');
-                    }
-                  }
-                },
-                child: const Text(
-                  'Avanti',
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
-                )
-            )
-          ],
-        );
-      }
-  );
 }

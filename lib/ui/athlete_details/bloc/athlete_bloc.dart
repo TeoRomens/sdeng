@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class AthleteBloc extends Cubit<AthleteState> {
    final StorageRepository _storageRepository = GetIt.instance.get<StorageRepository>();
    final PaymentsRepository _paymentsRepository = GetIt.instance.get<PaymentsRepository>();
 
-   Future<void> loadAthleteDetails(String parentId, String paymentId) async {
+   Future<void> loadAthleteDetails(String parentId) async {
      try {
        emit(state.copyWith(pageStatus: PageStatus.loading));
 
@@ -35,8 +36,8 @@ class AthleteBloc extends Cubit<AthleteState> {
        Parent? parent = await _parentsRepository.getParent(parentId);
        log('${parent!.name} ${parent.surname} getted!');
 
-       log('Getting Payment with id $paymentId ...');
-       Payment? payment = await _paymentsRepository.getPayment(paymentId);
+       log('Getting Payments...');
+       List<Payment> payments = await _paymentsRepository.getPayments(state.athlete.docId);
        log('Payment successfully getted!');
 
        log('Checking Documents...');
@@ -44,8 +45,9 @@ class AthleteBloc extends Cubit<AthleteState> {
        String? modIscrLink = await _storageRepository.checkModIscrFile(state.athlete.docId, state.athlete.teamId);
        String? tessFIPLink = await _storageRepository.checkTessFile(state.athlete.docId, state.athlete.teamId);
        Map<String, String> otherFilesMap = await _storageRepository.checkOtherFile(state.athlete.docId, state.athlete.teamId);
+       log('Documents checked!');
 
-       emit(state.copyWith(parent: parent, payment: payment, medLink: medLink, modIscrLink: modIscrLink, tessFIPLink: tessFIPLink, otherFilesMap: otherFilesMap));
+       emit(state.copyWith(parent: parent, payments: payments, medLink: medLink, modIscrLink: modIscrLink, tessFIPLink: tessFIPLink, otherFilesMap: otherFilesMap));
      } catch (e) {
        log(e.toString());
        emit(state.copyWith(pageStatus: PageStatus.failure));
@@ -69,11 +71,10 @@ class AthleteBloc extends Cubit<AthleteState> {
      }
    }
 
-   Future<void> uploadMedEventHandler(PlatformFile platformFile, DateTime expire) async {
+   Future<void> uploadMedEventHandler(File file, DateTime expire) async {
 
      log('Uploading Med Doc...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final file = File(platformFile.path!);
      final path = 'visiteMediche/${state.athlete.teamId}/${state.athlete.docId}.pdf';
      final metadata = SettableMetadata(
        customMetadata: {
@@ -89,11 +90,10 @@ class AthleteBloc extends Cubit<AthleteState> {
      emit(state.copyWith(uploadStatus: UploadStatus.none));
    }
 
-   Future<void> uploadModIscrEventHandler(PlatformFile platformFile) async {
+   Future<void> uploadModIscrEventHandler(File file) async {
 
      log('Uploading ModIscr Doc...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final file = File(platformFile.path!);
      final path = 'moduloIscrizioni/${state.athlete.teamId}/${state.athlete.docId}.pdf';
      await _storageRepository.uploadFile(path, file);
      log('Upload Success!');
@@ -104,11 +104,10 @@ class AthleteBloc extends Cubit<AthleteState> {
      emit(state.copyWith(uploadStatus: UploadStatus.none));
    }
 
-   Future<void> uploadTessFIPEventHandler(PlatformFile platformFile) async {
+   Future<void> uploadTessFIPEventHandler(File file) async {
 
      log('Uploading TessFIP Doc...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final file = File(platformFile.path!);
      final path = 'tessFIP/${state.athlete.teamId}/${state.athlete.docId}.pdf';
      await _storageRepository.uploadFile(path, file);
      log('Upload Success!');
@@ -119,11 +118,10 @@ class AthleteBloc extends Cubit<AthleteState> {
      emit(state.copyWith(uploadStatus: UploadStatus.none));
    }
 
-   Future<void> uploadGenericEventHandler(PlatformFile platformFile, String name) async {
+   Future<void> uploadGenericEventHandler(File file, String name) async {
 
      log('Uploading $name ...');
      emit(state.copyWith(uploadStatus: UploadStatus.uploading));
-     final file = File(platformFile.path!);
      final path = 'altri/${state.athlete.teamId}/${state.athlete.docId}/$name';
      await _storageRepository.uploadFile(path, file);
      log('Upload Success! \n path: $path');
@@ -148,20 +146,25 @@ class AthleteBloc extends Cubit<AthleteState> {
      MessageUtil.showLoading();
      final PdfService service = PdfService();
      final Uint8List data;
-     if(payment.rataUnica) {
+     if(payment.amount == athlete.amount) {
         data = await service.createInvoice(payment, athlete, parent, InvoiceType.saldo);
-     } else if(payment.secondaRataPaid) {
-       data = await service.createInvoice(payment, athlete, parent, InvoiceType.saldo);
-     } else {
+     }else {
        data = await service.createInvoice(payment, athlete, parent, InvoiceType.acconto);
      }
      MessageUtil.hideLoading();
      await service.savePdfFile("Invoice_${athlete.surname}_${athlete.name}_${DateTime.now().millisecond}", data);
    }
 
-   Future<void> editPayment(Payment payment) async {
-     MessageUtil.showLoading();
-     await _paymentsRepository.editPayment(payment);
-     MessageUtil.hideLoading();
-   }
+    Future<void> addPayment({required String amount, required DateTime date, required type}) async {
+      MessageUtil.showLoading();
+      Payment payment = Payment(
+          docId: '',
+          athlete: state.athlete.docId,
+          amount: int.parse(amount),
+          date: Timestamp.fromDate(date),
+          receiptNum: await _paymentsRepository.getNewInvoiceNum(),
+      );
+      await _paymentsRepository.addPayment(payment);
+      MessageUtil.hideLoading();
+    }
 }

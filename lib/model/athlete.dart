@@ -16,7 +16,7 @@ class Athlete{
     required this.email,
     required this.teamId,
     required this.number,
-    required this.paymentId,
+    required this.amount,
     required this.parentId,
   });
 
@@ -32,7 +32,7 @@ class Athlete{
   String email;
   final String teamId;
   int? number;
-  final String paymentId;
+  int amount;
   final String parentId;
 
   factory Athlete.fromSnapshot(DocumentSnapshot snap) => Athlete(
@@ -48,7 +48,7 @@ class Athlete{
     email: snap['email'],
     teamId: snap['teamId'],
     number: snap['number'],
-    paymentId: snap['paymentId'],
+    amount: snap['amount'],
     parentId: snap['parentId'],
   );
 

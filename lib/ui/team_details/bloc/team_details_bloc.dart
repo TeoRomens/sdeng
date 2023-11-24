@@ -25,8 +25,8 @@ class TeamDetailsBloc extends Cubit<TeamDetailsState> {
       List<Athlete> athletesList = await athletesRepository.getAthletesFromTeam(teamId);
       log('Athletes Getted');
       log('Calculating Values...');
-      int earnings = await athletesRepository.getEarnings(teamId);
-      int cashLeft = await athletesRepository.getRemainingCash(teamId);
+      int earnings = await athletesRepository.getEarnings(athletesList);
+      int cashLeft = earnings - await athletesRepository.getRemainingCash(athletesList);
       log('Calculation Complete');
 
       emit(state.copyWith(athletesList: athletesList, earnings: earnings, cashLeft: cashLeft, pageStatus: TeamDetailsPageStatus.loaded));
@@ -38,8 +38,8 @@ class TeamDetailsBloc extends Cubit<TeamDetailsState> {
 
   Future<void> deleteAthlete(Athlete athlete) async {
     try {
-      await teamsRepository.removeAthlete(athlete.teamId, athlete.docId);
-      await paymentsRepository.removePayment(athlete.paymentId);
+      await teamsRepository.removeAthleteFromTeam(athlete.teamId, athlete.docId);
+      await paymentsRepository.removePayments(athlete.docId);
       await parentsRepository.removeParent(athlete.parentId);
       await athletesRepository.deleteAthlete(athlete.docId);
 

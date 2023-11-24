@@ -12,54 +12,58 @@ class PaymentsRepository{
   _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
 
   Future<String> addPayment(Payment payment) async {
-    Map<String, dynamic> data = {
-      'amount': payment.amount,
-      'athlete': payment.athlete,
-      'primaRataPaid': payment.primaRataPaid,
-      'secondaRataPaid': payment.secondaRataPaid,
-      'primaRata': payment.primaRata,
-      'secondaRata': payment.secondaRata,
-      'rataUnica': payment.rataUnica,
-      'date1': payment.date1 != null ? payment.date1! : null,
-      'date2': payment.date2 != null ? payment.date2! : null,
-    };
-
-    String paymentDocId = '';
-
     try{
-      paymentDocId = await _firebaseFirestore.collection('payments/${Variables.uid}/payments').add(data).then((value) => value.id);
+      Map<String, dynamic> data = {
+        'amount': payment.amount,
+        'athleteId': payment.athlete,
+        'date': payment.date,
+        'invoiceNum': payment.receiptNum,
+      };
+
+      final paymentDocId = await _firebaseFirestore.collection('payments/${Variables.uid}/payments').add(data).then((value) => value.id);
+      return paymentDocId;
+
     } catch (e){
       log(e.toString());
     }
-
-    return paymentDocId;
+    return '';
   }
 
 
 
-  Future<void> removePayment(String paymentId)  async {
+  Future<void> removePayments(String athleteId)  async {
     try{
-      _firebaseFirestore
+      final data = await _firebaseFirestore
           .collection('payments/${Variables.uid}/payments')
-          .doc(paymentId)
-          .delete();
-
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
-  Future<Payment?> getPayment(String paymentId) async {
-    try{
-      final doc = await _firebaseFirestore.collection('payments/${Variables.uid}/payments')
-          .doc(paymentId)
+          .where('athleteId', isEqualTo: athleteId)
           .get();
 
-      return Payment.fromSnapshot(doc);
+      for(var doc in data.docs) {
+        _firebaseFirestore
+            .collection('payments/${Variables.uid}/payments')
+            .doc(doc.id)
+            .delete();
+      }
     } catch (e) {
       log(e.toString());
-      return null;
     }
+  }
+
+  Future<List<Payment>> getPayments(String athleteId) async {
+    try{
+      final data = await _firebaseFirestore.collection('payments/${Variables.uid}/payments')
+          .where('athleteId', isEqualTo: athleteId)
+          .get();
+
+      List<Payment> payments = [];
+      for (DocumentSnapshot snapshot in data.docs) {
+        payments.add(Payment.fromSnapshot(snapshot));
+      }
+      return payments;
+    } catch (e) {
+      log(e.toString());
+    }
+    return [];
   }
 
   Future<List<Payment>> getExpiredPayments() async {
@@ -185,28 +189,23 @@ class PaymentsRepository{
     await paymentRef.update({
       'amount': payment.amount,
       'athlete': payment.athlete,
-      'date1': payment.date1,
-      'date2': payment.date2,
-      'primaRata': payment.primaRata,
-      'primaRataPaid': payment.primaRataPaid,
-      'secondaRata': payment.secondaRata,
-      'secondaRataPaid': payment.secondaRataPaid,
-      'rataUnica': payment.rataUnica
+      'date': payment.date,
     }).then((value) => log("DocumentSnapshot ${payment.docId} successfully updated!"),
         onError: (e) => log("Error updating document\n\t$e"));
   }
 
-  Future<int> getInvoiceNum(String docId) async {
+  Future<int> getNewInvoiceNum() async {
     try{
-      final paymentDoc = await _firebaseFirestore.collection('payments/${Variables.uid}/payments').doc(docId).get();
-      return paymentDoc.get('invoiceNum') as int;
-    } catch (e){
-      final doc = await _firebaseFirestore.collection(Variables.uid).doc('variables').get();
-      final num = doc.get('invoice') as int;
-      await _firebaseFirestore.collection("payments").doc(docId).update({"invoiceNum": num});
-      await _firebaseFirestore.collection("shared").doc('invoice').update({"last": num+1});
-      return num;
-    }
-  }
+      final doc = await _firebaseFirestore
+          .collection('users')
+          .doc(Variables.uid)
+          .get();
 
+      await _firebaseFirestore.collection("users").doc(Variables.uid).update({"invoice": doc.get('invoice') + 1});
+      return doc.get('invoice') as int;
+    } catch (e){
+      log(e.toString());
+    }
+    return -1;
+  }
 }

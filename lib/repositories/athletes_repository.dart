@@ -55,8 +55,8 @@ class AthletesRepository{
       'taxId': athlete.taxId,
       'number': athlete.number,
       'teamId': athlete.teamId,
-      'paymentId': athlete.paymentId,
       'parentId': athlete.parentId,
+      'amount': athlete.amount,
     };
 
     return await _firebaseFirestore
@@ -65,32 +65,12 @@ class AthletesRepository{
       .then((value) => value.id);
   }
 
-  /// A method to calculate the total earnings for a specific team.
-  ///
-  /// Given a [teamId], this method retrieves the earnings of all athletes
-  /// in the specified team by querying the Firestore database.
-  /// It sums up the 'primaRata' and 'secondaRata' fields from each athlete's
-  /// associated payment document to calculate the total earnings.
-  ///
-  /// Returns the total earnings as an integer value.
-  Future<int> getEarnings(String teamId) async {
+
+  Future<int> getEarnings(List<Athlete> athletes) async {
     int sum = 0;
-
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('athletes/${Variables.uid}/athletes')
-        .where('team', isEqualTo: teamId)
-        .get();
-
-    for (var document in querySnapshot.docs) {
-      final paymentDoc = await FirebaseFirestore.instance
-          .collection('payments/${Variables.uid}/payments')
-          .doc(document.get('paymentId'))
-          .get();
-
-      sum += paymentDoc.get('primaRata') as int;
-      sum += paymentDoc.get('secondaRata') as int;
+    for(final athlete in athletes) {
+      sum += athlete.amount;
     }
-
     return sum;
   }
 
@@ -102,56 +82,22 @@ class AthletesRepository{
   /// and checking the 'primaRataPaid' and 'secondaRataPaid' fields in each payment document.
   ///
   /// Returns the total remaining cash as an integer value.
-  Future<int> getRemainingCash(String teamId) async {
+  Future<int> getRemainingCash(List<Athlete> athleteList) async {
     // Initialize a variable to store the total remaining cash.
     int result = 0;
 
-    // Retrieve a list of athletes in the specified team from Firestore.
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('athletes/${Variables.uid}/athletes')
-        .where('team', isEqualTo: teamId)
-        .get();
-
-    // Iterate through the athletes and their associated payment documents.
-    for (var document in querySnapshot.docs) {
-      // Retrieve the payment document associated with the athlete.
-      final paymentDoc = await FirebaseFirestore.instance
+    for (var athlete in athleteList) {
+      final paymentList = await FirebaseFirestore.instance
           .collection('payments/${Variables.uid}/payments')
-          .doc(document.get('paymentId'))
+          .where('athleteId', isEqualTo: athlete.docId)
           .get();
 
-      // Check if 'primaRataPaid' is false and add 'primaRata' to the result.
-      if (!paymentDoc.get('primaRataPaid')) {
-        result += paymentDoc.get('primaRata') as int;
-      }
-
-      // Check if 'secondaRataPaid' is false and add 'secondaRata' to the result.
-      if (!paymentDoc.get('secondaRataPaid')) {
-        result += paymentDoc.get('secondaRata') as int;
+      for(var doc in paymentList.docs) {
+        result += doc.get('amount') as int;
       }
     }
-
     // Return the total remaining cash to be collected from the team.
     return result;
-  }
-
-  /// A method to update an athlete's information in the database.
-  ///
-  /// Given an [athleteDocId], [paymentDocId], and [parentDocId], this method updates the athlete's
-  /// 'paymentId' and 'parentId' fields in the Firestore database. This is typically used to link
-  /// an athlete to a payment and a parent.
-  ///
-  /// If any errors occur during the update process, they are logged.
-  Future<void> updateAthlete(String athleteDocId, String paymentDocId, String parentDocId) async {
-    try {
-      // Update the 'paymentId' and 'parentId' fields of the athlete document.
-      await _firebaseFirestore.collection('athletes/${Variables.uid}/athletes')
-          .doc(athleteDocId)
-          .update({'paymentId': paymentDocId, 'parentId': parentDocId});
-    } catch (e) {
-      // Log any errors that occur during the update process.
-      log(e.toString());
-    }
   }
 
   /// A method to delete an athlete's data from the database.
@@ -219,12 +165,12 @@ class AthletesRepository{
       'name': athlete.name,
       'number': athlete.number,
       'parentId': athlete.parentId,
-      'paymentId': athlete.paymentId,
       'phone': athlete.phone,
       'email': athlete.email,
       'surname': athlete.surname,
       'taxId': athlete.taxId,
       'team': athlete.teamId,
+      'amount': athlete.amount,
     }).then((value) => log("DocumentSnapshot ${athlete.docId} successfully updated!"));
   }
 
