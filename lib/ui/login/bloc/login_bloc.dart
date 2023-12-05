@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/repositories/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +10,7 @@ part 'login_state.dart';
 class LoginBloc extends Cubit<LoginState> {
   LoginBloc() : super(LoginState());
 
-  final AuthRepository _authRepository = GetIt.instance<AuthRepository>();
+  final AuthRepository _authRepository = Get.find();
 
   void emailChanged(String email) {
     emit(state.copyWith(email: email));
@@ -29,17 +29,19 @@ class LoginBloc extends Cubit<LoginState> {
     final User? user;
     emit(state.copyWith(loginStatus: LoginStatus.submitting));
     try {
-      log('Trying to login...');
       switch (provider) {
         case LoginProvider.google: {
+          log('Logging in with Google...');
           user = await _authRepository.signInWithGoogle();
           break;
         }
         case LoginProvider.biometrics: {
+          log('Logging in with Biometrics...');
           user = await _authRepository.authenticateWithBiometrics();
         }
         break;
         default:
+          log('Logging in with Credentials...');
           user = await _authRepository.login(state.email, state.password);
       }
       if(user != null){
@@ -58,17 +60,20 @@ class LoginBloc extends Cubit<LoginState> {
           emit(state.copyWith(loginStatus: LoginStatus.idle));
         }
       } else {
-        throw Exception('Error during login');
+        log('Login failed!');
+        throw Exception('Login failed!');
       }
     } on FirebaseAuthException catch (e){
       switch(e.code){
+        case 'account-exists-with-different-credential': message = 'Provider not linked, sign in with email and password';
+        break;
         case 'invalid-email': message = 'Invalid Email';
         break;
         case 'user-disabled': message = 'User Disabled, contact the administrator to solve the issue';
         break;
         case 'user-not-found': message = 'User not found, please sign up before logging in';
         break;
-        case 'wrong-password': message = 'Wrong password, retry';
+        case 'wrong-password': message = 'Wrong password';
         break;
         case 'missing-provider': message = 'You can link your google account in settings';
         break;

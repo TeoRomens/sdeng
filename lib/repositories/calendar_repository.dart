@@ -3,21 +3,22 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/repositories/auth_repository.dart';
-import 'package:sdeng/util/message_util.dart';
+import 'package:sdeng/util/ui_utils.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
-
 
 class CalendarRepository {
 
   Future<List<Event>> getAllEvents() async {
     List<Event> events = [];
     try{
-      final user = GetIt.I.get<AuthRepository>().googleAccount;
+      final AuthRepository authRepository = Get.find();
+      final GoogleSignInAccount? user = authRepository.googleAccount;
 
       // Being authorized on mobile means being authenticated
       // if user return not null is authenticated
@@ -31,7 +32,7 @@ class CalendarRepository {
           debugPrint('Calendar API gave a ${response.statusCode} '
               'response. Check logs for details.');
           debugPrint('Calendar API ${response.statusCode} response:\n${response.body}');
-          MessageUtil.showError('Error fetching events');
+          UIUtils.showError('Error fetching events');
           return events;
         } else {
           debugPrint('Events Fetched!');

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/model/athlete.dart';
-import 'package:sdeng/ui/add_athlete/view/add_athlete_mobile.dart';
 import 'package:sdeng/ui/athlete_details/bloc/athlete_bloc.dart';
 import 'package:sdeng/ui/athlete_details/view/athlete_details_mobile.dart';
 
@@ -14,8 +13,8 @@ class AthleteDetails extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Athlete Details',
-          style: TextStyle(
+        title: Text('${athlete.name} ${athlete.surname}',
+          style: const TextStyle(
             fontSize: 20.0,
           ),
         ),

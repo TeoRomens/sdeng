@@ -115,15 +115,9 @@ class AuthRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final List<String> providers = await _auth.fetchSignInMethodsForEmail(googleUser.email);
-      if(providers.contains('google.com')) {
-        // Once signed in, return the UserCredential
-        log('Google provider found');
-        final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-        return userCredential.user;
-      } else {
-        throw FirebaseAuthException(code: 'missing-provider');
-      }
+      // Once signed in, return the UserCredential
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      return userCredential.user;
     }
     return null;
   }
@@ -144,9 +138,21 @@ class AuthRepository {
     return null;
   }
 
+  Future<User?> checkBiometrics() async {
+    try {
+      if(!await hasBiometrics()) return null;
+      await _localAuth.authenticate(localizedReason: 'Authenticate to login');
+      log('Authentication using biometrics success!');
+    } catch (e) {
+      log("Error using biometrics: $e");
+    }
+    return null;
+  }
+
   Future<bool> hasBiometrics() async {
     final isAvailable = await _localAuth.canCheckBiometrics;
     final isDeviceSupported = await _localAuth.isDeviceSupported();
+    log('Device has biometrics: ${isAvailable && isDeviceSupported}');
     return isAvailable && isDeviceSupported;
   }
 
@@ -241,4 +247,31 @@ class AuthRepository {
     }
   }
 
+  Future<void> setPayDate1(DateTime date) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Variables.uid)
+        .update({'firstPaymentDate': Timestamp.fromDate(date)});
+  }
+
+  Future<void> setPayDate2(DateTime date) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Variables.uid)
+        .update({'secondPaymentDate': Timestamp.fromDate(date)});
+  }
+
+  Future<void> setQuotaUnder(int num) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Variables.uid)
+        .update({'quotaUnder': num});
+  }
+
+  Future<void> setQuotaMB(int num) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Variables.uid)
+        .update({'quotaMB': num});
+  }
 }

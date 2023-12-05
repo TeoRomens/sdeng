@@ -72,7 +72,6 @@ class SocietyDataForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<SignupBloc>().logState();
                     context.read<SignupBloc>().nextStep();
                   },
                   child: const Text('Next'),

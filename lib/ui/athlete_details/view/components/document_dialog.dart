@@ -4,8 +4,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:sdeng/ui/athlete_details/bloc/athlete_bloc.dart';
-import 'package:sdeng/util/message_util.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 enum DocType {
   med,
@@ -79,6 +80,32 @@ class _DocumentDialogState extends State<DocumentDialog> {
         )
     );
     return choices;
+  }
+
+  _uploadDocument() async {
+    try{
+      assert(file != null);
+
+      if(docType == DocType.med){
+        log('Uploading med file...');
+        key.currentState?.save();
+        assert(expiringDate != null);
+        await widget.context.read<AthleteBloc>().uploadMedEventHandler(file!, expiringDate!);
+      }
+      else if(docType == DocType.tess){
+        await widget.context.read<AthleteBloc>().uploadTessFIPEventHandler(file!);
+      }
+      else if(docType == DocType.iscr){
+        await widget.context.read<AthleteBloc>().uploadModIscrEventHandler(file!);
+      }
+      else {
+        assert(fileNameController.value.text.isNotEmpty);
+        await widget.context.read<AthleteBloc>().uploadGenericEventHandler(file!, name!);
+      }
+      Get.back();
+    } catch (e) {
+      UIUtils.showError('Check all the fields');
+    }
   }
 
   @override
@@ -161,30 +188,7 @@ class _DocumentDialogState extends State<DocumentDialog> {
       actions: [
         TextButton(
             onPressed: () async {
-              MessageUtil.showLoading();
-              try{
-                assert(file != null);
-
-                if(docType == DocType.med){
-                  log('Uploading med file...');
-                  key.currentState?.save();
-                  assert(expiringDate != null);
-                  await widget.context.read<AthleteBloc>().uploadMedEventHandler(file!, expiringDate!);
-                }
-                else if(docType == DocType.tess){
-                  await widget.context.read<AthleteBloc>().uploadTessFIPEventHandler(file!);
-                }
-                else if(docType == DocType.iscr){
-                  await widget.context.read<AthleteBloc>().uploadModIscrEventHandler(file!);
-                }
-                else {
-                  assert(fileNameController.value.text.isNotEmpty);
-                  await widget.context.read<AthleteBloc>().uploadGenericEventHandler(file!, name!);
-                }
-                Navigator.of(context).pop();
-              } catch (e) {
-                MessageUtil.showError('Check all the fields');
-              }
+              UIUtils.awaitLoading(_uploadDocument());
             },
             child: const Text(
               'Add',

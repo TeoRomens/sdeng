@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:sdeng/globals/colors.dart';
+import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/ui/login/bloc/login_bloc.dart';
-import 'package:sdeng/ui/signup/view/signup.dart';
+import 'package:sdeng/util/ui_utils.dart';
 import 'package:sdeng/util/res_helper.dart';
 
 class LoginForm extends StatelessWidget {
@@ -49,7 +52,7 @@ class LoginForm extends StatelessWidget {
                 const SizedBox(height: 10.0),
                 CheckboxListTile(
                   tileColor: Colors.transparent,
-                  activeColor: Color(0xff4D46B2),
+                  activeColor: const Color(0xff4D46B2),
                   value: state.rememberme,
                   onChanged: (value) => context.read<LoginBloc>().rememberme(value!),
                   shape: const RoundedRectangleBorder(
@@ -69,7 +72,7 @@ class LoginForm extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if(formKey.currentState!.validate()) {
-                      context.read<LoginBloc>().login();
+                      UIUtils.awaitLoading(context.read<LoginBloc>().login());
                     }
                   },
                   child: const Text(
@@ -102,12 +105,11 @@ class LoginForm extends StatelessWidget {
                   style: TextButton.styleFrom(
                       backgroundColor: Colors.white
                   ),
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const Signup(),
-                      ),
-                    ),
-                  child: const Text('Create Account'),
+                  onPressed: () => Get.toNamed('/signup'),
+                  child: Text('Create Account', style: TextStyle(
+                    color: MyColors.primaryColorDark,
+
+                  ),),
                 ),
                 const SizedBox(height: 50,)
               ],

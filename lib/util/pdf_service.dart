@@ -1,4 +1,4 @@
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:open_document/my_files/init.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -14,10 +14,12 @@ enum InvoiceType{
 }
 
 class PdfService {
+  final PaymentsRepository paymentsRepository = Get.find();
+
   Future<Uint8List> createInvoice(Payment payment, Athlete athlete, Parent parent, InvoiceType type) async {
     final pdf = pw.Document();
     final image = (await rootBundle.load( "assets/logos/SDENG_logo.jpg" )).buffer.asUint8List();
-    final invoiceNumber = GetIt.I.get<PaymentsRepository>().getNewInvoiceNum();
+    final invoiceNumber = paymentsRepository.getNewInvoiceNum();
 
     pdf.addPage(pw.Page(
       pageFormat: PdfPageFormat.a4,

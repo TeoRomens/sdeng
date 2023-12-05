@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sdeng/model/athlete.dart';
-import 'package:sdeng/ui/athlete_details/view/responsive.dart';
 
 /// ListTile specific for players, with player number in the leading icon
 /// and forwarding arrow in the trailing
@@ -9,12 +8,15 @@ class PlayerTileWidget extends StatelessWidget {
   const PlayerTileWidget({
     Key? key,
     required this.athlete,
+    required this.onTap,
   }) : super(key: key);
 
   final Athlete athlete;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
+
     return ListTile(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12)
@@ -39,13 +41,7 @@ class PlayerTileWidget extends StatelessWidget {
           color: Color(0xff4D46B2),
         ),
       ),
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => AthleteDetails(athlete),
-          ),
-        );
-      }
+      onTap: onTap
     );
   }
 }

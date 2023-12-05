@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/ui/signup/bloc/signup_bloc.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 class SocietyAddressForm extends StatelessWidget {
   const SocietyAddressForm({super.key,});
@@ -55,10 +56,9 @@ class SocietyAddressForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<SignupBloc>().logState();
-                    context.read<SignupBloc>().nextStep();
+                    UIUtils.awaitLoading(context.read<SignupBloc>().createAccount());
                   },
-                  child: const Text('Next'),
+                  child: const Text('Create Account'),
                 ),
               ),
             ],

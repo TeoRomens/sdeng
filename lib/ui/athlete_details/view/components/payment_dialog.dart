@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:sdeng/ui/athlete_details/bloc/athlete_bloc.dart';
-import 'package:sdeng/util/message_util.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 enum PaymentType {
   first,
@@ -111,9 +112,8 @@ class _PaymentDialogState extends State<PaymentDialog> {
             onPressed: () async {
               key.currentState?.save();
               if(key.currentState?.validate() ?? false) {
-                MessageUtil.showLoading();
-                await widget.context.read<AthleteBloc>().addPayment(amount: amount!, date: date!, type: PaymentType.first);
-                Navigator.of(context).pop();
+                UIUtils.awaitLoading(widget.context.read<AthleteBloc>().addPayment(amount: amount!, date: date!, type: PaymentType.first));
+                Get.back();
               }
             },
             child: const Text(

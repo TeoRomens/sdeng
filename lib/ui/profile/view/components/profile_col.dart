@@ -2,20 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/get.dart';
 import 'package:sdeng/repositories/auth_repository.dart';
 import 'package:sdeng/ui/credits/credits_screen.dart';
-import 'package:sdeng/ui/login/view/login.dart';
 import 'package:sdeng/ui/profile/bloc/profile_bloc.dart';
-import 'package:sdeng/ui/root/bloc/bottom_nav_bloc.dart';
 import 'package:sdeng/util/res_helper.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 class ProfileColumn extends StatelessWidget{
   const ProfileColumn({super.key});
 
   @override
   Widget build(BuildContext context) {
-    User? user = GetIt.instance<AuthRepository>().getCurrentUser();
+    User? user = Get.find<AuthRepository>().getCurrentUser();
     final bloc = context.read<ProfileBloc>();
     final resHelper = ResponsiveHelper(context: context);
 
@@ -55,7 +54,7 @@ class ProfileColumn extends StatelessWidget{
             ),
             onTap: () {
               if(resHelper.isMobile){
-
+                Get.toNamed('/search');
               } else {
                 bloc.selectMenu(SelectedMenu.search);
               }
@@ -81,7 +80,7 @@ class ProfileColumn extends StatelessWidget{
             ),
             onTap: () {
               if(resHelper.isMobile){
-
+                Get.toNamed('/settings');
               } else {
                 bloc.selectMenu(SelectedMenu.settings);
               }
@@ -142,12 +141,8 @@ class ProfileColumn extends StatelessWidget{
         const SizedBox(height: 20,),
         ElevatedButton(
             onPressed: () async {
-              await context.read<BottomNavBarBloc>().logout();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => const Login(),
-                  )
-              );
+              await UIUtils.awaitLoading(bloc.logout());
+              Get.offAllNamed('/login');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,

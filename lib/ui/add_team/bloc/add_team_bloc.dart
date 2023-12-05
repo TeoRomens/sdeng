@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/repositories/teams_repository.dart';
 
 part 'add_team_state.dart';
@@ -8,7 +8,7 @@ part 'add_team_state.dart';
 class AddTeamBloc extends Cubit<AddTeamState> {
   AddTeamBloc() : super(AddTeamState());
 
-  final TeamsRepository _teamRepository = GetIt.I.get<TeamsRepository>();
+  final TeamsRepository _teamRepository = Get.find();
 
   nameChangedEventHandler(String name) async {
     emit(state.copyWith(name: name));

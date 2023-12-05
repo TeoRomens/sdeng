@@ -5,11 +5,12 @@ import 'package:sdeng/globals/colors.dart';
 import 'package:sdeng/globals/dimension.dart';
 import 'package:sdeng/ui/calendar/view/calendar_screen.dart';
 import 'package:sdeng/ui/homepage_staff/view/homepage_staff.dart';
+import 'package:sdeng/ui/med_visits/view/med_visits.dart';
+import 'package:sdeng/ui/payments/view/payments.dart';
 import 'package:sdeng/ui/profile/view/profile.dart';
-import 'package:sdeng/ui/reports/view/events_desktop.dart';
 import 'package:sdeng/ui/homepage_staff/view/home_staff_desktop.dart';
 import 'package:sdeng/ui/homepage_staff/view/home_staff_mobile.dart';
-import 'package:sdeng/ui/reports/view/events_mobile.dart';
+import 'package:sdeng/ui/search/view/search.dart';
 import 'package:sdeng/util/res_helper.dart';
 
 class RootScreen extends StatefulWidget {
@@ -119,7 +120,7 @@ class _RootScreenState extends State<RootScreen> {
                   switch(currentIndex){
                     case 0: return const HomepageStaff();
                     case 1: return const CalendarPage();
-                    case 2: return const EventsMobile();
+                    case 2: return const Search();
                     case 3: return const Profile();
                     default: return const HomeStaffMobile();
                   }
@@ -196,7 +197,7 @@ class _RootScreenState extends State<RootScreen> {
                                 borderRadius: BorderRadius.circular(12)
                             ),
                             title: Text(
-                              'Reports',
+                              'Search',
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
@@ -219,6 +220,52 @@ class _RootScreenState extends State<RootScreen> {
                                 borderRadius: BorderRadius.circular(12)
                             ),
                             title: Text(
+                              'Payments',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: MyColors.primaryColorDark,
+                              ),
+                              maxLines: 1,
+                            ),
+                            leading: const Icon(Icons.euro_rounded),
+                            horizontalTitleGap: 10,
+                            onTap: () => setState(() {
+                              currentIndex = 3;
+                            }),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: ListTile(
+                            tileColor: MyColors.primaryColorLighter,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            title: Text(
+                              'Med Visits',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: MyColors.primaryColorDark,
+                              ),
+                              maxLines: 1,
+                            ),
+                            leading: const Icon(Icons.medical_services_rounded),
+                            horizontalTitleGap: 10,
+                            onTap: () => setState(() {
+                              currentIndex = 4;
+                            }),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: ListTile(
+                            tileColor: MyColors.primaryColorLighter,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            title: Text(
                               'Profile',
                               style: TextStyle(
                                 fontSize: 20.0,
@@ -230,7 +277,7 @@ class _RootScreenState extends State<RootScreen> {
                             leading: const Icon(Icons.settings),
                             horizontalTitleGap: 10,
                             onTap: () => setState(() {
-                              currentIndex = 3;
+                              currentIndex = 5;
                             }),
                           ),
                         )
@@ -245,8 +292,10 @@ class _RootScreenState extends State<RootScreen> {
                         switch(currentIndex){
                           case 0: return const HomepageStaff();
                           case 1: return const CalendarPage();
-                          case 2: return const EventsDesktop();
-                          case 3: return const Profile();
+                          case 2: return const Search();
+                          case 3: return const Payments();
+                          case 4: return const MedVisits();
+                          case 5: return const Profile();
                           default: return const HomeStaffDesktop();
                         }
                       }

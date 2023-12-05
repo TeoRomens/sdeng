@@ -7,6 +7,7 @@ import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/team.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/ui/homepage_staff/bloc/home_staff_bloc.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 class HomeStaffDesktop extends StatelessWidget {
   const HomeStaffDesktop({super.key});
@@ -77,7 +78,7 @@ class HomeStaffDesktop extends StatelessWidget {
                                                 )
                                         );
                                         if (result == true) {
-                                          context.read<HomeStaffBloc>().deleteTeam(teamsList[index].docId);
+                                          UIUtils.awaitLoading(context.read<HomeStaffBloc>().deleteTeam(teamsList[index].docId));
                                           context.read<HomeStaffBloc>().loadLeagues();
                                         }
                                       },

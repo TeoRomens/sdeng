@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/globals/colors.dart';
-import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/repositories/calendar_repository.dart';
 import 'package:sdeng/ui/calendar/bloc/calendar_bloc.dart';
 import 'package:sdeng/ui/calendar/view/shimmer.dart';

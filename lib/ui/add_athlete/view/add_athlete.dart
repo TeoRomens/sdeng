@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sdeng/ui/add_athlete/bloc/add_athlete_bloc.dart';
 import 'package:sdeng/ui/add_athlete/view/add_athlete_desktop.dart';
 import 'package:sdeng/ui/add_athlete/view/add_athlete_mobile.dart';
 import 'package:sdeng/ui/team_details/bloc/team_details_bloc.dart';
-import 'package:sdeng/util/message_util.dart';
+import 'package:sdeng/util/ui_utils.dart';
 import 'package:sdeng/util/res_helper.dart';
 
 class AddAthlete extends StatelessWidget {
-  AddAthlete({Key? key, required this.teamId}) : super(key: key);
+  AddAthlete({Key? key}) : super(key: key);
 
-  final String teamId;
+  final String teamId = Get.parameters['teamId']!;
   final keyDati = GlobalKey<FormState>();
   final keyGenitore = GlobalKey<FormState>();
   final keyQuota = GlobalKey<FormState>();
@@ -23,7 +24,7 @@ class AddAthlete extends StatelessWidget {
       child: BlocListener<AddAthleteBloc, AddAthleteState> (
         listener: (context, state) {
           if (state.status == Status.failure) {
-            MessageUtil.showError(state.errorMessage);
+            UIUtils.showError(state.errorMessage);
           }
           if (state.status == Status.success) {
             ScaffoldMessenger.of(context).showSnackBar(

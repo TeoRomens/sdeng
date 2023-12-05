@@ -79,7 +79,6 @@ class AccountType extends StatelessWidget {
                   fontFamily: 'ProductSans'
               ),
               onTap: () {
-                context.read<SignupBloc>().logState();
                 context.read<SignupBloc>().nextStep();
               },
             ),

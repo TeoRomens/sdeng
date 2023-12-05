@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/repositories/athletes_repository.dart';
 import 'package:sdeng/repositories/parents_repository.dart';
 import 'package:sdeng/repositories/payments_repository.dart';
@@ -25,12 +25,11 @@ void main() {
     MockParentsRepository parentsRepository = MockParentsRepository();
     MockStorageRepository storageRepository = MockStorageRepository();
 
-    final getIt = GetIt.I;
-    getIt.registerSingleton<TeamsRepository>(teamsRepository);
-    getIt.registerSingleton<AthletesRepository>(athletesRepository);
-    getIt.registerSingleton<StorageRepository>(storageRepository);
-    getIt.registerSingleton<PaymentsRepository>(paymentsRepository);
-    getIt.registerSingleton<ParentsRepository>(parentsRepository);
+    Get.put(teamsRepository);
+    Get.put(athletesRepository);
+    Get.put(storageRepository);
+    Get.put(paymentsRepository);
+    Get.put(parentsRepository);
 
     blocTest<AddAthleteBloc, AddAthleteState>(
       'emits [AddAthleteState] when nameChanged is called',

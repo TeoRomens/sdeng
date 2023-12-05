@@ -32,8 +32,8 @@ class StaffMember extends User {
 
   final DateTime? closingPayDate1;
   final DateTime? closingPayDate2;
-  final int totalAmountUnder;
-  final int totalAmountMB;
+  final int? totalAmountUnder;
+  final int? totalAmountMB;
 
   factory StaffMember.fromSnap(DocumentSnapshot snap) => StaffMember(
     id: snap.id,

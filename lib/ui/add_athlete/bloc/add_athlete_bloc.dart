@@ -5,27 +5,24 @@ import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/parent.dart';
-import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/repositories/athletes_repository.dart';
 import 'package:sdeng/repositories/parents_repository.dart';
-import 'package:sdeng/repositories/payments_repository.dart';
 import 'package:sdeng/repositories/storage_repository.dart';
 import 'package:sdeng/repositories/teams_repository.dart';
 
 part 'add_athlete_state.dart';
 
 class AddAthleteBloc extends Cubit<AddAthleteState> {
-  AddAthleteBloc() : super(AddAthleteState());
+  AddAthleteBloc() : super(const AddAthleteState());
 
-  final AthletesRepository _athleteRepository = GetIt.instance.get<AthletesRepository>();
-  final TeamsRepository _teamsRepository = GetIt.instance.get<TeamsRepository>();
-  final PaymentsRepository _paymentsRepository = GetIt.instance.get<PaymentsRepository>();
-  final ParentsRepository _parentsRepository = GetIt.instance.get<ParentsRepository>();
-  final StorageRepository _storageRepository = GetIt.instance.get<StorageRepository>();
+  final AthletesRepository _athleteRepository = Get.find();
+  final TeamsRepository _teamsRepository = Get.find();
+  final ParentsRepository _parentsRepository = Get.find();
+  final StorageRepository _storageRepository = Get.find();
 
   nameChanged(String name) {
     emit(state.copyWith(name: name));

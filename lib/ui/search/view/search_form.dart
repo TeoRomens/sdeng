@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sdeng/common/player_tile.dart';
+import 'package:sdeng/ui/athlete_details/view/responsive.dart';
 import 'package:sdeng/ui/search/bloc/search_bloc.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
-class SearchMobile extends StatelessWidget {
-  const SearchMobile({Key? key}) : super(key: key);
+class SearchForm extends StatelessWidget {
+  const SearchForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +37,19 @@ class SearchMobile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20,),
-              TextFormField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      context.read<SearchBloc>().search(searchController.value.text);
-                    },
-                  )
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: TextFormField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        UIUtils.awaitLoading(context.read<SearchBloc>().search(searchController.value.text));
+                      },
+                    )
+                  ),
                 ),
               ),
               const SizedBox(height: 20,),
@@ -60,12 +65,20 @@ class SearchMobile extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 8, 5, 8),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: PlayerTileWidget(
-                          athlete: state.results[index],
+                    return ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 500),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 8, 5, 8),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: PlayerTileWidget(
+                            athlete: state.results[index],
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => AthleteDetails(state.results[index])
+                              )
+                            ),
+                          ),
                         ),
                       ),
                     );

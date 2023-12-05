@@ -1,20 +1,17 @@
-// ignore_for_file: unused_import
-
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/repositories/calendar_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'calendar_state.dart';
 
 class CalendarBloc extends Cubit<CalendarState> {
   CalendarBloc() : super(CalendarState());
 
-  final CalendarRepository calendarRepository = GetIt.I.get<CalendarRepository>();
+  final CalendarRepository calendarRepository = Get.find();
 
   Future<void> loadCalendar() async {
     try {

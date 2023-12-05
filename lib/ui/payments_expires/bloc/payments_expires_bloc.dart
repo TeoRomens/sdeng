@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/model/payment.dart';
@@ -11,8 +11,8 @@ part 'payments_expires_state.dart';
 class PayExpiresBloc extends Cubit<PayExpiresState> {
   PayExpiresBloc() : super(PayExpiresState());
 
-  final AthletesRepository athletesRepository = GetIt.instance<AthletesRepository>();
-  final PaymentsRepository paymentsRepository = GetIt.instance<PaymentsRepository>();
+  final AthletesRepository athletesRepository = Get.find();
+  final PaymentsRepository paymentsRepository = Get.find();
 
   Future<void> load(List<Payment> paymentsList) async {
     try {

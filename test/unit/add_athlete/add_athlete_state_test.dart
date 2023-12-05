@@ -6,7 +6,7 @@ void main() {
   group('AddAthleteState', () {
 
     test('copyWith should copy all fields with new values', () {
-      final originalState = AddAthleteState(
+      final originalState = const AddAthleteState(
         name: 'John',
         surname: 'Doe',
         number: 1,
@@ -29,7 +29,7 @@ void main() {
     });
 
     test('should initialize with default values', () {
-      final initialState = AddAthleteState();
+      final initialState = const AddAthleteState();
 
       expect(initialState.name, ''); // Verify the default value of name
       expect(initialState.surname, ''); // Verify the default value of surname

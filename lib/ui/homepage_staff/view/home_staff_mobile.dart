@@ -6,10 +6,12 @@ import 'package:sdeng/globals/colors.dart';
 import 'package:sdeng/model/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sdeng/ui/calendar/view/calendar_screen.dart';
 import 'package:sdeng/ui/homepage_staff/bloc/home_staff_bloc.dart';
+import 'package:sdeng/ui/med_visits/view/med_visits.dart';
 import 'package:sdeng/ui/payments/view/payments.dart';
-import 'package:sdeng/ui/payments/view/payments_mobile.dart';
 import 'package:sdeng/ui/search/view/search.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 class HomeStaffMobile extends StatelessWidget {
   const HomeStaffMobile({super.key});
@@ -79,7 +81,7 @@ class HomeStaffMobile extends StatelessWidget {
                                                   )
                                           );
                                           if (result == true) {
-                                            context.read<HomeStaffBloc>().deleteTeam(teamsList[index].docId);
+                                            UIUtils.awaitLoading(context.read<HomeStaffBloc>().deleteTeam(teamsList[index].docId));
                                             context.read<HomeStaffBloc>().loadLeagues();
                                           }
                                         },
@@ -109,7 +111,11 @@ class HomeStaffMobile extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => const CalendarPage()
+                                  )
+                              );
                             },
                             child: const ToolCard(title: 'Calendar', asset: 'assets/illustrations/calendar.svg',),
                           ),
@@ -135,7 +141,11 @@ class HomeStaffMobile extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => const MedVisits()
+                                  )
+                              );
                             },
                             child: const ToolCard(title: 'Med Visits', asset: 'assets/illustrations/medicine.svg',)
                           ),

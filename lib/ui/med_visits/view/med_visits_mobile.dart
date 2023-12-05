@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/common/player_tile.dart';
 import 'package:sdeng/ui/athlete_details/view/responsive.dart';
-import 'package:sdeng/ui/payments/bloc/payments_bloc.dart';
+import 'package:sdeng/ui/med_visits/bloc/med_bloc.dart';
 
-class PaymentsMobile extends StatefulWidget {
-  const PaymentsMobile({Key? key}) : super(key: key);
+class MedVisitsMobile extends StatefulWidget {
+  const MedVisitsMobile({Key? key}) : super(key: key);
 
   @override
-  State<PaymentsMobile> createState() => _PaymentsMobileState();
+  State<MedVisitsMobile> createState() => _MedVisitsMobileState();
 }
 
-class _PaymentsMobileState extends State<PaymentsMobile> {
+class _MedVisitsMobileState extends State<MedVisitsMobile> {
   int index = 0;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PaymentsBloc, PaymentsState>(
+    return BlocBuilder<MedBloc, MedState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -28,7 +28,7 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                     spacing: 15,
                     children: [
                       ChoiceChip(
-                        label: const Text('Not pay'),
+                        label: const Text('Expired'),
                         selectedColor: Colors.red.shade500,
                         selected: index == 0,
                         onSelected: (selected) {
@@ -38,7 +38,7 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                         },
                       ),
                       ChoiceChip(
-                        label: const Text('Partial'),
+                        label: const Text('Near'),
                         selectedColor: Colors.yellow.shade700,
                         selected: index == 1,
                         onSelected: (selected) {
@@ -48,8 +48,9 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                         },
                       ),
                       ChoiceChip(
-                        label: const Text('Good'),
+                        label: const Text('Unknown'),
                         selected: index == 2,
+                        selectedColor: Colors.blue.shade500,
                         onSelected: (selected) {
                           setState(() {
                             index = 2;
@@ -67,17 +68,17 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Athletes do not paid',
+                                'Athletes with expired med visit',
                                 style: TextStyle(
                                     fontSize: 20,
-                                    fontWeight: FontWeight.bold
+                                    fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Below a list of athletes who didn\'t pay',
+                                'Below a list of athletes with already expired medical visit',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey
@@ -85,17 +86,27 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                               ),
                             ),
                             const SizedBox(height: 10,),
+                            state.expiredList.isEmpty ?
+                            Card(
+                                margin: const EdgeInsets.symmetric(vertical: 30),
+                                color: Colors.grey.shade200,
+                                elevation: 0,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text('No results',),
+                                )
+                            ) :
                             ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: state.notPayList.length,
+                                itemCount: state.expiredList.length,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 4),
                                     child: PlayerTileWidget(
-                                      athlete: state.notPayList[index],
+                                      athlete: state.expiredList[index],
                                       onTap: () => Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => AthleteDetails(state.notPayList[index])
+                                              builder: (context) => AthleteDetails(state.expiredList[index])
                                           )
                                       ),
                                     ),
@@ -111,7 +122,7 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Athletes paid partial',
+                                'Athletes with near expiring visit',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold
@@ -121,7 +132,7 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Below a list of athletes who paid only partial',
+                                'Below a list of athletes with expiring in less than 15 days',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey
@@ -129,17 +140,27 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                               ),
                             ),
                             const SizedBox(height: 10,),
+                            state.nearExpiredList.isEmpty ?
+                            Card(
+                                margin: const EdgeInsets.symmetric(vertical: 30),
+                                color: Colors.grey.shade200,
+                                elevation: 0,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text('No results',),
+                                )
+                            ) :
                             ListView.builder(
                               shrinkWrap: true,
-                              itemCount: state.partialList.length,
+                              itemCount: state.nearExpiredList.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 4),
                                   child: PlayerTileWidget(
-                                    athlete: state.partialList[index],
+                                    athlete: state.nearExpiredList[index],
                                     onTap: () => Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) => AthleteDetails(state.partialList[index])
+                                            builder: (context) => AthleteDetails(state.nearExpiredList[index])
                                         )
                                     ),
                                   ),
@@ -155,7 +176,7 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Athlete ok',
+                                'Athlete unknown',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold
@@ -165,7 +186,7 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Below a list of athletes ok with payments',
+                                'Below a list of athletes with no info about their med visit',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey
@@ -173,17 +194,27 @@ class _PaymentsMobileState extends State<PaymentsMobile> {
                               ),
                             ),
                             const SizedBox(height: 10,),
+                            state.unknownList.isEmpty ?
+                            Card(
+                                margin: const EdgeInsets.symmetric(vertical: 30),
+                                color: Colors.grey.shade200,
+                                elevation: 0,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text('No results',),
+                                )
+                            ) :
                             ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: state.okList.length,
+                                itemCount: state.unknownList.length,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 4),
                                     child: PlayerTileWidget(
-                                      athlete: state.okList[index],
+                                      athlete: state.unknownList[index],
                                       onTap: () => Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => AthleteDetails(state.okList[index])
+                                              builder: (context) => AthleteDetails(state.unknownList[index])
                                           )
                                       ),
                                     ),

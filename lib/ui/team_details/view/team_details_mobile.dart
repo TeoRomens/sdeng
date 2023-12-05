@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:sdeng/common/player_tile.dart';
 import 'package:sdeng/model/team.dart';
+import 'package:sdeng/ui/athlete_details/view/responsive.dart';
 import 'package:sdeng/ui/team_details/bloc/team_details_bloc.dart';
 import 'package:sdeng/util/text_util.dart';
 import 'package:sdeng/ui/team_details/view/shimmer.dart';
@@ -113,6 +115,11 @@ class TeamDetailsMobile extends StatelessWidget {
                                 ),
                                 child: PlayerTileWidget(
                                   athlete: state.athletesList[index],
+                                  onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) => AthleteDetails(state.athletesList[index])
+                                      )
+                                  ),
                                 ),
                               ),
                             ),

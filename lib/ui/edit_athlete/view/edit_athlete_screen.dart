@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/globals/colors.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/parent.dart';
-
-import '../bloc/edit_athlete_bloc.dart';
+import 'package:sdeng/ui/edit_athlete/bloc/edit_athlete_bloc.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 class EditAthleteScreen extends StatefulWidget {
   const EditAthleteScreen({Key? key,
@@ -37,40 +37,7 @@ class _EditAthleteScreenState extends State<EditAthleteScreen> {
         child: BlocListener<EditAthleteBloc, EditAthleteState>(
           listener: (context, state) {
             if (state.status == Status.failure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    content: Container(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        children: [
-                          const Text(
-                            'Oh No!',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Text(
-                            state.errorMessage!,
-                            style: const TextStyle(
-                                color: Colors.white
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                ),
-              );
+              UIUtils.showError(state.errorMessage!);
             }
             if (state.status == Status.success) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -387,18 +354,6 @@ class _EditAthleteScreenState extends State<EditAthleteScreen> {
                                       ),
                                     ),
                                   ],
-                                ),
-                                const SizedBox(height: 15,),
-                                const Divider(
-                                  indent: 5,
-                                  endIndent: 5,
-                                  color: Colors.grey,
-                                ),
-                                const Text(
-                                  'Optional',
-                                  style: TextStyle(
-                                      color: Colors.grey
-                                  ),
                                 ),
                                 const SizedBox(height: 15,),
                               ],

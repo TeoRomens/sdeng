@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/parent.dart';
 import 'package:sdeng/repositories/athletes_repository.dart';
@@ -13,8 +13,8 @@ part 'edit_athlete_state.dart';
 class EditAthleteBloc extends Cubit<EditAthleteState> {
   EditAthleteBloc() : super(EditAthleteState());
 
-  final AthletesRepository _athleteRepository = GetIt.instance.get<AthletesRepository>();
-  final ParentsRepository _parentsRepository = GetIt.instance.get<ParentsRepository>();
+  final AthletesRepository _athleteRepository = Get.find();
+  final ParentsRepository _parentsRepository = Get.find();
 
   nameChangedEventHandler(String name) {
     emit(state.copyWith(name: name));

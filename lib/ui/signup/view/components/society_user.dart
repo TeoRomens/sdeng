@@ -119,7 +119,6 @@ class SocietyUserForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<SignupBloc>().logState();
                     if(societyUserKey.currentState!.validate()){
                       context.read<SignupBloc>().nextStep();
                     }

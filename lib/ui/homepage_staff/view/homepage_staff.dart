@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/globals/colors.dart';
-import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/ui/add_team/view/responsive.dart';
 import 'package:sdeng/ui/homepage_staff/bloc/home_staff_bloc.dart';
 import 'package:sdeng/ui/homepage_staff/view/home_staff_desktop.dart';

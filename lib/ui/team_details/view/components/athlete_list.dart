@@ -2,8 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:sdeng/globals/colors.dart';
-import 'package:sdeng/globals/variables.dart';
+import 'package:sdeng/common/player_tile.dart';
 import 'package:sdeng/model/team.dart';
 import 'package:sdeng/ui/team_details/bloc/team_details_bloc.dart';
 import 'package:sdeng/util/text_util.dart';
@@ -15,6 +14,8 @@ class AthleteList extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<TeamDetailsBloc>();
+
     return BlocBuilder<TeamDetailsBloc, TeamDetailsState>(
       builder: (context, state) {
         return RefreshIndicator(
@@ -73,8 +74,8 @@ class AthleteList extends StatelessWidget{
                                             )
                                     );
                                     if (result == true) {
-                                      context.read<TeamDetailsBloc>().deleteAthlete(state.athletesList[index]);
-                                      context.read<TeamDetailsBloc>().loadAthletes(team.docId);
+                                      bloc.deleteAthlete(state.athletesList[index]);
+                                      bloc.loadAthletes(team.docId);
                                     }
                                   },
                                   backgroundColor: const Color(0xFFFE4A49),
@@ -84,38 +85,10 @@ class AthleteList extends StatelessWidget{
                                 ),
                               ],
                             ),
-                            child: ListTile(
-                                tileColor: MyColors.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)
-                                ),
-                                leading: Text(
-                                  '${state.athletesList[index].number}',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                trailing: const Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: Colors.white,
-                                ),
-                                title: Text(
-                                  '${state.athletesList[index].name} ${state.athletesList[index].surname}',
-                                  style: const TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                onTap: () {
-                                  context.read<TeamDetailsBloc>().selectAthlete(state.athletesList[index]);
-                                }
+                            child: PlayerTileWidget(athlete: state.athletesList[index], onTap: () => bloc.selectAthlete(state.athletesList[index]),)
                             ),
                           ),
-                        ),
-                      );
+                        );
                     })
                 ),
                 const SizedBox(height: 20,),

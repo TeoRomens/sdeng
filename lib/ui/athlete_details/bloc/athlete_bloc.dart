@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/parent.dart';
@@ -13,7 +13,6 @@ import 'package:sdeng/repositories/athletes_repository.dart';
 import 'package:sdeng/repositories/parents_repository.dart';
 import 'package:sdeng/repositories/payments_repository.dart';
 import 'package:sdeng/repositories/storage_repository.dart';
-import 'package:sdeng/util/message_util.dart';
 import 'package:sdeng/util/pdf_service.dart';
 
 part 'athlete_state.dart';
@@ -23,10 +22,10 @@ class AthleteBloc extends Cubit<AthleteState> {
      required Athlete athlete
    }) : super(AthleteState(athlete: athlete));
 
-   final AthletesRepository _athletesRepository = GetIt.instance<AthletesRepository>();
-   final ParentsRepository _parentsRepository = GetIt.instance<ParentsRepository>();
-   final StorageRepository _storageRepository = GetIt.instance.get<StorageRepository>();
-   final PaymentsRepository _paymentsRepository = GetIt.instance.get<PaymentsRepository>();
+   final AthletesRepository _athletesRepository = Get.find();
+   final ParentsRepository _parentsRepository = Get.find();
+   final StorageRepository _storageRepository = Get.find();
+   final PaymentsRepository _paymentsRepository = Get.find();
 
    Future<void> loadAthleteDetails(String parentId) async {
      try {
@@ -147,7 +146,6 @@ class AthleteBloc extends Cubit<AthleteState> {
    }
 
    Future<void> generateInvoice(Payment payment, Athlete athlete, Parent parent) async {
-     MessageUtil.showLoading();
      final PdfService service = PdfService();
      final Uint8List data;
      if(payment.amount == athlete.amount) {
@@ -155,12 +153,10 @@ class AthleteBloc extends Cubit<AthleteState> {
      }else {
        data = await service.createInvoice(payment, athlete, parent, InvoiceType.acconto);
      }
-     MessageUtil.hideLoading();
      await service.savePdfFile("Invoice_${athlete.surname}_${athlete.name}_${DateTime.now().millisecond}", data);
    }
 
     Future<void> addPayment({required String amount, required DateTime date, required type}) async {
-      MessageUtil.showLoading();
       Payment payment = Payment(
           docId: '',
           athlete: state.athlete.docId,
@@ -169,7 +165,6 @@ class AthleteBloc extends Cubit<AthleteState> {
           receiptNum: await _paymentsRepository.getNewInvoiceNum(),
       );
       await _paymentsRepository.addPayment(payment);
-      MessageUtil.hideLoading();
     }
 
   Future<void> removePayment(String docId) async {

@@ -1,54 +1,54 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class MessageUtil {
-  static CancelFunc? loadingCancelFunc;
+class UIUtils {
 
   static void showMessage(String message) {
-    BotToast.showCustomNotification(
-        toastBuilder: (context) => _CustomMessage(message: message),
-        duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.99),
-        enableSlideOff: false,
+    Get.snackbar(
+      'Message',
+      message,
+      isDismissible: false,
+      icon: const Icon(Icons.info_outlined, color: Colors.white,),
+      shouldIconPulse: false,
+      backgroundColor: Colors.blue,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      animationDuration: const Duration(milliseconds: 400),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      maxWidth: 500
     );
   }
 
   static void showError(String message) {
-    BotToast.showCustomNotification(
-        toastBuilder: (context) => _CustomError(errorMessage: message,),
-        duration: const Duration(seconds: 3),
-        align: const Alignment(0, 0.99),
-        enableSlideOff: false,
+    Get.snackbar(
+      'Error',
+      message,
+      isDismissible: false,
+      icon: const Icon(Icons.error_outline_outlined, color: Colors.white,),
+      shouldIconPulse: false,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      animationDuration: const Duration(milliseconds: 400),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      maxWidth: 500
     );
   }
 
-  static void showLoading() {
-    loadingCancelFunc ??= BotToast.showCustomLoading(
-          backgroundColor: Colors.black.withOpacity(.3),
-          toastBuilder: (context) => const _LoaderOverlay());
-  }
-
-  static void hideLoading() {
-    if (loadingCancelFunc != null) {
-      loadingCancelFunc!();
-      loadingCancelFunc = null;
-    }
-  }
-}
-
-class _LoaderOverlay extends StatelessWidget {
-  const _LoaderOverlay();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
+  static Future awaitLoading(Future asyncFunction) async {
+    return Get.showOverlay(
+      asyncFunction: () => asyncFunction,
+      loadingWidget: Center(
+        child: SizedBox(
           width: 120,
           height: 120,
           child: Lottie.asset(
             'assets/animations/loading.json',
           ),),
+      ),
     );
   }
 }

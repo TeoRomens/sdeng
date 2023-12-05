@@ -14,25 +14,17 @@ class PaymentCard extends StatelessWidget{
           width: 2.5,
           color: Color(0xffd7d6ff),
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(12),
       ),
       color: Colors.white,
       shadowColor: Colors.grey,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 25, top: 25, bottom: 25),
-            child: SvgPicture.asset(
-              'assets/illustrations/payments.svg',
-              height: 75,
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 16),
-            child: Column(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Quota',
@@ -42,14 +34,7 @@ class PaymentCard extends StatelessWidget{
                   ),
                 ),
                 Text(
-                  '€ $quota',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30
-                  ),
-                ),
-                Text(
-                  'Total amount athlete\n have to pay',
+                  'Total amount athlete have to pay',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey.shade600,
@@ -58,8 +43,15 @@ class PaymentCard extends StatelessWidget{
                 ),
               ],
             ),
-          )
-        ],
+            Text(
+              '€ $quota',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

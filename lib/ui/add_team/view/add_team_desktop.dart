@@ -1,7 +1,7 @@
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sdeng/util/message_util.dart';
+import 'package:sdeng/util/ui_utils.dart';
 import 'package:sdeng/util/res_helper.dart';
 
 import '../bloc/add_team_bloc.dart';
@@ -36,7 +36,7 @@ class AddTeamDesktop extends StatelessWidget {
           Navigator.of(context).pop();
         }
         if(state.status == Status.failure) {
-          MessageUtil.showError('Name already used');
+          UIUtils.showError('Name already used');
         }
       },
       child: Center(

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/model/staff_member.dart';
 import 'package:sdeng/repositories/auth_repository.dart';
 
@@ -10,7 +10,7 @@ part 'signup_state.dart';
 class SignupBloc extends Cubit<SignupState> {
   SignupBloc() : super(SignupState());
   
-  final AuthRepository _userRepository = GetIt.instance<AuthRepository>();
+  final AuthRepository _userRepository = Get.find();
 
   signupNameChanged(String name) {
     emit(state.copyWith(name: name));
@@ -68,22 +68,6 @@ class SignupBloc extends Cubit<SignupState> {
     emit(state.copyWith(societyCap: societyCAP));
   }
 
-  signupSocietyPayDate1Changed(DateTime date) {
-    emit(state.copyWith(closingPayDate1: date));
-  }
-
-  signupSocietyPayDate2Changed(DateTime date) {
-    emit(state.copyWith(closingPayDate2: date));
-  }
-
-  signupSocietyAmountUnderChanged(int amount) {
-    emit(state.copyWith(totalAmountUnder: amount));
-  }
-
-  signupSocietyAmountMBChanged(int amount) {
-    emit(state.copyWith(totalAmountMB: amount));
-  }
-
   signupPlanChanged(SubscriptionPlan plan) {
     emit(state.copyWith(plan: plan));
   }
@@ -104,10 +88,10 @@ class SignupBloc extends Cubit<SignupState> {
         societyTaxId: state.societyTaxId,
         societyFipCode: state.societyFipCode,
         societyPIva: state.societyPiva,
-        closingPayDate1: state.closingPayDate1,
-        closingPayDate2: state.closingPayDate2,
-        totalAmountUnder: state.totalAmountUnder,
-        totalAmountMB: state.totalAmountMB
+        closingPayDate1: null,
+        closingPayDate2: null,
+        totalAmountUnder: null,
+        totalAmountMB: null
       );
 
       final user = await _userRepository.signupStaff(state.email, state.password, staffMember);
@@ -127,26 +111,5 @@ class SignupBloc extends Cubit<SignupState> {
 
   nextStep(){
     emit(state.copyWith(signupStep: SignupStep.values.elementAt(state.signupStep.index + 1)));
-  }
-
-  logState() {
-    log(
-        'SignupState\n'
-        'name: ${state.name}\n'
-        'surname: ${state.surname}\n'
-        'email: ${state.email}\n'
-        'societyName: ${state.societyName}\n'
-        'societyEmail: ${state.societyEmail}\n'
-        'societyAddress: ${state.societyAddress}\n'
-        'societyCity: ${state.societyCity}\n'
-        'societyCap: ${state.societyCap}\n'
-        'societyPiva: ${state.societyPiva}\n'
-        'societyFipCode: ${state.societyFipCode}\n'
-        '${state.societyTaxId}\n'
-        '${state.totalAmountMB}\n'
-        '${state.totalAmountUnder}\n'
-        '${state.closingPayDate1}\n'
-        '${state.closingPayDate2}\n'
-    );
   }
 }

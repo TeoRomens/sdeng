@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sdeng/globals/variables.dart';
+import 'package:sdeng/model/athlete.dart';
+import 'package:sdeng/model/med_visit.dart';
 
 class StorageRepository {
   StorageRepository();
@@ -77,18 +79,17 @@ class StorageRepository {
     }
   }
 
-  Future<List<DateTime>> getExpiresFromTeam(String teamId) async {
-    List<DateTime> expires = [];
+  Future<MedVisit?> getExpire(Athlete athlete) async {
     try{
-      final ref = FirebaseStorage.instance.ref().child('$pathMed/$teamId');
-      final results = await ref.listAll();
-      for(var item in results.items){
-        expires.add(DateTime.parse(await item.getMetadata().then((value) => value.customMetadata!.values.first)));
-      }
+        //await FirebaseStorage.instance.ref().child('$pathMed/${athlete.teamId}/${athlete.docId}').getDownloadURL();
+        final meta = await FirebaseStorage.instance.ref().child('$pathMed/${athlete.teamId}/${athlete.docId}').getMetadata();
+        final date = DateTime.parse(meta.customMetadata!.values.first);
+
+        return MedVisit(athlete: athlete, expiringDate: date);
     } catch (e) {
-      log(e.toString());
+      log('Med file not found');
     }
-    return expires;
+    return null;
   }
 
 }

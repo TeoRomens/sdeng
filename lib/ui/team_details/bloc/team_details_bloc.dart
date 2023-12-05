@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/repositories/athletes_repository.dart';
@@ -13,10 +13,10 @@ part 'team_details_state.dart';
 class TeamDetailsBloc extends Cubit<TeamDetailsState> {
   TeamDetailsBloc() : super(TeamDetailsState());
 
-  final AthletesRepository athletesRepository = GetIt.instance<AthletesRepository>();
-  final TeamsRepository teamsRepository = GetIt.instance<TeamsRepository>();
-  final PaymentsRepository paymentsRepository = GetIt.instance<PaymentsRepository>();
-  final ParentsRepository parentsRepository = GetIt.instance<ParentsRepository>();
+  final AthletesRepository athletesRepository = Get.find();
+  final TeamsRepository teamsRepository = Get.find();
+  final PaymentsRepository paymentsRepository = Get.find();
+  final ParentsRepository parentsRepository = Get.find();
 
   Future<void> loadAthletes(String teamId, [Source? source]) async {
     try {

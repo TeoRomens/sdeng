@@ -9,8 +9,8 @@ import 'package:sdeng/common/text_title.dart';
 import 'package:sdeng/globals/variables.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/ui/athlete_details/bloc/athlete_bloc.dart';
-import 'package:sdeng/ui/athlete_details/components/document_dialog.dart';
-import 'package:sdeng/ui/athlete_details/components/payment_dialog.dart';
+import 'package:sdeng/ui/athlete_details/view/components/document_dialog.dart';
+import 'package:sdeng/ui/athlete_details/view/components/payment_dialog.dart';
 import 'package:sdeng/ui/athlete_details/view/shimmer.dart';
 import 'package:sdeng/ui/edit_athlete/view/edit_athlete_screen.dart';
 
@@ -18,6 +18,18 @@ class AthleteDetailsMobile extends StatelessWidget {
   const AthleteDetailsMobile(this.athlete, {super.key});
 
   final Athlete athlete;
+
+  void showPaymentDetails(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context)
+        => const AlertDialog(
+          title: Text('Payment',
+            style: TextStyle(color: Colors.black, fontSize: 20),
+          ),
+        )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +199,7 @@ class AthleteDetailsMobile extends StatelessWidget {
                                 ),
                                 child: PaymentTile(
                                     payment: state.payments[index],
-                                    onTap: (dialogContext) {
-
-                                    }
+                                    onTap: showPaymentDetails
                                 ),
                               );
                             }
@@ -327,8 +337,7 @@ class AthleteDetailsMobile extends StatelessWidget {
                                   await showDialog(
                                       context: context,
                                       builder: (dialogContext) => PaymentDialog(context)
-                                  );
-                                  context.read<AthleteBloc>().loadAthleteDetails(state.athlete.parentId);
+                                  ).then((_) => context.read<AthleteBloc>().loadAthleteDetails(state.athlete.parentId));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff4D46B2),
@@ -350,7 +359,7 @@ class AthleteDetailsMobile extends StatelessWidget {
                                   showDialog(
                                       context: context,
                                       builder: (dialogContext) => DocumentDialog(context)
-                                  );
+                                  ).then((_) => context.read<AthleteBloc>().loadAthleteDetails(state.athlete.parentId));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff4D46B2),

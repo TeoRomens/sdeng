@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/payment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +14,10 @@ part 'payments_state.dart';
 class PaymentsBloc extends Cubit<PaymentsState> {
   PaymentsBloc() : super(PaymentsState());
 
-  final TeamsRepository teamsRepository = GetIt.instance<TeamsRepository>();
-  final AthletesRepository athletesRepository = GetIt.instance<AthletesRepository>();
-  final StorageRepository storageRepository = GetIt.instance<StorageRepository>();
-  final PaymentsRepository paymentsRepository = GetIt.instance<PaymentsRepository>();
+  final TeamsRepository teamsRepository = Get.find();
+  final AthletesRepository athletesRepository = Get.find();
+  final StorageRepository storageRepository = Get.find();
+  final PaymentsRepository paymentsRepository = Get.find();
 
 
   Future<void> load() async {
@@ -47,7 +47,9 @@ class PaymentsBloc extends Cubit<PaymentsState> {
           final list = state.paymentList.where((element) => element.athlete == athlete.docId
             && element.amount < athlete.amount).toList();
           int sum = 0;
-          list.forEach((element) => sum += element.amount);
+          for (var element in list) {
+            sum += element.amount;
+          }
           if(sum == athlete.amount) {
             okList.add(athlete);
           } else {

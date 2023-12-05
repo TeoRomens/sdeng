@@ -22,7 +22,7 @@ class TeamDetails extends StatelessWidget{
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AddAthlete(teamId: team.docId),
+              builder: (context) => AddAthlete(),
             ),
           );
         },

@@ -1,17 +1,17 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sdeng/model/team.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/repositories/teams_repository.dart';
-import 'package:sdeng/util/message_util.dart';
+import 'package:sdeng/util/ui_utils.dart';
 
 part 'home_staff_state.dart';
 
 class HomeStaffBloc extends Cubit<HomeStaffState> {
    HomeStaffBloc() : super(HomeStaffState());
 
-  final TeamsRepository teamsRepository = GetIt.instance<TeamsRepository>();
+  final TeamsRepository teamsRepository = Get.find();
 
   Future<void> loadLeagues() async {
     try {
@@ -28,13 +28,11 @@ class HomeStaffBloc extends Cubit<HomeStaffState> {
 
    Future<void> deleteTeam(String teamId) async {
      try {
-       MessageUtil.showLoading();
        await teamsRepository.deleteTeam(teamId);
      } catch (e) {
        log(e.toString());
        emit(state.copyWith(homeStatus: HomeStatus.failure));
      } finally {
-       MessageUtil.hideLoading();
      }
    }
 }
