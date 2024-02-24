@@ -1,30 +1,72 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+class Parent {
+  final String id;
+  final String fullName;
+  final String taxCode;
+  final String? email;
+  final String? phone;
+  final String? fullAddress;
+  final bool? archived;
 
-class Parent{
-  Parent(
-  {
-    required this.docId,
-    required this.name,
-    required this.surname,
-    required this.phone,
-    required this.email,
-    required this.taxId,
+  Parent({
+    required this.id,
+    required this.fullName,
+    required this.taxCode,
+    this.email,
+    this.phone,
+    this.fullAddress,
+    this.archived,
   });
 
-  final String docId;
-  String name;
-  String surname;
-  String email;
-  String phone;
-  String taxId;
+  static Map<String, dynamic> create({
+    required String fullName,
+    required String taxCode,
+    String? email,
+    String? phone,
+    String? fullAddress,
+    bool? archived,
+  }) {
+    return {
+      'full_name': fullName,
+      'tax_code': taxCode,
+      'email': email,
+      'phone': phone,
+      'full_address': fullAddress,
+      'archived': archived ?? false,
+    };
+  }
 
-  factory Parent.fromSnapshot(DocumentSnapshot snap) => Parent(
-    docId: snap.id,
-    name: snap['name'],
-    surname: snap['surname'],
-    email: snap['email'],
-    phone: snap['phone'],
-    taxId: snap['taxId'],
-  );
+  static List<Parent> fromList(List<Map<String, dynamic>> data) {
+    return data.map(Parent.fromMap).toList();
+  }
 
+  Parent.fromMap(Map<String, dynamic> map)
+      : id = map['id'],
+        fullName = map['full_name'],
+        taxCode = map['tax_code'],
+        email = map['email'],
+        phone = map['phone'],
+        fullAddress = map['full_address'],
+        archived = map['archived']
+  ;
+
+  Parent copyWith({
+    String? id,
+    String? fullName,
+    String? taxCode,
+    String? email,
+    String? phone,
+    String? fullAddress,
+    bool? archived,
+    DateTime? createdAt,
+  }) {
+    return Parent(
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
+      taxCode: taxCode ?? this.taxCode,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      fullAddress: fullAddress ?? this.fullAddress,
+      archived: archived ?? this.archived,
+    );
+  }
 }

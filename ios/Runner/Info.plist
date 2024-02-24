@@ -41,28 +41,21 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-    <key>LSSupportsOpeningDocumentsInPlace</key>
-    <true/>
-    <key>NSFaceIDUsageDescription</key>
-    <string>Authenticate to login</string>
-    <key>GIDClientID</key>
-    <string>386799374003-0m8tbaqo5tq8i1fl0cc899ltfau1kbri.apps.googleusercontent.com</string>
-    <key>CFBundleURLTypes</key>
-        <array>
-            <dict>
-                <key>CFBundleTypeRole</key>
-                <string>Editor</string>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>com.googleusercontent.apps.386799374003-hu43kk9t6otd4si48tj92fudr7vtoea7</string>
-                </array>
-            </dict>
-        </array>
+	<key>CFBundleURLTypes</key>
+      <array>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>io.teoromens.sdeng</string>
+            <string>com.googleusercontent.apps.424833225652-ehsmi8dg6fmu6j4tgssjkl8q5hnf33hj</string>
+          </array>
+        </dict>
+      </array>
 </dict>
 </plist>

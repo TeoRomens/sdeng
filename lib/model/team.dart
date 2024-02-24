@@ -1,25 +1,36 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-class Team{
-
-  const Team({
-    required this.docId,
-    required this.name,
-    required this.athletesId,
-  });
-  final String docId;
+class Team {
+  final String id;
   final String name;
-  final List<String> athletesId;
 
-  factory Team.fromSnapshot(DocumentSnapshot snap) => Team(
-    docId: snap.id,
-    name: snap['name'] ?? "",
-    athletesId: List<String>.from(snap['athletes']),
-  );
-  
-  Map<String, dynamic> toJson() => <String, dynamic>{
-    'name': name,
-    'athletes': athletesId,
-  };
+  Team({
+    required this.id,
+    required this.name,
+  });
+
+  static Map<String, dynamic> create({
+    required String name
+  }) {
+    return {
+      'name': name,
+    };
+  }
+
+  static List<Team> fromList(List<Map<String, dynamic>> data) {
+    return data.map((row) => Team.fromMap(row)).toList();
+  }
+
+  Team.fromMap(Map<String, dynamic> map)
+      : id = map['id'],
+        name = map['name']
+  ;
+
+  Team copyWith({
+    String? id,
+    String? name,
+  }) {
+    return Team(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
 }
