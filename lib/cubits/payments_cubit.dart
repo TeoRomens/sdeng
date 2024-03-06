@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/repositories/repository.dart';
-import 'package:sdeng/utils/constants.dart';
 
 part 'payments_state.dart';
 
@@ -74,5 +73,13 @@ class PaymentsCubit extends Cubit<PaymentsState> {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  double getTotal() {
+    double sum = 0;
+    for(final payment in _payments){
+      sum += payment.amount;
+    }
+    return sum;
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sdeng/utils/constants.dart';
 
+const defaultFontFamily = 'ProductSans';
+
 final ThemeData themeData = ThemeData(
   useMaterial3: true,
-  fontFamily: 'ProductSans',
+  fontFamily: defaultFontFamily,
   dialogBackgroundColor: Colors.white,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
@@ -11,7 +13,7 @@ final ThemeData themeData = ThemeData(
     elevation: 0,
     titleTextStyle: TextStyle(
       color: Color(0xff4D46B2),
-      fontFamily: 'ProductSans',
+      fontFamily: defaultFontFamily,
       fontWeight: FontWeight.bold,
       fontSize: 20,
     ),
@@ -19,8 +21,28 @@ final ThemeData themeData = ThemeData(
       color: Color(0xff4D46B2),
     ),
   ),
+  bottomSheetTheme: const BottomSheetThemeData(
+    surfaceTintColor: Colors.white,
+    backgroundColor: Colors.white,
+    constraints: BoxConstraints(
+      minWidth: double.maxFinite
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(10))
+    )
+  ),
   colorScheme: const ColorScheme.light(
     primary: primaryColor,
+  ),
+  cardTheme: CardTheme(
+    color: Colors.white,
+    surfaceTintColor: Colors.white,
+    margin: EdgeInsets.zero,
+    shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Color(0xffcccccc), width: 0.8),
+        borderRadius: BorderRadius.circular(12)
+    ),
+    elevation: 0,
   ),
   chipTheme: ChipThemeData(
       backgroundColor: Colors.grey.shade200,
@@ -33,7 +55,7 @@ final ThemeData themeData = ThemeData(
         borderRadius: BorderRadius.circular(20),
       ),
       labelStyle: const TextStyle(
-        fontFamily: 'ProductSans',
+        fontFamily: defaultFontFamily,
       )
   ),
   checkboxTheme: const CheckboxThemeData(
@@ -47,10 +69,10 @@ final ThemeData themeData = ThemeData(
   dialogTheme: const DialogTheme(
     surfaceTintColor: Colors.white,
     titleTextStyle: TextStyle(
-      fontFamily: 'ProductSans',
+      fontFamily: defaultFontFamily,
     ),
     contentTextStyle: TextStyle(
-      fontFamily: 'ProductSans',
+      fontFamily: defaultFontFamily,
     ),
   ),
   dividerTheme: DividerThemeData(
@@ -75,7 +97,7 @@ final ThemeData themeData = ThemeData(
       surfaceTintColor: Colors.white,
       textStyle: const TextStyle(
           color: Colors.white,
-          fontFamily: 'ProductSans',
+          fontFamily: defaultFontFamily,
           fontSize: 19,
           fontWeight: FontWeight.bold
       ),
@@ -86,13 +108,14 @@ final ThemeData themeData = ThemeData(
     ),
   ),
   expansionTileTheme: ExpansionTileThemeData(
-    backgroundColor: const Color(0xffe8e8e8),
-    collapsedBackgroundColor: const Color(0xffe8e8e8),
+    backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12)
+      side: const BorderSide(color: Color(0xffcccccc)),
+      borderRadius: BorderRadius.circular(12)
     ),
     collapsedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12)
+      side: const BorderSide(color: Color(0xffcccccc)),
+      borderRadius: BorderRadius.circular(12)
     ),
     iconColor: Colors.black,
   ),
@@ -132,14 +155,21 @@ final ThemeData themeData = ThemeData(
     ),
   ),
   listTileTheme: ListTileThemeData(
-    shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(7)
-    ),
-    tileColor: Colors.transparent,
+    tileColor: Colors.white,
+    iconColor: Colors.grey,
     titleTextStyle: const TextStyle(
         color: Colors.black87,
         fontSize: 20,
-        fontFamily: 'ProductSans'
+        fontFamily: defaultFontFamily
+    ),
+    subtitleTextStyle: const TextStyle(
+        color: Colors.grey,
+        fontSize: 13,
+        fontFamily: defaultFontFamily
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+      side: const BorderSide(color: Color(0xffe0e0e0), width: 0.8),
     ),
   ),
   menuButtonTheme: MenuButtonThemeData(
@@ -149,7 +179,7 @@ final ThemeData themeData = ThemeData(
         shadowColor: Colors.white,
         textStyle: const TextStyle(
             fontSize: 16,
-            fontFamily: 'ProductSans'
+            fontFamily: defaultFontFamily
         ),
       )
   ),
@@ -159,6 +189,7 @@ final ThemeData themeData = ThemeData(
       side: MaterialStateBorderSide.resolveWith((states) => const BorderSide(color: Color(0xffcccccc),)),
       shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
+        side: BorderSide(color: Color(0xffe0e0e0), width: 0.8),
       ),)
   ),
   tabBarTheme: TabBarTheme(
@@ -169,12 +200,12 @@ final ThemeData themeData = ThemeData(
       labelColor: Colors.white,
       unselectedLabelColor: Colors.black.withOpacity(0.7),
       labelStyle: const TextStyle(
-          fontFamily: 'ProductSans',
+          fontFamily: defaultFontFamily,
           fontWeight: FontWeight.bold,
           fontSize: 15
       ),
       unselectedLabelStyle: const TextStyle(
-          fontFamily: 'ProductSans',
+          fontFamily: defaultFontFamily,
           fontWeight: FontWeight.bold,
           fontSize: 15
       ),
@@ -182,11 +213,25 @@ final ThemeData themeData = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
+        textStyle: const TextStyle(
+          fontFamily: defaultFontFamily
+        ),
         foregroundColor: primaryColor,
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6)
         ),
       )
+  ),
+  textTheme: const TextTheme(
+    displaySmall: TextStyle(
+        fontFamily: defaultFontFamily
+    ),
+    displayMedium: TextStyle(
+      fontFamily: defaultFontFamily
+    ),
+    displayLarge: TextStyle(
+        fontFamily: defaultFontFamily
+    ),
   ),
 );

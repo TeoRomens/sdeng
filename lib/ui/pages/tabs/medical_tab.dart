@@ -1,33 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sdeng/cubits/athletes_cubit.dart';
 import 'package:sdeng/cubits/medical_cubit.dart';
 import 'package:sdeng/model/athlete.dart';
+import 'package:sdeng/model/medical.dart';
 import 'package:sdeng/repositories/repository.dart';
 import 'package:sdeng/ui/components/button.dart';
+import 'package:sdeng/ui/components/medical_box.dart';
 import 'package:sdeng/utils/constants.dart';
 import 'package:sdeng/utils/formatter.dart';
 
-class MedicalPage extends StatefulWidget {
-  const MedicalPage({Key? key, this.initialIndex}) : super(key: key);
+class MedicalTab extends StatelessWidget {
+  const MedicalTab({Key? key}) : super(key: key);
 
-  static Widget create({int? initialIndex}) {
-    return BlocProvider(
-      create: (context) => MedicalCubit(
-        repository: RepositoryProvider.of<Repository>(context),
-      )..loadMedicals(),
-      child: const MedicalPage(),
+  /// Method ot create this page with necessary `BlocProvider`
+  static Widget create() {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MedicalCubit>(
+          create: (context) => MedicalCubit(
+            repository: RepositoryProvider.of<Repository>(context),
+          )..loadMedicals(),
+        ),
+      ],
+      child: const MedicalTab(),
     );
   }
 
-  final int? initialIndex;
-
   @override
-  State<MedicalPage> createState() => _MedicalPageState();
+  Widget build(BuildContext context) {
+    return BlocBuilder<MedicalCubit, MedicalState>(
+      builder: (context, state) {
+        if (state is MedicalLoading) {
+          return preloader;
+        } else if (state is MedicalLoaded) {
+          return MedicalList(
+            medicals: state.medicals.values.toList(),
+          );
+        } else if (state is MedicalError) {
+          return const Center(child: Text('Something went wrong'));
+        }
+        throw UnimplementedError();
+      },
+    );
+  }
 }
 
-class _MedicalPageState extends State<MedicalPage> {
+/// Main view of Athletes.
+@visibleForTesting
+class MedicalList extends StatefulWidget {
+  /// Main view of Athletes.
+  const MedicalList({
+    Key? key,
+    required List<Medical?> medicals,
+  })  : _medicals = medicals,
+        super(key: key);
+
+  final List<Medical?> _medicals;
+
+  @override
+  MedicalPageState createState() => MedicalPageState();
+}
+
+@visibleForTesting
+class MedicalPageState extends State<MedicalList> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -75,7 +114,6 @@ class _MedicalPageState extends State<MedicalPage> {
                         const Text('New Medical Visit', style: TextStyle(
                             inherit: false,
                             fontSize: 26,
-                            fontFamily: 'ProductSans',
                             color: Colors.black
                         ),),
                         spacer16,
@@ -201,18 +239,46 @@ class _MedicalPageState extends State<MedicalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            spacer16,
-            const Text('MEDICAL VISITS', style: TextStyle(
-                fontSize: 32
-            ),),
-            spacer16,
-          ],
+    final bloc = BlocProvider.of<MedicalCubit>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        spacer16,
+        Text(
+            'MEDICAL VISITS',
+            style: GoogleFonts.bebasNeue(
+                fontSize: 60,
+                color: black2,
+              height: 0.85
+            )
         ),
+        spacer16,
+        MedicalBox(
+            text: 'Good',
+            value: bloc.getMedicalsGood().length,
+            valueColor: greenColor,
+        ),
+        spacer16,
+        MedicalBox(
+          text: 'Expiring Soon',
+          value: bloc.getMedicalsExpiringSoon().length,
+          valueColor: Colors.orangeAccent,
+        ),
+        spacer16,
+        MedicalBox(
+          text: 'Expired',
+          value: bloc.getMedicalsExpired().length,
+          valueColor: Colors.red,
+        ),
+        spacer16,
+        MedicalBox(
+          text: 'Unknown',
+          value: bloc.getMedicalsUnknown().length,
+          valueColor: Colors.grey,
+        ),
+        spacer16,
+      ],
     );
   }
 }

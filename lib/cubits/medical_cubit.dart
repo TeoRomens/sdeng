@@ -15,7 +15,7 @@ class MedicalCubit extends Cubit<MedicalState> {
 
   final Repository _repository;
 
-  final Map<String, Medical> _medicals = {};
+  final Map<String, Medical?> _medicals = {};
 
   Future<void> loadMedicalFromAthleteId(String id) async {
     if (_medicals[id] != null) {
@@ -76,5 +76,52 @@ class MedicalCubit extends Cubit<MedicalState> {
     );
 
     emit(MedicalLoaded(medicals: _medicals));
+  }
+
+  List<Medical> getMedicalsGood() {
+    final medicals = <Medical>[];
+    _medicals.forEach((key, med) {
+      if(med != null &&
+         med.expirationDate!.isAfter(DateTime.now().add(const Duration(days: 14))))
+      {
+        medicals.add(med);
+      }
+    });
+    return medicals;
+  }
+
+  List<Medical> getMedicalsExpiringSoon() {
+    final medicals = <Medical>[];
+    _medicals.forEach((key, med) {
+      if(med != null &&
+         med.expirationDate!.isBefore(DateTime.now().add(const Duration(days: 14))) &&
+         med.expirationDate!.isAfter(DateTime.now()))
+      {
+        medicals.add(med);
+      }
+    });
+    return medicals;
+  }
+
+  List<Medical> getMedicalsExpired() {
+    final medicals = <Medical>[];
+    _medicals.forEach((key, med) {
+      if(med != null &&
+         med.expirationDate!.isBefore(DateTime.now()))
+      {
+        medicals.add(med);
+      }
+    });
+    return medicals;
+  }
+
+  List<String> getMedicalsUnknown() {
+    final ids = <String>[];
+    _medicals.forEach((key, med) {
+      if(med == null) {
+        ids.add(key);
+      }
+    });
+    return ids;
   }
 }

@@ -16,7 +16,6 @@ class SdengDocumentTile extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         foregroundColor: const Color(0xFF414141),
         textStyle: const TextStyle(
-            fontFamily: 'ProductSans',
             fontSize: 14,
             fontWeight: FontWeight.w700
         ),

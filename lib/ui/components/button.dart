@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sdeng/utils/constants.dart';
+import 'package:sdeng/utils/theme.dart';
 
 class SdengPrimaryButton extends StatelessWidget {
   final String text;
@@ -34,7 +35,7 @@ class SdengPrimaryButton extends StatelessWidget {
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
         textStyle: const TextStyle(
-            fontFamily: 'ProductSans',
+            fontFamily: defaultFontFamily,
             fontSize: 16.5,
             fontWeight: FontWeight.w700
         ),
@@ -80,7 +81,7 @@ class SdengDefaultButton extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         foregroundColor: const Color(0xFF414141),
         textStyle: const TextStyle(
-            fontFamily: 'ProductSans',
+            fontFamily: defaultFontFamily,
             fontSize: 16,
             fontWeight: FontWeight.bold
         ),

@@ -44,7 +44,6 @@ class BoardPage extends StatelessWidget {
                 const Text('New Post', style: TextStyle(
                     inherit: false,
                     fontSize: 26,
-                    fontFamily: 'ProductSans',
                     color: Colors.black
                 ),),
                 spacer16,
@@ -186,7 +185,7 @@ class BoardPage extends StatelessWidget {
                                     ),),
                                     Align(
                                         alignment: Alignment.bottomRight,
-                                        child: Text(Formatter.readableDate(post.createdAt), style: TextStyle(
+                                        child: Text(Formatter.dateToString(post.createdAt), style: TextStyle(
                                             color: Colors.grey.shade600
                                         ),)
                                     ),

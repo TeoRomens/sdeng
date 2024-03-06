@@ -28,7 +28,13 @@ class AthletesLoaded extends AthletesState {
 class AthleteDetailLoaded extends AthletesState {
   AthleteDetailLoaded({
     required this.athlete,
+    this.payments,
+    this.medical,
+    this.parent
   });
 
   final Athlete athlete;
+  final Medical? medical;
+  final Parent? parent;
+  final List<Payment>? payments;
 }

@@ -1,4 +1,3 @@
-import 'package:sdeng/model/medical.dart';
 
 enum PaymentType{
   income,

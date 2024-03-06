@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/model/note.dart';
-import 'package:sdeng/utils/constants.dart';
 
 part 'board_state.dart';
 

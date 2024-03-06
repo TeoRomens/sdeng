@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sdeng/cubits/athletes_cubit.dart';
-import 'package:sdeng/cubits/medical_cubit.dart';
-import 'package:sdeng/cubits/payments_cubit.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/medical.dart';
+import 'package:sdeng/model/parent.dart';
 import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/repositories/repository.dart';
+import 'package:sdeng/ui/components/button.dart';
 import 'package:sdeng/utils/constants.dart';
 import 'package:sdeng/utils/formatter.dart';
 
-//TODO: Delete this page
 class AthleteDetailPage extends StatelessWidget {
   const AthleteDetailPage({Key? key}) : super(key: key);
 
@@ -27,17 +28,7 @@ class AthleteDetailPage extends StatelessWidget {
           BlocProvider<AthletesCubit>(
             create: (context) => AthletesCubit(
                 repository: RepositoryProvider.of<Repository>(context))
-              ..loadAthleteFromId(athleteId),
-          ),
-          BlocProvider<MedicalCubit>(
-            create: (context) => MedicalCubit(
-                repository: RepositoryProvider.of<Repository>(context))
-              ..loadMedicalFromAthleteId(athleteId),
-          ),
-          BlocProvider<PaymentsCubit>(
-            create: (context) => PaymentsCubit(
-                repository: RepositoryProvider.of<Repository>(context))
-              ..loadPaymentsFromAthleteId(athleteId),
+              ..loadAthleteDetailsFromId(athleteId),
           ),
         ],
         child: const AthleteDetailPage(),
@@ -47,59 +38,65 @@ class AthleteDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<AthletesCubit, AthletesState>(
-        builder: (context, state) {
-          if (state is AthletesInitial || state is AthletesLoading) {
-            return preloader;
-          } else if (state is AthleteDetailLoaded){
-            return AthleteDetailScreen(athlete: state.athlete);
-          } else if (state is AthletesError) {
-            return Stack(
-              fit: StackFit.expand,
-              children: [
-                Center(child: Text(state.error)),
-                Positioned(
-                  top: 18 + MediaQuery.of(context).padding.top,
-                  left: 18,
-                  child: BackButton(
-                    onPressed: Navigator.of(context).pop,
-                  ),
+    return BlocBuilder<AthletesCubit, AthletesState>(
+      builder: (context, state) {
+        if (state is AthletesInitial || state is AthletesLoading) {
+          return preloader;
+        } else if (state is AthleteDetailLoaded){
+          return AthleteDetailMobile(
+              athlete: state.athlete,
+              medical: state.medical,
+              payments: state.payments,
+              parent: state.parent,
+          );
+        } else if (state is AthletesError) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              Center(child: Text(state.error)),
+              Positioned(
+                top: 18 + MediaQuery.of(context).padding.top,
+                left: 18,
+                child: BackButton(
+                  onPressed: Navigator.of(context).pop,
                 ),
-              ],
-            );
-          }
-          throw UnimplementedError();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        throw UnimplementedError();
+      },
     );
   }
 }
 
 
 @visibleForTesting
-class AthleteDetailScreen extends StatefulWidget {
+class AthleteDetailMobile extends StatefulWidget {
 
-  AthleteDetailScreen({
+  AthleteDetailMobile({
     Key? key,
     required Athlete athlete,
+    Parent? parent,
     Medical? medical,
     List<Payment>? payments,
   })
       : _athlete = athlete,
         _medical = medical,
-        _payments = payments,
+        _parent = parent,
+        _payments = payments ?? [],
         super(key: key);
 
   final Athlete _athlete;
-  final Medical? _medical;
-  final List<Payment>? _payments;
+  Medical? _medical;
+  Parent? _parent;
+  final List<Payment> _payments;
 
   @override
-  _AthleteDetailScreenState createState() => _AthleteDetailScreenState();
+  AthleteDetailMobileState createState() => AthleteDetailMobileState();
 }
 
-class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerProviderStateMixin{
+class AthleteDetailMobileState extends State<AthleteDetailMobile> with TickerProviderStateMixin{
   late final TabController _tabController;
 
   bool isFullNameLoading = false;
@@ -147,20 +144,15 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
     _tabController = TabController(length: 4, vsync: this);
     _nameController.text = widget._athlete.fullName;
     _taxIdController.text = widget._athlete.taxCode;
-    _birthController.text = Formatter.readableDate(widget._athlete.birthDate);
+    _birthController.text = widget._athlete.birthDate == null
+        ? '' : Formatter.dateToString(widget._athlete.birthDate!);
     _addressController.text = widget._athlete.fullAddress ?? '';
     _emailController.text = widget._athlete.email ?? '';
     _phoneController.text = widget._athlete.phone ?? '';
+    _parentNameController.text = widget._parent?.fullName ?? '';
+    _parentAddressController.text = widget._parent?.fullAddress ?? '';
+    _parentEmailController.text = widget._parent?.email ?? '';
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Future<void> initializeAthlete() async {
-
   }
 
   @override
@@ -179,12 +171,12 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
               children: <Widget>[
                 spacer16,
                 spacer16,
-                Text(widget._athlete.fullName, style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold
+                Text(widget._athlete.fullName, style: GoogleFonts.bebasNeue(
+                    fontSize: 50,
+                    height: 1
                 ),),
                 Text(widget._athlete.taxCode, style: const TextStyle(
-                    fontSize: 18
+                    fontSize: 18,
                 ),),
                 spacer16,
                 spacer16,
@@ -210,8 +202,9 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            const Text('Dati Anagrafici', style: TextStyle(
-                                fontSize: 24,
+                            Text('Dati Anagrafici', style: GoogleFonts.bebasNeue(
+                                fontSize: 40,
+                                height: 1
                             ),),
                             spacer16,
                             const Padding(
@@ -228,6 +221,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isFullNameEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isFullNameLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -237,10 +231,9 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isFullNameLoading = true;
                                         isFullNameEditing = false;
                                       });
-                                      //await bloc.updateFullName(widget._athlete.id, _nameController.text);
-                                      setState(() {
-                                        isFullNameLoading = false;
-                                      });
+                                      await bloc.updateFullName(widget._athlete.id, _nameController.text);
+                                      context.showSuccessSnackBar(message: 'Name updated successful!');
+                                      setState(() => isFullNameLoading = false);
                                     },
                                     icon: Container(
                                         height: 30,
@@ -269,6 +262,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isTaxIdEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isTaxIdLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -278,7 +272,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isTaxIdLoading = true;
                                         isTaxIdEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updateTaxId(widget._athlete.id, _taxIdController.text);
+                                      context.showSuccessSnackBar(message: 'Tax ID updated successful!');
                                       setState(() {
                                         isTaxIdLoading = false;
                                       });
@@ -310,6 +305,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isBirthdateEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                     isBirthdateLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -319,7 +315,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                             isBirthdateLoading = true;
                                             isBirthdateEditing = false;
                                           });
-                                          await Future.delayed(const Duration(seconds: 1));
+                                          await bloc.updateBirthdate(widget._athlete.id, _birthController.text);
+                                          context.showSuccessSnackBar(message: 'Birthday updated successful!');
                                           setState(() {
                                             isBirthdateLoading = false;
                                           });
@@ -351,6 +348,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isAddressEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isAddressLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -360,7 +358,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isAddressLoading = true;
                                         isAddressEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updateAddress(widget._athlete.id, _addressController.text);
+                                      context.showSuccessSnackBar(message: 'Address updated successful!');
                                       setState(() {
                                         isAddressLoading = false;
                                       });
@@ -378,8 +377,10 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               ),
                             ),
                             spacer16,
-                            const Text('Contacts', style: TextStyle(
-                              fontSize: 24,
+                            spacer16,
+                            Text('Contacts', style: GoogleFonts.bebasNeue(
+                                fontSize: 40,
+                                height: 1
                             ),),
                             spacer16,
                             const Padding(
@@ -396,6 +397,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isEmailEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isEmailLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -405,7 +407,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isEmailLoading = true;
                                         isEmailEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updateEmail(widget._athlete.id, _emailController.text);
+                                      context.showSuccessSnackBar(message: 'Email updated successful!');
                                       setState(() {
                                         isEmailLoading = false;
                                       });
@@ -437,6 +440,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isPhoneEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isPhoneLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -446,7 +450,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isPhoneLoading = true;
                                         isPhoneEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updatePhone(widget._athlete.id, _phoneController.text);
+                                      context.showSuccessSnackBar(message: 'Phone updated successful!');
                                       setState(() {
                                         isPhoneLoading = false;
                                       });
@@ -464,9 +469,12 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               ),
                             ),
                             spacer16,
-                            const Text('Legal Represents', style: TextStyle(
-                              fontSize: 24,
+                            spacer16,
+                            Text('Legal Represent', style: GoogleFonts.bebasNeue(
+                                fontSize: 40,
+                                height: 1
                             ),),
+                            //TODO: hide when empty
                             spacer16,
                             const Padding(
                               padding: EdgeInsets.only(bottom: 10),
@@ -482,6 +490,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isParentNameEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isParentNameLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -491,7 +500,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isParentNameLoading = true;
                                         isParentNameEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updateParentName(widget._athlete.id, _parentNameController.text);
+                                      context.showSuccessSnackBar(message: 'Name of the legal rapresent updated successful!');
                                       setState(() {
                                         isParentNameLoading = false;
                                       });
@@ -523,6 +533,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isParentEmailEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isParentEmailLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -532,7 +543,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isParentEmailLoading = true;
                                         isParentEmailEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updateParentEmail(widget._athlete.id, _parentEmailController.text);
+                                      context.showSuccessSnackBar(message: 'Email of the legal rapresent updated successful!');
                                       setState(() {
                                         isParentEmailLoading = false;
                                       });
@@ -564,6 +576,7 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               onChanged: (value) => setState(() {
                                 isParentAddressEditing = true;
                               }),
+                              onTapOutside: (event) => FocusScope.of(context).unfocus(),
                               decoration: InputDecoration(
                                 suffixIcon:
                                 isParentAddressLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
@@ -573,7 +586,8 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                         isParentAddressLoading = true;
                                         isParentAddressEditing = false;
                                       });
-                                      await Future.delayed(const Duration(seconds: 1));
+                                      await bloc.updateParentAddress(widget._athlete.id, _parentAddressController.text);
+                                      context.showSuccessSnackBar(message: 'Address of the legal rapresent updated successful!');
                                       setState(() {
                                         isParentAddressLoading = false;
                                       });
@@ -599,63 +613,253 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            const Text('Medical Visit', style: TextStyle(
-                              fontSize: 24,
+                            Text('Medical Visit', style: GoogleFonts.bebasNeue(
+                              fontSize: 40,
+                              height: 1
                             ),),
                             spacer16,
-                            const Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Text('Expire Date', style: TextStyle(
-                                color: Color(0xff686f75),
-                                fontSize: 16,
-                              ),),
-                            ),
-                            TextField(
-                              controller: _expireController,
-                              keyboardType: TextInputType.datetime,
-                              textAlignVertical: TextAlignVertical.center,
-                              onChanged: (value) => setState(() {
-                                isExpireEditing = true;
-                              }),
-                              decoration: InputDecoration(
-                                suffixIcon:
-                                isExpireLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
-                                isExpireEditing ? IconButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        isExpireLoading = true;
-                                        isExpireEditing = false;
-                                      });
-                                      await Future.delayed(const Duration(seconds: 1));
-                                      setState(() {
-                                        isExpireLoading = false;
-                                      });
-                                    },
-                                    icon: Container(
-                                        height: 30,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(7),
-                                          color: Colors.green.shade50,
+                            if (widget._medical != null) Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  child: Text('Expire Date', style: TextStyle(
+                                    color: Color(0xff686f75),
+                                    fontSize: 16,
+                                  ),),
+                                ),
+                                TextField(
+                                  controller: _expireController,
+                                  keyboardType: TextInputType.datetime,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  onChanged: (value) => setState(() {
+                                    isExpireEditing = true;
+                                  }),
+                                  decoration: InputDecoration(
+                                    suffixIcon:
+                                    isExpireLoading ? Lottie.asset('assets/animations/loading.json', height: 40, width: 40) :
+                                    isExpireEditing ? IconButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            isExpireLoading = true;
+                                            isExpireEditing = false;
+                                          });
+                                          await Future.delayed(const Duration(seconds: 1));
+                                          setState(() {
+                                            isExpireLoading = false;
+                                          });
+                                        },
+                                        icon: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(7),
+                                              color: Colors.green.shade50,
+                                            ),
+                                            child: const Icon(Icons.check, color: Colors.green)
+                                        )
+                                    ) : null,
+                                  ),
+                                ),
+                              ],
+                            ) else Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                spacer32,
+                                SvgPicture.asset('assets/illustrations/medical_research.svg',
+                                  height: 100
+                                ),
+                                spacer32,
+                                const Text('No medical visit added', style: TextStyle(
+                                  fontSize: 20,
+                                ),),
+                                spacer32,
+                                SdengDefaultButton.icon(
+                                  text: 'Medical Visit',
+                                  icon: const Icon(FeatherIcons.plus),
+                                  onPressed: () async {
+                                    final newMedical = await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) => Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text('New Medical Visit', style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 24
+                                            ),),
+                                            spacer32,
+                                            const Padding(
+                                              padding: EdgeInsets.only(bottom: 10),
+                                              child: Text('Optional', style: TextStyle(
+                                                color: Color(0xff686f75),
+                                                fontSize: 16,
+                                              ),),
+                                            ),
+                                            SdengDefaultButton.icon(
+                                                text: 'Upload Document',
+                                                icon: const Icon(FeatherIcons.file),
+                                                onPressed: () {
+                                                  //TODO: Implement
+                                                }),
+                                            spacer16,
+                                            const Padding(
+                                              padding: EdgeInsets.only(bottom: 10),
+                                              child: Text('Expire Date', style: TextStyle(
+                                                color: Color(0xff686f75),
+                                                fontSize: 16,
+                                              ),),
+                                            ),
+                                            TextField(
+                                              controller: _expireController,
+                                              keyboardType: TextInputType.datetime,
+                                              textAlignVertical: TextAlignVertical.center,
+                                            ),
+                                            spacer32,
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: SdengPrimaryButton(
+                                                text: 'Add',
+                                                onPressed: () {
+                                                  //TODO: Implement
+                                                }
+                                              ),
+                                            ),
+                                            spacer32,
+                                          ],
                                         ),
-                                        child: const Icon(Icons.check, color: Colors.green)
-                                    )
-                                ) : null,
-                              ),
+                                      )
+                                    );
+                                    setState(() {
+                                      widget._medical = newMedical;
+                                    });
+                                  })
+                              ],
                             ),
                           ],
                         ),
-                        const Column(
+
+                        /// PAYMENTS
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Payments'),
+                            Text('TRANSACTIONS', style: GoogleFonts.bebasNeue(
+                                fontSize: 40,
+                                height: 1
+                            ),),
+                            spacer16,
+                            SdengDefaultButton.icon(
+                                text: 'Payment',
+                                icon: const Icon(FeatherIcons.plus),
+                                onPressed: () {
+                                  //TODO: Implement
+                                }),
+                            ListView.separated(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              reverse: true,
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: 2,
+                              itemBuilder: (context, index) {
+                                //TODO: Implement
+                                return ListTile(
+                                  shape: const RoundedRectangleBorder(
+                                      side: BorderSide.none
+                                  ),
+                                  leading: const Icon(FeatherIcons.arrowDown, color: greenColor,),
+                                  title: const Text('Causale'),
+                                  titleTextStyle: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black87,
+                                  ),
+                                  subtitle: const Text('12/2/2023'),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text('€ 300', style: TextStyle(
+                                        fontSize: 20
+                                      ),),
+                                      spacer16,
+                                      PopupMenuButton(
+                                          padding: EdgeInsets.zero,
+                                          shape: OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Color(0xffcccccc), width: 0.5),
+                                            borderRadius: BorderRadius.circular(7),
+                                          ),
+                                          elevation: 0.5,
+                                          shadowColor: Colors.grey.shade200,
+                                          offset: Offset.fromDirection(20, 30),
+                                          surfaceTintColor: Colors.transparent,
+                                          itemBuilder: (context) => [
+                                            const PopupMenuItem(
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(width: 4,),
+                                                    Icon(FeatherIcons.edit, color: Colors.black, size: 20,),
+                                                    SizedBox(width: 12,),
+                                                    Text('Edit'),
+                                                  ],
+                                                )
+                                            ),
+                                            PopupMenuItem(
+                                                onTap: () {},
+                                                child: const Row(
+                                                  children: [
+                                                    SizedBox(width: 4,),
+                                                    Icon(FeatherIcons.trash, color: Colors.red, size: 20,),
+                                                    SizedBox(width: 12,),
+                                                    Text('Delete'),
+                                                  ],
+                                                )
+                                            )
+                                          ]
+                                      ),
+                                    ],
+                                  ),
+                                  contentPadding: const EdgeInsets.only(left: 5, right: 5),
+                                  onTap: () {
+
+                                  },
+                                );
+                              },
+                              separatorBuilder: (BuildContext context, int index) {
+                                return const Divider(
+                                  height: 10,
+                                );
+                              },
+                            ),
                           ],
                         ),
 
                         /// DOCS
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            Row(
+                              children: [
+                                SdengDefaultButton.icon(
+                                    text: 'Upload',
+                                    icon: const Icon(FeatherIcons.plus),
+                                    onPressed: () {
+                                      //TODO: Implement
+                                    }),
+                                spacer16,
+                                SdengDefaultButton.icon(
+                                    text: 'Generate',
+                                    icon: const Icon(FeatherIcons.plus),
+                                    onPressed: () {
+                                      //TODO: Implement
+                                    }),
+                              ],
+                            ),
+                            spacer16,
                             ListView.separated(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               reverse: true,
@@ -664,11 +868,13 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                               itemCount: 2,
                               itemBuilder: (context, index) {
                                 return ListTile(
+                                  shape: const RoundedRectangleBorder(
+                                    side: BorderSide.none
+                                  ),
                                   title: const Text('Visita Medico Sportiva'),
                                   titleTextStyle: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black87,
-                                    fontFamily: 'ProductSans'
                                   ),
                                   leading: Container(
                                       decoration: BoxDecoration(
@@ -693,29 +899,25 @@ class _AthleteDetailScreenState extends State<AthleteDetailScreen> with TickerPr
                                       offset: Offset.fromDirection(20, 30),
                                       surfaceTintColor: Colors.transparent,
                                       itemBuilder: (context) => [
-                                        PopupMenuItem(
+                                        const PopupMenuItem(
                                             child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                const SizedBox(width: 4,),
-                                                SvgPicture.asset('assets/icons/edit.svg', height: 20,),
-                                                const SizedBox(width: 12,),
-                                                const Text('Rename', style: TextStyle(
-                                                    fontFamily: 'ProductSans'
-                                                ),),
+                                                SizedBox(width: 4,),
+                                                Icon(FeatherIcons.edit, color: Colors.black, size: 20,),
+                                                SizedBox(width: 12,),
+                                                Text('Rename'),
                                               ],
                                             )
                                         ),
                                         PopupMenuItem(
                                             onTap: () {},
-                                            child: Row(
+                                            child: const Row(
                                               children: [
-                                                const SizedBox(width: 4,),
-                                                SvgPicture.asset('assets/icons/trash.svg', color: Colors.red, height: 20,),
-                                                const SizedBox(width: 12,),
-                                                const Text('Delete', style: TextStyle(
-                                                  fontFamily: 'ProductSans'
-                                                ),),
+                                                SizedBox(width: 4,),
+                                                Icon(FeatherIcons.trash, color: Colors.red, size: 20,),
+                                                SizedBox(width: 12,),
+                                                Text('Delete'),
                                               ],
                                             )
                                         )

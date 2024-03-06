@@ -6,7 +6,6 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sdeng/repositories/repository.dart';
-import 'package:sdeng/ui/pages/tab_page.dart';
 import 'package:sdeng/ui/components/button.dart';
 import 'package:sdeng/ui/pages/register_page.dart';
 import 'package:sdeng/utils/constants.dart';

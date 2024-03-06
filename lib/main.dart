@@ -24,7 +24,6 @@ Future<void> main() async {
       retryAttempts: 10,
     ),
   );
-
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);

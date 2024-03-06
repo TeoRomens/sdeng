@@ -4,8 +4,11 @@ import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Simple preloader inside a Center widget
-final preloader = Center(
-  child: SizedBox(
+final preloader = Container(
+  color: primaryColor,
+  width: double.infinity,
+  height: double.infinity,
+  child: Center(
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -15,6 +18,16 @@ final preloader = Center(
         ),
       ],
     ),
+  ),
+);
+
+final loader = Center(
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      SvgPicture.asset('assets/logos/SDENG_logo.svg', height: 40, color: primaryColor,),
+      Lottie.asset('assets/animations/loading.json', height: 100),
+    ],
   ),
 );
 
@@ -47,6 +60,10 @@ final shimmerLoader = Shimmer.fromColors(
 /// Simple sized box to space out form elements
 const spacer16 = SizedBox(width: 16, height: 16);
 
+const spacer32 = SizedBox(width: 32, height: 32);
+
+const spacer64 = SizedBox(width: 64, height: 64);
+
 /// Some padding for all the forms to use
 const formPadding = EdgeInsets.symmetric(vertical: 20, horizontal: 16);
 
@@ -61,7 +78,7 @@ extension ShowSnackBar on BuildContext {
   }) {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: Text(message, style: const TextStyle(color: Colors.black),),
+        content: Text(message, style: const TextStyle(color: Colors.black, fontSize: 16),),
         backgroundColor: Colors.white,
       )
     );
@@ -71,7 +88,9 @@ extension ShowSnackBar on BuildContext {
   void showErrorSnackBar({required String message}) {
     ScaffoldMessenger.of(this).showSnackBar(
         SnackBar(
-          content: Text(message),
+          content: Text(message, style: const TextStyle(
+              fontSize: 16
+          ),),
           backgroundColor: Colors.red,
         )
     );
@@ -81,7 +100,9 @@ extension ShowSnackBar on BuildContext {
   void showSuccessSnackBar({required String message}) {
     ScaffoldMessenger.of(this).showSnackBar(
         SnackBar(
-          content: Text(message),
+          content: Text(message, style: const TextStyle(
+            fontSize: 16
+          ),),
           backgroundColor: Colors.green,
         )
     );
@@ -102,7 +123,7 @@ const Color primaryLightColor2 = Color(0xffB8B8FF);
 
 const Color shadowColor = Color(0xFFe5e8eb);
 const Color greenColor = Color(0xFF44CF6C);
-const Color backgroundColor = Color(0xF8F9FAFF);
+const Color backgroundColor = Color(0xFFF9F9F9);
 
 const Color black1 = Color(0xFF1e1e1e);
 const Color black2 = Color(0xff323232);

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sdeng/model/athlete.dart';
 import 'package:sdeng/model/medical.dart';
 import 'package:sdeng/model/note.dart';
+import 'package:sdeng/model/parent.dart';
 import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/model/profile.dart';
 import 'package:sdeng/model/team.dart';
@@ -35,6 +36,9 @@ class Repository {
 
   // Local Cache
   final Map<String, Athlete> _mapAthletes = {};
+
+  // Local Cache
+  final Map<String, Parent> _mapParents = {};
 
   // Local Cache
   final Map<String, Team> _mapTeam = {};
@@ -151,6 +155,10 @@ class Repository {
       idToken: idToken,
       accessToken: accessToken,
     );
+  }
+
+  Future<void> logout() async {
+    await _supabase.auth.signOut();
   }
 
   /// Get the logged in user's profile.
@@ -341,7 +349,7 @@ class Repository {
     return _mapMedical;
   }
 
-  Future<Medical> loadMedVisitFromAthleteId(String id) async {
+  Future<Medical?> loadMedVisitFromAthleteId(String id) async {
     if(_mapMedical[id] != null) {
       return _mapMedical[id]!;
     }
@@ -349,15 +357,16 @@ class Repository {
         .from('medical')
         .select()
         .eq('athlete_id', id)
-        .single()
+        .limit(1)
         .onError((error, stackTrace) =>
             throw PlatformException(
                 code: 'loadMedical',
                 message: error.toString(),
                 stacktrace: stackTrace.toString()
         ));
+    if(res.isEmpty) return null;
 
-    final medVisit = Medical.fromMap(res);
+    final medVisit = Medical.fromMap(res.first);
     _mapMedical[medVisit.athleteId] = medVisit;
     return medVisit;
   }
@@ -437,7 +446,6 @@ class Repository {
         ));
 
     final paymentList = Payment.fromList(res);
-    //_listPayments.addAll(paymentList);
     return paymentList;
   }
 
@@ -616,4 +624,162 @@ class Repository {
     return null;
   }
 
+  Future<void> updateFullName(String id, String newValue) async {
+    await _supabase
+        .from('athletes')
+        .update({'full_name': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_athlete_name',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+        );}
+    );
+  }
+
+  Future<void> updateTaxId(String id, String newValue) async {
+    await _supabase
+        .from('athletes')
+        .update({'tax_code': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_athlete_tax_id',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateBirthdate(String id, DateTime newValue) async {
+    await _supabase
+        .from('athletes')
+        .update({'birth_date': newValue.toIso8601String()})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_athlete_birth',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateEmail(String id, String newValue) async {
+    await _supabase
+        .from('athletes')
+        .update({'email': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_athlete_email',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updatePhone(String id, String newValue) async {
+    await _supabase
+        .from('athletes')
+        .update({'phone': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_athlete_phone',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateAddress(String id, String newValue) async {
+    await _supabase
+        .from('athletes')
+        .update({'full_address': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_athlete_address',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateParentName(String id, String newValue) async {
+    await _supabase
+        .from('parents')
+        .update({'full_name': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_parent_name',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateParentEmail(String id, String newValue) async {
+    await _supabase
+        .from('parents')
+        .update({'email': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_parent_email',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateParentAddress(String id, String newValue) async {
+    await _supabase
+        .from('parents')
+        .update({'full_address': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_parent_address',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<void> updateParentPhone(String id, String newValue) async {
+    await _supabase
+        .from('parents')
+        .update({'phone': newValue})
+        .eq('id', id)
+        .onError((error, stackTrace) {
+      throw PlatformException(
+          code: 'update_parent_phone',
+          message: error.toString(),
+          stacktrace: stackTrace.toString()
+      );}
+    );
+  }
+
+  Future<Parent?> loadParentFromAthleteId(String id) async {
+    if (_mapParents[id] != null) {
+      return _mapParents[id]!;
+    }
+    final res = await _supabase
+        .from('parents')
+        .select()
+        .eq('athlete_id', id)
+        .limit(1);
+
+    if (res.isEmpty) {
+      return null;
+    }
+
+    final parent = Parent.fromMap(res[0]);
+    _mapParents[parent.athleteId] = parent;
+    return parent;
+  }
 }

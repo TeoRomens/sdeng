@@ -57,7 +57,7 @@ class Formatter {
           controller.text = input.substring(0, lastIndex - 1);
         }
     }
-    // move to the end of text field
+    // Move to the end of text field
     controller.selection = TextSelection.fromPosition(
       TextPosition(offset: controller.text.length),
     );
@@ -107,8 +107,10 @@ class Formatter {
     }
   }
 
-  static String readableDate(DateTime? date) {
-    if(date != null) return '${date.day}/${date.month}/${date.year}';
-    return '';
+  static String dateToString(DateTime date) {
+    final day = date.day < 10 ? '0${date.day}' : date.day;
+    final month = date.month < 10 ? '0${date.month}' : date.month;
+    return '${date.year}-$month-$day';
   }
+
 }

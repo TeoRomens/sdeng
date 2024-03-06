@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sdeng/cubits/athletes_cubit.dart';
@@ -116,8 +117,8 @@ class AddAthleteFormState extends State<AddAthleteForm>{
                 onSelected: (value) => setState(() {
                   selectedTeam = value;
                 }),
-                trailingIcon: SvgPicture.asset('assets/icons/chevron-right.svg'),
-                selectedTrailingIcon: SvgPicture.asset('assets/icons/chevron-down.svg'),
+                trailingIcon: const Icon(FeatherIcons.chevronRight),
+                selectedTrailingIcon: const Icon(FeatherIcons.chevronDown),
                 dropdownMenuEntries: widget._teams.map((team) =>
                     DropdownMenuEntry(value: team, label: team.name)
                 ).toList(),

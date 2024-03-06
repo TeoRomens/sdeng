@@ -80,8 +80,8 @@ flutter:
     - .env
     - assets/animations/
     - assets/logos/
-    - assets/icons/
     - assets/png/
+    - assets/illustrations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -109,12 +109,16 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   fonts:
-    - family: Jakarta
+    - family: Geist
       fonts:
-        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
-        - asset: assets/fonts/PlusJakartaSans-Medium.ttf
-        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
-        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
+        - asset: assets/fonts/Geist-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Geist-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Geist-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Geist-Bold.otf
+          weight: 700
     - family: ProductSans
       fonts:
         - asset: assets/fonts/ProductSansBold.ttf

@@ -6,6 +6,7 @@ import 'package:sdeng/ui/pages/tabs/athletes_tab.dart';
 import 'package:sdeng/ui/pages/tabs/medical_tab.dart';
 import 'package:sdeng/ui/pages/tabs/payments_tab.dart';
 import 'package:sdeng/ui/pages/tabs/settings_page.dart';
+import 'package:sdeng/utils/constants.dart';
 
 /// Page that holds tab navigation at the bottom.
 /// This is the first page presented to the user.
@@ -50,17 +51,18 @@ class TabPageState extends State<TabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: SvgPicture.asset('assets/logos/SDENG_logo.svg', height: 25),
       ),
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(horizontal: 16),
+        minimum: const EdgeInsets.symmetric(horizontal: 14),
         child: IndexedStack(
           index: _currentIndex,
           children: [
             AthletesTab.create(),
-            MedicalPage.create(),
+            MedicalTab.create(),
             PaymentsTab.create(),
             SettingsPage(),
           ],

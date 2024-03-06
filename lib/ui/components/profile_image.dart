@@ -31,7 +31,7 @@ class ProfileImage extends StatelessWidget {
                   fit: BoxFit.cover,
                 )
               : Image.network(
-                  _imageUrl!,
+                  _imageUrl,
                   fit: BoxFit.cover,
                 ),
         ),

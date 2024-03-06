@@ -4,6 +4,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/model/athlete.dart';
+import 'package:sdeng/model/medical.dart';
+import 'package:sdeng/model/parent.dart';
+import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/repositories/repository.dart';
 
 part 'athletes_state.dart';
@@ -15,25 +18,22 @@ class AthletesCubit extends Cubit<AthletesState> {
 
   final Repository _repository;
 
-  StreamSubscription<List<Athlete>>? _mapAthletesSubscription;
   /// Map of app athletes cache in memory with id as the key
   Map<String, Athlete> _athletes = {};
 
-  @override
-  Future<void> close() {
-    _mapAthletesSubscription?.cancel();
-    return super.close();
-  }
-
-  Future<void> loadAthleteFromId(String id) async {
-    if (_athletes[id] != null) {
-      return;
-    }
+  Future<void> loadAthleteDetailsFromId(String id) async {
     try {
       emit(AthletesLoading());
       final athlete = await _repository.loadAthleteFromId(id);
-      _athletes[athlete.id] = athlete;
-      emit(AthletesLoaded(athletes: _athletes));
+      final medical = await _repository.loadMedVisitFromAthleteId(id);
+      final payments = await _repository.loadPaymentsFromAthleteId(id);
+      final parent = await _repository.loadParentFromAthleteId(id);
+      emit(AthleteDetailLoaded(
+          athlete: athlete,
+          medical: medical,
+          payments: payments,
+          parent: parent
+      ));
     } catch (e) {
       emit(AthletesError(error: 'Error loading athlete. Please refresh.'));
       log(e.toString());
@@ -85,5 +85,41 @@ class AthletesCubit extends Cubit<AthletesState> {
       emit(AthletesError(error: 'Error updating label "Full Name"'));
       log(e.toString());
     }
+  }
+
+  Future<void> updateFullName(String id, String newValue) async {
+    await _repository.updateFullName(id, newValue);
+  }
+
+  Future<void> updateTaxId(String id, String newValue) async {
+    await _repository.updateTaxId(id, newValue);
+  }
+
+  Future<void> updateBirthdate(String id, String newValue) async {
+    await _repository.updateBirthdate(id, DateTime.parse(newValue));
+  }
+
+  Future<void> updateAddress(String id, String newValue) async {
+    await _repository.updateAddress(id, newValue);
+  }
+
+  Future<void> updateEmail(String id, String newValue) async {
+    await _repository.updateEmail(id, newValue);
+  }
+
+  Future<void> updatePhone(String id, String newValue) async {
+    await _repository.updatePhone(id, newValue);
+  }
+
+  Future<void> updateParentName(String id, String newValue) async {
+    await _repository.updateParentName(id, newValue);
+  }
+
+  Future<void> updateParentEmail(String id, String newValue) async {
+    await _repository.updateParentEmail(id, newValue);
+  }
+
+  Future<void> updateParentAddress(String id, String newValue) async {
+    await _repository.updateParentAddress(id, newValue);
   }
 }

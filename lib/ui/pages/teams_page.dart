@@ -39,7 +39,6 @@ class TeamsPage extends StatelessWidget {
                   const Text('New Team', style: TextStyle(
                       inherit: false,
                       fontSize: 26,
-                      fontFamily: 'ProductSans',
                       color: Colors.black
                   ),),
                   spacer16,

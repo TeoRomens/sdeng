@@ -1,122 +1,159 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sdeng/cubits/payments_cubit.dart';
 import 'package:sdeng/model/payment.dart';
 import 'package:sdeng/repositories/repository.dart';
-import 'package:sdeng/ui/components/button.dart';
 import 'package:sdeng/utils/constants.dart';
-import 'package:sdeng/utils/formatter.dart';
 
 class PaymentsTab extends StatelessWidget {
   const PaymentsTab({Key? key}) : super(key: key);
 
+  /// Method ot create this page with necessary `BlocProvider`
   static Widget create() {
     return BlocProvider<PaymentsCubit>(
-      create: (context) => PaymentsCubit(
+      create: (context) =>
+      PaymentsCubit(
         repository: RepositoryProvider.of<Repository>(context),
-      )..loadPayments(),
+      )
+        ..loadPayments(),
       child: const PaymentsTab(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: SvgPicture.asset('assets/logos/SDENG_logo.svg', height: 25),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer16,
-              SdengPrimaryButton(
-                  text: 'New Payment',
-                  onPressed: () {
-                    // TODO: Implement new payment process
-                  }
-              ),
-              spacer16,
-              const Text('Payments', style: TextStyle(
-                  fontSize: 26
-              ),),
-              spacer16,
-              BlocConsumer<PaymentsCubit, PaymentsState>(
-                listener: (context, state) {
-                  if (state is PaymentsError) {
-                    context.showErrorSnackBar(message: state.error);
-                  }
-                },
-                builder: (context, state) {
-                  if (state is PaymentsInitial) {
-                    return preloader;
-                  }
-                  else if (state is PaymentsLoaded) {
-                    final payments = state.payments;
-                    return Column(
-                      children: [
-                        ListView.separated(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          reverse: true,
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: payments.length,
-                          itemBuilder: (context, index) {
-                            final payment = payments.elementAt(index);
-                            return ListTile(
-                              title: Text(payment.cause),
-                              subtitle: Text(Formatter.readableDate(payment.createdAt)),
-                              leading: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: const BorderRadius.all(Radius.circular(4))
-                                ),
-                                width: 35,
-                                height: 35,
-                                child: Icon(Icons.monetization_on_outlined, color: Colors.grey.shade700,)
-                              ),
-                              trailing: Text('€ ${payment.amount.toStringAsFixed(2)}'),
-                              leadingAndTrailingTextStyle: TextStyle(
-                                color: payment.type == PaymentType.income ? Colors.green : Colors.red.shade600,
-                                fontFamily: 'ProductSans',
-                                fontSize: 20
-                              ),
-                              contentPadding: const EdgeInsets.only(left: 5, right: 5),
-                              onTap: () {
+    return BlocBuilder<PaymentsCubit, PaymentsState>(
+      builder: (context, state) {
+        if (state is PaymentsLoading) {
+          return preloader;
+        } else if (state is PaymentsLoaded) {
+          return PaymentList(
+            payments: state.payments,
+          );
+        } else if (state is PaymentsError) {
+          return const Center(child: Text('Something went wrong'));
+        }
+        throw UnimplementedError();
+      },
+    );
+  }
+}
 
-                              },
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                              height: 0,
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  } else if (state is PaymentsEmpty) {
-                    return const Column(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text('Start adding your first payment!'),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                  else if (state is PaymentsLoading) {
-                    return preloader;
-                  }
-                  throw UnimplementedError();
-                },
-              ),
-            ],
+/// Main view of Payments.
+@visibleForTesting
+class PaymentList extends StatefulWidget {
+  /// Main view of Payments.
+  PaymentList({
+    Key? key,
+    List<Payment>? payments,
+  })  : _payments = payments ?? [],
+        super(key: key);
+
+  final List<Payment> _payments;
+
+  @override
+  PaymentPageState createState() => PaymentPageState();
+}
+
+@visibleForTesting
+class PaymentPageState extends State<PaymentList> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<PaymentsCubit>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        spacer16,
+        Text(
+          'PAYMENTS',
+          style: GoogleFonts.bebasNeue(
+              fontSize: 60,
+              color: black2,
+              height: 0.85
+          )
+        ),
+        spacer16,
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Chip(
+                      label: const Text('Cashed'),
+                      labelStyle: const TextStyle(color: greenColor),
+                      labelPadding: EdgeInsets.zero,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      side: const BorderSide(color: greenColor, width: 0.5),
+
+                    ),
+                    const Text('Saldo', style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold
+                    ),)
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Total', style: TextStyle(
+                      fontSize: 16,
+                      color: black2
+                    ),),
+                    const SizedBox(height: 12),
+                    Text('€ ${bloc.getTotal().toInt().toString()}', style: const TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold
+                    ),)
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
+        spacer16,
+        ListTile(
+          leading: const Icon(FeatherIcons.file, color: black2,),
+          title: const Text('Receipts',),
+          trailing: const Icon(FeatherIcons.chevronRight),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: Color(0xffcccccc), width: 0.8),
+          ),
+        ),
+        spacer16,
+        ListTile(
+          tileColor: Colors.white,
+          leading: const Icon(FeatherIcons.file, color: black2,),
+          title: const Text('Transactions',),
+          trailing: const Icon(FeatherIcons.chevronRight),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: Color(0xffcccccc), width: 0.8),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -276,7 +313,6 @@ return ConstrainedBox(
           const Text('New Payment', style: TextStyle(
               inherit: false,
               fontSize: 26,
-              fontFamily: 'ProductSans',
               color: Colors.black
           ),),
           spacer16,
