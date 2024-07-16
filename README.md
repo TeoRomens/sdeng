@@ -1,6 +1,6 @@
 # sdeng
 
-Your new sport management app!
+A new Flutter project.
 
 ## Getting Started
 
