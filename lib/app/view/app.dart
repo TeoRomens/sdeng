@@ -1,6 +1,5 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:athletes_repository/athletes_repository.dart';
-import 'package:authentication_client/authentication_client.dart';
 import 'package:documents_repository/documents_repository.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
