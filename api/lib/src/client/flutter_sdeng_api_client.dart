@@ -49,7 +49,7 @@ class FlutterSdengApiClient {
     return SdengUser.fromMap(res);
   }
 
-  Future<void> updateUserData({
+  Future<SdengUser> updateUserData({
     required String userId,
     required String fullName,
     required String societyName,
@@ -59,7 +59,7 @@ class FlutterSdengApiClient {
     required String societyPiva,
   }) async {
     try {
-      await _supabase
+      final user = await _supabase
           .from('users')
           .update({
             'full_name': fullName,
@@ -69,7 +69,10 @@ class FlutterSdengApiClient {
             'society_address': societyAddress,
             'society_piva': societyPiva,
           })
-          .eq('id', userId);
+          .eq('id', userId)
+          .single();
+
+      return SdengUser.fromMap(user);
 
     } catch (err) {
       throw FlutterSdengApiRequestFailure(message: err.toString());

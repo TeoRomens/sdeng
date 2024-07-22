@@ -95,6 +95,7 @@ class DocumentsRepository {
 
   Future<File> generateRichiestaVisitaMedica({
     required Athlete athlete,
+    required SdengUser user,
   }) async {
     final boldStyle = pw.TextStyle(fontWeight: pw.FontWeight.bold);
     const svgCheckBox = '''
@@ -133,9 +134,9 @@ class DocumentsRepository {
                     textAlign: pw.TextAlign.right,
                   ),
                 ),
-                pw.Text('La società: ',),
-                pw.Text('con sede in: ',),
-                pw.Text('affiliata alla Federazione Sportiva Nazionale con matricola n. ',),
+                pw.Text('La società: ${user.societyName}',),
+                pw.Text('con sede in: ${user.societyAddress}',),
+                pw.Text('affiliata alla Federazione Sportiva Nazionale con matricola n. ${user.societyPiva}',),
                 pw.SizedBox(height: 12),
                 pw.Center(
                   child: pw.Text('chiede che il proprio atleta',
@@ -145,7 +146,6 @@ class DocumentsRepository {
                 ),
                 pw.SizedBox(height: 12),
                 pw.Text('Nome e Cognome: ${athlete.fullName}',),
-                pw.Text('Nato a: ',),
                 pw.Text('Abitante a: ${athlete.fullAddress}',),
                 pw.Text('Cod Fiscale: ${athlete.taxCode}',),
                 pw.SizedBox(height: 12),

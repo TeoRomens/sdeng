@@ -59,6 +59,7 @@ class AppBloc extends Cubit<AppState> {
   }
 
   void onLogoutRequested() {
+    _userRepository.sdengUser = null;
     unawaited(_userRepository.logOut());
     emit(const AppState.unauthenticated());
   }

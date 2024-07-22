@@ -13,7 +13,7 @@ class TextBox extends StatelessWidget {
   /// The title text
   final String title;
   /// The content text
-  final String content;
+  final String? content;
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +34,16 @@ class TextBox extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 2),
-          Text(
-            content,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Inter',
-              color: Color(0xFF475467),
-              height: 1.3,
+          if(content != null)
+            Text(content!,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Inter',
+                color: Color(0xFF475467),
+                height: 1.3,
+              ),
             ),
-          ),
         ],
       ),
     );

@@ -10,12 +10,14 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit({
     required UserRepository userRepository,
     required String userId,
+    this.sdengUser,
   })  : _userRepository = userRepository,
         super(ProfileState(userId: userId));
 
+  final SdengUser? sdengUser;
   final UserRepository _userRepository;
 
-  Future<void> updateProfile({
+  Future<SdengUser?> updateProfile({
     required String fullName,
     required String societyName,
     required String societyEmail,
@@ -39,6 +41,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       addError(error, stackTrace);
     }
+    return _userRepository.sdengUser;
   }
 
 }

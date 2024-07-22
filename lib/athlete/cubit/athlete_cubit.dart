@@ -7,11 +7,11 @@ import 'package:documents_repository/documents_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sdeng_api/client.dart';
 import 'package:medicals_repository/medicals_repository.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:payments_repository/payments_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'athlete_state.dart';
 
@@ -21,18 +21,21 @@ class AthleteCubit extends Cubit<AthleteState> {
     required MedicalsRepository medicalsRepository,
     required PaymentsRepository paymentsRepository,
     required DocumentsRepository documentsRepository,
+    required UserRepository userRepository,
     required String athleteId,
     Athlete? athlete,
   }) : _athletesRepository = athletesRepository,
        _medicalsRepository = medicalsRepository,
        _paymentsRepository = paymentsRepository,
        _documentsRepository = documentsRepository,
+       _userRepository = userRepository,
        super(AthleteState.initial(athleteId: athleteId, athlete: athlete));
 
   final AthletesRepository _athletesRepository;
   final MedicalsRepository _medicalsRepository;
   final DocumentsRepository _documentsRepository;
   final PaymentsRepository _paymentsRepository;
+  final UserRepository _userRepository;
 
   Future<void> initLoading() async {
     emit(state.copyWith(status: AthleteStatus.loading));
@@ -158,6 +161,7 @@ class AthleteCubit extends Cubit<AthleteState> {
       if(state.athlete != null){
         final pdf = await _documentsRepository.generateRichiestaVisitaMedica(
           athlete: state.athlete!,
+          user: _userRepository.sdengUser!
         );
         await OpenFile.open(pdf.path);
       }

@@ -7,6 +7,7 @@ import 'package:medicals_repository/medicals_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/athlete/widgets/add_medical_form.dart';
+import 'package:user_repository/user_repository.dart';
 
 class AddMedicalModal extends StatelessWidget {
   const AddMedicalModal({
@@ -31,6 +32,7 @@ class AddMedicalModal extends StatelessWidget {
         medicalsRepository: context.read<MedicalsRepository>(),
         paymentsRepository: context.read<PaymentsRepository>(),
         documentsRepository: context.read<DocumentsRepository>(),
+        userRepository: context.read<UserRepository>(),
         athleteId: athlete.id,
         athlete: athlete,
       ),

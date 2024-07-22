@@ -7,6 +7,7 @@ import 'package:medicals_repository/medicals_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/athlete/view/athlete_view.dart';
+import 'package:user_repository/user_repository.dart';
 
 class AthletePage extends StatelessWidget {
   const AthletePage({super.key,
@@ -39,6 +40,7 @@ class AthletePage extends StatelessWidget {
         medicalsRepository: context.read<MedicalsRepository>(),
         paymentsRepository: context.read<PaymentsRepository>(),
         documentsRepository: context.read<DocumentsRepository>(),
+        userRepository: context.read<UserRepository>(),
       )..initLoading(),
       child: const AthleteView(),
     );

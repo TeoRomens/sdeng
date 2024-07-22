@@ -3,6 +3,7 @@ part of 'profile_cubit.dart';
 class ProfileState extends Equatable {
   const ProfileState({
     required this.userId,
+    this.user,
     this.fullName = const NonEmpty.pure(),
     this.societyName = const NonEmpty.pure(),
     this.societyEmail = const EmptyEmail.pure(),
@@ -12,6 +13,8 @@ class ProfileState extends Equatable {
     this.status = FormzSubmissionStatus.initial,
     this.error = '',
   });
+
+  final SdengUser? user;
 
   final String userId;
   final NonEmpty fullName;

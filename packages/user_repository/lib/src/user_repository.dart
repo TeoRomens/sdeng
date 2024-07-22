@@ -39,12 +39,21 @@ class UserRepository {
   /// the authentication state changes.
   Stream<User?> get user => _authenticationClient.user;
 
-  /// Fetch additional user data from the `users` table.
-  Future<SdengUser> getUserData(String userId) async {
-    return _apiClient.getUserData(userId: userId);
+  SdengUser? _sdengUser;
+
+  SdengUser? get sdengUser => _sdengUser;
+
+  set sdengUser(SdengUser? value) {
+    _sdengUser = value;
   }
 
-  Future<void> updateUserData({
+  /// Fetch additional user data from the `users` table.
+  Future<SdengUser> getUserData(String userId) async {
+    sdengUser = await _apiClient.getUserData(userId: userId);
+    return sdengUser!;
+  }
+
+  Future<SdengUser> updateUserData({
     required String userId,
     required String fullName,
     required String societyName,
@@ -54,7 +63,7 @@ class UserRepository {
     required String societyPiva,
   }) async {
     try {
-      await _apiClient.updateUserData(
+      sdengUser = await _apiClient.updateUserData(
         userId: userId,
         fullName: fullName,
         societyName: societyName,
@@ -63,6 +72,7 @@ class UserRepository {
         societyAddress: societyAddress,
         societyPiva: societyPiva,
       );
+      return sdengUser!;
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(UpdateUserDataFailure(error), stackTrace);
     }

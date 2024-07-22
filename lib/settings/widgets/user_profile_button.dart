@@ -2,7 +2,7 @@ import 'package:app_ui/app_ui.dart' show AppSpacing;
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../view/user_profile_page.dart';
+import '../view/settings_page.dart';
 
 /// A user profile button which displays an [OpenProfileButton]
 /// for the authenticated user.
@@ -28,7 +28,7 @@ class OpenProfileButton extends StatelessWidget {
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
-      onPressed: () => Navigator.of(context).push(UserProfilePage.route()),
+      onPressed: () => Navigator.of(context).push(SettingsPage.route()),
       tooltip: 'Open profile',
     );
   }

@@ -1,14 +1,11 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:sdeng/medical/view/view.dart';
 import 'package:sdeng/notes/view/notes_view.dart';
 import 'package:sdeng/payments/payments.dart';
-import 'package:sdeng/teams/teams.dart';
 import 'package:sdeng/teams/view/teams_view_desktop.dart';
-import 'package:sdeng/user_profile/widgets/user_profile_button.dart';
+import 'package:sdeng/settings/widgets/user_profile_button.dart';
 
 class HomeViewDesktop extends StatefulWidget {
   const HomeViewDesktop({super.key});

@@ -1,25 +1,50 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:athletes_repository/athletes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/profile_modal/cubit/profile_cubit.dart';
 
-class ProfileForm extends StatelessWidget {
-  ProfileForm({super.key});
+class ProfileForm extends StatefulWidget {
+  const ProfileForm({super.key, this.sdengUser});
 
-  final _presNameController = TextEditingController();
+  final SdengUser? sdengUser;
 
-  final _societyPivaController = TextEditingController();
+  @override
+  _ProfileFormState createState() => _ProfileFormState();
+}
 
-  final _societyAddressController = TextEditingController();
-
-  final _societyEmailController = TextEditingController();
-
-  final _societyNameController = TextEditingController();
-
-  final _societyPhoneController = TextEditingController();
+class _ProfileFormState extends State<ProfileForm> {
+  late final TextEditingController _presNameController;
+  late final TextEditingController _societyPivaController;
+  late final TextEditingController _societyAddressController;
+  late final TextEditingController _societyEmailController;
+  late final TextEditingController _societyNameController;
+  late final TextEditingController _societyPhoneController;
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _presNameController = TextEditingController(text: widget.sdengUser?.fullName ?? '');
+    _societyPivaController = TextEditingController(text: widget.sdengUser?.societyPiva ?? '');
+    _societyAddressController = TextEditingController(text: widget.sdengUser?.societyAddress ?? '');
+    _societyEmailController = TextEditingController(text: widget.sdengUser?.societyEmail ?? '');
+    _societyNameController = TextEditingController(text: widget.sdengUser?.societyName ?? '');
+    _societyPhoneController = TextEditingController(text: widget.sdengUser?.societyPhone ?? '');
+  }
+
+  @override
+  void dispose() {
+    _presNameController.dispose();
+    _societyPivaController.dispose();
+    _societyAddressController.dispose();
+    _societyEmailController.dispose();
+    _societyNameController.dispose();
+    _societyPhoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,28 +98,28 @@ class ProfileForm extends StatelessWidget {
           PrimaryButton(
             onPressed: () async {
               _formKey.currentState?.validate() ?? false
-                ? await bloc.updateProfile(
-                    fullName: _presNameController.text,
-                    societyName: _societyNameController.text,
-                    societyPiva: _societyPivaController.text,
-                    societyAddress: _societyAddressController.text,
-                    societyEmail: _societyEmailController.text,
-                    societyPhone: _societyPhoneController.text
+                  ? await bloc.updateProfile(
+                      fullName: _presNameController.text,
+                      societyName: _societyNameController.text,
+                      societyPiva: _societyPivaController.text,
+                      societyAddress: _societyAddressController.text,
+                      societyEmail: _societyEmailController.text,
+                      societyPhone: _societyPhoneController.text
                   ).then((_) => Navigator.of(context).pop())
-                : null;
+                  : null;
             },
             child: bloc.state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(
-                  dimension: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: AppColors.white,
-                    strokeCap: StrokeCap.round,
-                  ),
-                )
-              : Text('Save', style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.white
-              ),),
+              dimension: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                color: AppColors.white,
+                strokeCap: StrokeCap.round,
+              ),
+            )
+                : Text('Save', style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppColors.white
+            ),),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

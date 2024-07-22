@@ -7,9 +7,8 @@ import 'package:sdeng/medical/view/medicals_page.dart';
 import 'package:sdeng/notes/view/notes_page.dart';
 import 'package:sdeng/payments/view/payments_page.dart';
 import 'package:sdeng/profile_modal/view/profile_modal.dart';
-import 'package:sdeng/teams/teams.dart';
 import 'package:sdeng/teams/view/teams_page.dart';
-import 'package:sdeng/user_profile/widgets/user_profile_button.dart';
+import 'package:sdeng/settings/widgets/user_profile_button.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
