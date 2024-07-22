@@ -51,11 +51,6 @@ class EmptyState extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SecondaryButton(
-                text: 'Back',
-                onPressed: () => Navigator.of(context).pop,
-              ),
-              const SizedBox(width: 12),
               PrimaryButton(
                 onPressed: onPressed,
                 text: actionText,

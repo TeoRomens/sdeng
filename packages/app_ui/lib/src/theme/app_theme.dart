@@ -390,14 +390,14 @@ class AppTheme {
     return TabBarTheme(
       labelStyle: UITextStyle.titleMedium,
       unselectedLabelStyle: UITextStyle.titleMedium,
-      labelColor: AppColors.primaryDark,
+      labelColor: AppColors.white,
       labelPadding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md - AppSpacing.xxs,
       ),
       unselectedLabelColor: AppColors.grey,
       indicator: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: AppColors.primary.withOpacity(0.3),
+        color: AppColors.primary,
       ),
       indicatorSize: TabBarIndicatorSize.tab,
     );

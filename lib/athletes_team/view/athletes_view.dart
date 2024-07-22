@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:sdeng/athletes_team/athletes.dart';
 import 'package:sdeng/add_athlete/view/add_athlete_modal.dart';
+import 'package:sdeng/rename_team/view/rename_team_modal.dart';
 
 class AthletesView extends StatelessWidget {
   const AthletesView({
@@ -32,8 +33,11 @@ class AthletesView extends StatelessWidget {
               itemBuilder: (context) => [
                 PopupMenuItem(
                     height: 40,
-                    onTap: () {
-                      //TODO
+                    onTap: () async {
+                      await showAppModal(
+                          context: context,
+                          content: RenameTeamModal(team: bloc.state.team!,)
+                      );
                     },
                     child: const Row(
                       children: [
@@ -45,9 +49,7 @@ class AthletesView extends StatelessWidget {
                 ),
                 PopupMenuItem(
                     height: 40,
-                    onTap: () {
-                      context.read<AthletesCubit>().deleteTeam(bloc.state.team!.id);
-                    },
+                    onTap: () => context.read<AthletesCubit>().deleteTeam(bloc.state.team!.id),
                     child: const Row(
                       children: [
                         Icon(FeatherIcons.trash, color: Colors.red, size: 20,),
@@ -108,9 +110,10 @@ class AthletesScreen extends StatelessWidget {
               : bloc.state.athletes.isEmpty
               ? EmptyState(
                   actionText: 'New athlete',
-                  onPressed: () {
-
-                  },
+                  onPressed: () async => await showAppModal(
+                    context: context,
+                    content: AddAthleteModal(teamId: bloc.state.team!.id,),
+                  ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id))
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

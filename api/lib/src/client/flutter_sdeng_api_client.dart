@@ -193,6 +193,26 @@ class FlutterSdengApiClient {
     }
   }
 
+  ///
+  Future<Team> updateTeam({
+    required String id,
+    required String name,
+  }) async {
+    final res = await _supabase
+        .from('teams')
+        .update({
+          'name': name,
+        })
+        .eq('id', id)
+        .select()
+        .single()
+        .catchError((Object err) =>
+      throw FlutterSdengApiRequestFailure(message: err.toString()),
+    );
+
+    return Team.fromMap(res);
+  }
+
   /// Delete a team.
   ///
   /// Supported parameters:

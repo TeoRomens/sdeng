@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,11 +41,7 @@ class AthleteCard extends StatelessWidget {
               border: Border.all(
                 color: const Color(0xFFEAECF0),
               ),
-              gradient: const LinearGradient(
-                colors: [Color(0xFFFFFFFF), Color(0xFFE9E1FF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: AppColors.white
             ),
             child: const Icon(FeatherIcons.user, size: 40,),
           ),

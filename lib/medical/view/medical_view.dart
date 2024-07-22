@@ -3,7 +3,6 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/medical/cubit/medical_cubit.dart';
-import 'package:sdeng/medical/widgets/athlete_med_tile.dart';
 import 'package:sdeng/medical/widgets/medical_tile.dart';
 import 'package:sdeng/medicals_list/view/medicals_list_view.dart';
 
@@ -64,22 +63,37 @@ class MedicalsScreen extends StatelessWidget {
               if (bloc.state.status == MedicalStatus.loading)
                 const LoadingBox()
               else ...[
-                ...List.generate(
-                  bloc.state.expiredMedicals.length,
-                      (index) => AthleteMedTile(medical: bloc.state.expiredMedicals[index]),
+                MedicalTile(
+                  title: 'Expired',
+                  num: bloc.state.expiredMedicals.length,
+                  leading: const CircleAvatar(
+                    radius: 16,
+                    backgroundColor: AppColors.red,
+                    child: Icon(FeatherIcons.x, color: AppColors.white),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(MedicalsListView.route(bloc.state.expiredMedicals));
+                  },
                 ),
-                ...List.generate(
-                  bloc.state.expiringMedicals.length,
-                      (index) => AthleteMedTile(medical: bloc.state.expiringMedicals[index]),
+                MedicalTile(
+                  title: 'Expiring',
+                  num: bloc.state.expiringMedicals.length,
+                  leading: const CircleAvatar(
+                    radius: 16,
+                    backgroundColor: AppColors.orange,
+                    child: Icon(FeatherIcons.clock, color: AppColors.white),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(MedicalsListView.route(bloc.state.expiringMedicals));
+                  },
                 ),
-                const Divider(height: 8),
                 MedicalTile(
                   title: 'Good',
                   num: bloc.state.goodMedicals.length,
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     radius: 16,
-                    backgroundColor: AppColors.green.shade100,
-                    child: Icon(FeatherIcons.check, color: AppColors.green.shade800),
+                    backgroundColor: AppColors.green,
+                    child: Icon(FeatherIcons.check, color: AppColors.white),
                   ),
                   onTap: () {
                     Navigator.of(context).push(MedicalsListView.route(bloc.state.goodMedicals));
@@ -88,10 +102,10 @@ class MedicalsScreen extends StatelessWidget {
                 MedicalTile(
                   title: 'Unknown',
                   num: bloc.state.unknownMedicals.length,
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     radius: 16,
-                    backgroundColor: AppColors.grey.shade200,
-                    child: Icon(FeatherIcons.helpCircle, color: AppColors.grey.shade800),
+                    backgroundColor: AppColors.grey,
+                    child: Icon(FeatherIcons.helpCircle, color: AppColors.white),
                   ),
                   onTap: () {
                     Navigator.of(context).push(MedicalsListView.route(bloc.state.unknownMedicals));

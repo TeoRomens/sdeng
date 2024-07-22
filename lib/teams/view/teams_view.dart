@@ -57,9 +57,10 @@ class TeamsScreen extends StatelessWidget {
                 : bloc.state.teams.isEmpty
                 ? EmptyState(
                     actionText: 'New team',
-                    onPressed: () {
-
-                    },
+                    onPressed: () async => await showAppModal(
+                      context: context,
+                      content: const AddTeamModal(),
+                    ).then((_) => bloc.getTeams())
                   )
                 : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

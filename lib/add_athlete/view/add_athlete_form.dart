@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/add_athlete/cubit/add_athlete_cubit.dart';
-import 'package:sdeng/athletes_team/cubit/athletes_cubit.dart';
 
 class AddAthleteForm extends StatefulWidget {
-  const AddAthleteForm({super.key});
+  const AddAthleteForm({
+    super.key,
+  });
 
   @override
   State<AddAthleteForm> createState() => _AddAthleteFormState();
@@ -43,8 +44,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
         children: [
           Stack(
             children: [
-              currentPageIndex == 0 ? _buildFirstPage(context) : const SizedBox(),
-              currentPageIndex == 1 ? _buildSecondPage(context) : const SizedBox(),
+              currentPageIndex == 0 ? _firstPage(context) : const SizedBox(),
+              currentPageIndex == 1 ? _secondPage(context) : const SizedBox(),
             ],
           ),
         ],
@@ -52,7 +53,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
     );
   }
 
-  Widget _buildFirstPage(BuildContext context) {
+  Widget _firstPage(BuildContext context) {
     final state = context.watch<AddAthleteCubit>().state;
 
     return ListView(
@@ -98,7 +99,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
     );
   }
 
-  Widget _buildSecondPage(BuildContext context) {
+  Widget _secondPage(BuildContext context) {
     final state = context.watch<AddAthleteCubit>().state;
 
     return Form(

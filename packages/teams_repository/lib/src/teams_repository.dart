@@ -96,7 +96,24 @@ class TeamsRepository {
     }
   }
 
-  /// Delete a team
+  /// Edit team
+  ///
+  /// Supported parameters:
+  /// * [team] - The team to be edited.
+  Future<Team> updateTeam({
+    required Team team,
+  }) async {
+    try {
+      return await _apiClient.updateTeam(
+        id: team.id,
+        name: team.name,
+      );
+    } catch (error, stackTrace) {
+      Error.throwWithStackTrace(AddTeamFailure(error), stackTrace);
+    }
+  }
+
+  /// Count athletes
   ///
   /// Supported parameters:
   /// [id] - The id of the team to be deleted.

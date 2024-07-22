@@ -111,16 +111,6 @@ class _AthletesPageScreenState extends State<AthletesPageScreen> {
                   separatorBuilder: (_, index) => const Divider(height: 0, indent: 20),
                 ),
               const Divider(indent: 70, height: 0),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: AppSpacing.sm,
-                  left: AppSpacing.xlg,
-                ),
-                child: AppTextButton(
-                  text: 'Add athlete',
-                  onPressed: () {},
-                ),
-              ),
               const SizedBox(height: 100),
             ],
           ),
