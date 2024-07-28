@@ -170,4 +170,15 @@ class AthleteCubit extends Cubit<AthleteState> {
       addError(error, stackTrace);
     }
   }
+
+  Future<void> deleteDocument({required Document document}) async {
+    emit(state.copyWith(status: AthleteStatus.loading));
+    try {
+      await _documentsRepository.deleteFile(path: document.path);
+      state.documents.removeWhere((doc) => doc.path == document.path);
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: AthleteStatus.failure));
+      addError(error, stackTrace);
+    }
+  }
 }

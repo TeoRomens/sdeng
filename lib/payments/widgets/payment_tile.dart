@@ -5,9 +5,11 @@ import 'package:flutter_sdeng_api/client.dart';
 class PaymentTile extends StatelessWidget{
   const PaymentTile({super.key,
     required this.payment,
+    this.onTap
   });
 
   final Payment payment;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class PaymentTile extends StatelessWidget{
         fontWeight: FontWeight.w500,
         fontFamily: 'Inter',
       ),
+      onTap: onTap,
     );
   }
 }

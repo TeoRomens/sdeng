@@ -128,7 +128,9 @@ class _ForgotPasswordButton extends StatelessWidget {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Send', style: UITextStyle.titleMedium,),
+                    Text('Send', style: UITextStyle.titleMedium.copyWith(
+                      color: AppColors.white
+                    ),),
                   ],
                 ),
           onPressed: () async => await context.read<LoginBloc>().forgotPassword(

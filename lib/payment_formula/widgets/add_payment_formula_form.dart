@@ -1,4 +1,5 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/payment_formula/bloc/payment_formula_cubit.dart';
@@ -61,7 +62,9 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
           const SizedBox(height: AppSpacing.sm,),
           AppTextFormField(
             label: 'To be paid before',
+            prefix: const Icon(FeatherIcons.calendar),
             controller: _date1Controller,
+            readOnly: true,
             onTap: () async {
               DateTime? selectedDate = await showDatePicker(
                   context: context,
@@ -113,7 +116,9 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
           full ? const SizedBox.shrink() : const SizedBox(height: AppSpacing.sm,),
           full ? const SizedBox.shrink() : AppTextFormField(
             label: 'To be paid before',
+            prefix: const Icon(FeatherIcons.calendar),
             controller: _date2Controller,
+            readOnly: true,
             onTap: () async {
               DateTime? selectedDate = await showDatePicker(
                   context: context,

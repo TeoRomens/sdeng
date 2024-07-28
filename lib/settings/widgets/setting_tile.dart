@@ -20,16 +20,49 @@ class SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasLeading = leading != null;
-
-    return ListTile(
+    return Card(
+      margin: EdgeInsets.zero,
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
+      elevation: 0.5,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(
+              color: Color(0xFFE4E7EC),
+              width: 0.5
+          )
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 2
+        ),
+        visualDensity: VisualDensity.compact,
+        horizontalTitleGap: 0,
+        minLeadingWidth: hasLeading ? _leadingWidth : 0,
         leading: SizedBox(
           width: hasLeading ? _leadingWidth : 0,
           child: leading,
         ),
+        title: Text(title),
         trailing: trailing,
-        visualDensity: const VisualDensity(
-          vertical: VisualDensity.minimumDensity,
+        titleTextStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Inter',
+            color: Colors.black,
+            height: 1.6
         ),
+        subtitleTextStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Inter',
+          color: Color(0xFF475467),
+        ),
+        onTap: onTap,
+      ),
+    );
+    return ListTile(
         contentPadding: EdgeInsets.fromLTRB(
           hasLeading ? AppSpacing.sm : AppSpacing.xlg,
           AppSpacing.xs,

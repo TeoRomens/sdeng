@@ -21,6 +21,7 @@ class AddPaymentCubit extends Cubit<AddPaymentState> {
     required String cause,
     required PaymentType type,
     required PaymentMethod method,
+    PaymentFormula? formula
   }) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {

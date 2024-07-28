@@ -93,6 +93,19 @@ class DocumentsRepository {
     }
   }
 
+  ///
+  /// Supported parameters:
+  /// [path] - Url of the document
+  Future<void> deleteFile({required String path}) async {
+    try {
+      await _apiClient.deleteFile(
+        path: path,
+      );
+    } catch (error, stackTrace) {
+      Error.throwWithStackTrace(AddDocumentFailure(error), stackTrace);
+    }
+  }
+
   Future<File> generateRichiestaVisitaMedica({
     required Athlete athlete,
     required SdengUser user,

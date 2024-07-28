@@ -29,104 +29,36 @@ class MedicalInfo extends StatelessWidget {
           bloc.state.status == AthleteStatus.loading
             ? const LoadingBox()
             : bloc.state.medical != null
-            ? Card(
-              color: Colors.white,
-              surfaceTintColor: Colors.white,
-              elevation: 0.5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: const BorderSide(
-                      color: Color(0xFFE4E7EC),
-                      width: 0.5
-                  )
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
+            ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Medical Visit', style: TextStyle(
-                          letterSpacing: -0.02,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Inter',
-                        ),),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await showAppModal(
-                              context: context,
-                              content: EditMedicalModal(medical: bloc.state.medical!,)
-                              ).then((_) => bloc.reloadAthlete());
-                          },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0.2,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
-                              backgroundColor: Colors.white,
-                              surfaceTintColor: Colors.white,
-                              visualDensity: VisualDensity.compact,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  side: const BorderSide(
-                                      color: Color(0xFFD0D5DD),
-                                      width: 0.6
-                                  )
-                              )
-                          ),
-                          child: const Text(
-                            'Edit',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF344054),
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text('Medical Visit',
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Expire', style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Inter',
-                                color: Color(0xFF8793A2)
-                            ),),
-                            Text(bloc.state.medical!.expirationDate!.dMY, style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ),),
-                            const SizedBox(height: 10),
-                            const Text('Type', style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Inter',
-                                color: Color(0xFF8793A2)
-                            ),),
-                            Text(bloc.state.medical!.type.name, style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ),),
-                            const SizedBox(height: 10),
-                          ],
-                        ),
-                        const FlutterLogo(
-                          size: 87,
-                        )
-                      ],
+                    SecondaryButton(
+                      onPressed: () async {
+                        await showAppModal(
+                            context: context,
+                            content: EditMedicalModal(medical: bloc.state.medical!,)
+                        ).then((_) => bloc.reloadAthlete());
+                      },
+                      text: 'Edit',
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(height: AppSpacing.sm,),
+                CustomContainer(
+                  icon: FeatherIcons.calendar,
+                  text: bloc.state.medical!.expirationDate?.dMY ?? '',
+                ),
+                CustomContainer(
+                  icon: FeatherIcons.tag,
+                  text: bloc.state.medical!.type.name,
+                ),
+              ],
             )
             : EmptyState(
                 actionText: 'New medical',

@@ -1,8 +1,8 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/add_payment/view/add_payment_modal.dart';
+import 'package:sdeng/payment_details/view/payment_details_page.dart';
 import 'package:sdeng/payments/payments.dart';
 
 class PaymentsView extends StatelessWidget {
@@ -21,7 +21,7 @@ class PaymentsView extends StatelessWidget {
         }
       },
       builder: (BuildContext context, PaymentsState state)
-          => PaymentsPopulated()
+          => const PaymentsPopulated()
     );
   }
 }
@@ -70,6 +70,9 @@ class PaymentsPopulated extends StatelessWidget {
                   itemCount: bloc.state.payments.length,
                   itemBuilder: (context, index) => PaymentTile(
                       payment: bloc.state.payments[index],
+                      onTap: () => Navigator.of(context).push(
+                          PaymentDetailsPage.route(bloc.state.payments[index]
+                      )),
                   ),
                   separatorBuilder: (BuildContext context, int index)
                       => const Divider(height: 0, indent: 60, endIndent: 20,)

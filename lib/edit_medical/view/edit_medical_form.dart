@@ -105,7 +105,7 @@ class _ModalTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: AppSpacing.sm),
       child: Text(
-        'Edit Parent',
+        'Edit Medical',
         style: Theme.of(context).textTheme.headlineMedium,
         textAlign: TextAlign.center,
       ),

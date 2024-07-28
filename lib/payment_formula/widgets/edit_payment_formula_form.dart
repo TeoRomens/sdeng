@@ -152,28 +152,28 @@ class _EditPaymentFormState extends State<EditPaymentFormulaForm> {
           ),
           const SizedBox(height: AppSpacing.lg,),
           PrimaryButton(
-              onPressed: () async {
-                if(_formKey.currentState!.validate()){
-                  await context.read<PaymentFormulaCubit>().updatePaymentFormula(
-                      id: widget.paymentFormula.id,
-                      name: _nameController.text,
-                      full: full,
-                      amount1: num.parse(_amount1Controller.text),
-                      date1: _date1Controller.text.toDateTime!,
-                      amount2: full ? null : num.parse(_amount2Controller.text),
-                      date2: full ? null : _date2Controller.text.toDateTime!,
-                  ).then((_) => Navigator.of(context).pop());
-                }
-              },
-              child: state.status == PaymentFormulaStatus.loading ?
-                  const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      color: AppColors.white,
-                      strokeCap: StrokeCap.round,
-                    ),
-                  ) : const Text('Save'),
+            onPressed: () async {
+              if(_formKey.currentState!.validate()){
+                await context.read<PaymentFormulaCubit>().updatePaymentFormula(
+                  id: widget.paymentFormula.id,
+                  name: _nameController.text,
+                  full: full,
+                  amount1: num.parse(_amount1Controller.text),
+                  date1: _date1Controller.text.toDateTime!,
+                  amount2: full ? null : num.parse(_amount2Controller.text),
+                  date2: full ? null : _date2Controller.text.toDateTime!,
+                ).then((_) => Navigator.of(context).pop());
+              }
+            },
+            child: state.status == PaymentFormulaStatus.loading ?
+              const SizedBox.square(
+                dimension: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.white,
+                  strokeCap: StrokeCap.round,
+                ),
+              ) : const Text('Save'),
           ),
           const SizedBox(height: AppSpacing.xlg,),
         ],

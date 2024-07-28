@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/add_payment/view/add_payment_modal.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
+import 'package:sdeng/payment_details/view/payment_details_page.dart';
 import 'package:sdeng/payment_formula/payment_formula.dart';
 
 class PaymentInfo extends StatelessWidget {
@@ -35,12 +36,6 @@ class PaymentInfo extends StatelessWidget {
                   children: [
                     Text('Formula',
                       style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    SecondaryButton(
-                      onPressed: () async {
-
-                      },
-                      text: 'Edit',
                     ),
                   ],
                 ),
@@ -85,8 +80,8 @@ class PaymentInfo extends StatelessWidget {
                   : SecondaryButton(
                     icon: FeatherIcons.plus,
                     text: 'Assign',
-                    onPressed: () {
-                      //TODO
+                    onPressed: () async {
+                       final formula = await Navigator.of(context).push(PaymentFormulaPage.route());
                     },
                   ),
                 const SizedBox(height: AppSpacing.xlg,),
@@ -158,6 +153,7 @@ class PaymentInfo extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Inter',
                           ),
+                          onTap: () => Navigator.of(context).push(PaymentDetailsPage.route(payments[index])),
                         ),
                         separatorBuilder: (_, index) => const Divider(),
                         itemCount: payments.length

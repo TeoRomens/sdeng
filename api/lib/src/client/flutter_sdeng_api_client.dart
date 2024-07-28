@@ -1056,4 +1056,19 @@ class FlutterSdengApiClient {
     return file;
   }
 
+  /// Delete a file
+  ///
+  /// Supported parameters
+  /// [path] - Path of the file to be downloaded.
+  Future<void> deleteFile({required String path}) async {
+    final bucket = await getUserBucket();
+    await _supabase
+        .storage
+        .from(bucket.id)
+        .remove([path])
+        .catchError((Object err) {
+      log(err.toString());
+      throw FlutterSdengApiRequestFailure(message: err.toString());
+    });
+  }
 }

@@ -51,54 +51,56 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.transparent,
-          surfaceTintColor: AppColors.transparent,
-          leading: const AppBackButton(),
-        ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const PaymentFormulasTitle(),
-            BlocBuilder<PaymentFormulaCubit, PaymentFormulaState>(
-              builder: (context, state) {
-                if(state.status == PaymentFormulaStatus.loading){
-                  return const LoadingBox();
-                }
-                else {
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    itemCount: paymentsFormulas.length,
-                    itemBuilder: (context, index) =>
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Text('Payment Formulas',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ),
+              BlocBuilder<PaymentFormulaCubit, PaymentFormulaState>(
+                builder: (context, state) {
+                  if(state.status == PaymentFormulaStatus.loading){
+                    return const LoadingBox();
+                  }
+                  else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemCount: paymentsFormulas.length,
+                      itemBuilder: (context, index) =>
                         PaymentFormulaItem(
                           title: paymentsFormulas[index].name,
                           trailing: IconButton(
-                              onPressed: () => showAppModal(
-                                context: context,
-                                content: EditPaymentFormulaModal(
-                                  paymentFormula: paymentsFormulas[index],
-                                ),
+                            onPressed: () => showAppModal(
+                              context: context,
+                              content: EditPaymentFormulaModal(
+                                paymentFormula: paymentsFormulas[index],
                               ),
-                              icon: const Icon(FeatherIcons.edit2)
+                            ),
+                            icon: const Icon(FeatherIcons.edit2)
                           ),
                         ),
-                    separatorBuilder: (context, index) =>
-                    const _PaymentFormulaDivider(),
-                  );
+                    );
+                  }
                 }
-              }
-            ),
-            AppTextButton(
-              padding: const EdgeInsets.only(left: AppSpacing.sm),
-              text: 'Payment Formula',
-              onPressed: () async => await showAppModal(
-                context: context,
-                content: const AddPaymentFormulaModal(),
-              ).then((_) => context.read<PaymentFormulaCubit>().getPaymentFormulas()),
-            )
-          ],
+              ),
+              AppTextButton(
+                padding: const EdgeInsets.only(left: AppSpacing.sm),
+                text: 'Payment Formula',
+                onPressed: () async => await showAppModal(
+                  context: context,
+                  content: const AddPaymentFormulaModal(),
+                ).then((_) => context.read<PaymentFormulaCubit>().getPaymentFormulas()),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -131,54 +133,51 @@ class PaymentFormulaItem extends StatelessWidget {
     this.onTap,
     super.key,
   });
-
-  static const _leadingWidth = AppSpacing.xxlg + AppSpacing.md;
-
+  
   final String title;
   final Widget? trailing;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const SizedBox(
-        width: _leadingWidth,
-        child: Icon(FeatherIcons.dollarSign),
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
+      elevation: 0.5,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(
+              color: Color(0xFFE4E7EC),
+              width: 0.5
+          )
       ),
-      trailing: trailing,
-      visualDensity: const VisualDensity(
-        vertical: VisualDensity.minimumDensity,
-      ),
-      contentPadding: const EdgeInsets.fromLTRB(
-        AppSpacing.sm,
-        AppSpacing.xs,
-        AppSpacing.lg,
-        AppSpacing.xs,
-      ),
-      horizontalTitleGap: 0,
-      minLeadingWidth: _leadingWidth,
-      onTap: onTap,
-      title: Text(title),
-      titleTextStyle: Theme.of(context).textTheme.bodyLarge
-    );
-  }
-}
-
-class _PaymentFormulaDivider extends StatelessWidget {
-  const _PaymentFormulaDivider();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Divider(
-        color: AppColors.borderOutline,
-        height: AppSpacing.xs,
-        indent: 0,
-        endIndent: 0,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 5
+        ),
+        visualDensity: VisualDensity.compact,
+        title: Text(title),
+        trailing: trailing,
+        titleTextStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Inter',
+            color: Colors.black,
+            height: 1.6
+        ),
+        subtitleTextStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Inter',
+          color: Color(0xFF475467),
+        ),
+        onTap: onTap,
       ),
     );
   }
 }
+
 
 
