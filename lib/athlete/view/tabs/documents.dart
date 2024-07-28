@@ -11,9 +11,9 @@ class DocumentInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AthleteCubit>().state;
+    final bloc = context.watch<AthleteCubit>();
 
-    return state.status == AthleteStatus.loading
+    return bloc.state.status == AthleteStatus.loading
       ? const LoadingBox()
       : Padding(
           padding: const EdgeInsets.symmetric(
@@ -33,7 +33,7 @@ class DocumentInfo extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: AppSpacing.sm,),
-              state.documents.isNotEmpty ?
+              bloc.state.documents.isNotEmpty ?
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -43,10 +43,10 @@ class DocumentInfo extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: state.documents.length,
+                      itemCount: bloc.state.documents.length,
                       itemBuilder: (context, index) {
                         return DocumentTile(
-                          document: state.documents[index],
+                          document: bloc.state.documents[index],
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

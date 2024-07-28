@@ -56,7 +56,7 @@ class _DocumentTileState extends State<DocumentTile> {
                 PopupMenuItem(
                     height: 36,
                     onTap: () async {
-                      await context.read<AthleteCubit>().deleteDocument(document: widget.document);
+                      context.read<AthleteCubit>().deleteDocument(document: widget.document);
                     },
                     child: Row(
                       children: [

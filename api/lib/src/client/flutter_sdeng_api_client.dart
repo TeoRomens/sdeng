@@ -978,18 +978,18 @@ class FlutterSdengApiClient {
         .storage
         .getBucket(userId)
         .catchError((Object err) async {
-      final exception = err as StorageException;
-      if(exception.statusCode == '404') {
-        log('Bucket not found\nCreating bucket...');
-        await _supabase
-            .storage
-            .createBucket(userId);
-        log('Bucket created with id $userId');
-      }
-      return _supabase
-          .storage
-          .getBucket(userId);
-    });
+          final exception = err as StorageException;
+          if(exception.statusCode == '404') {
+            log('Bucket not found\nCreating bucket...');
+            await _supabase
+                .storage
+                .createBucket(userId);
+            log('Bucket created with id $userId');
+          }
+          return _supabase
+              .storage
+              .getBucket(userId);
+        });
 
     return bucket;
   }

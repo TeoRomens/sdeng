@@ -166,18 +166,19 @@ class AthleteCubit extends Cubit<AthleteState> {
         await OpenFile.open(pdf.path);
       }
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error uploading your file.'));
+      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error generating Visita Medica.'));
       addError(error, stackTrace);
     }
   }
 
   Future<void> deleteDocument({required Document document}) async {
-    emit(state.copyWith(status: AthleteStatus.loading));
     try {
+      emit(state.copyWith(status: AthleteStatus.loading));
       await _documentsRepository.deleteFile(path: document.path);
-      state.documents.removeWhere((doc) => doc.path == document.path);
+      final updatedDocuments = List<Document>.from(state.documents)..remove(document);
+      emit(state.copyWith(status: AthleteStatus.loaded, documents: updatedDocuments));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure));
+      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error deleting ${document.name}.'));
       addError(error, stackTrace);
     }
   }
