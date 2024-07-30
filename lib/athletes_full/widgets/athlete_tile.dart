@@ -43,7 +43,7 @@ class AthleteTile extends StatelessWidget{
       ),
       onTap: onTap ?? () async {
         await Navigator.of(context).push(
-            AthletePage.route(athleteId: athlete.id, athlete: athlete))
+            AthletePage.route(athleteId: athlete.id))
             .then((reload) {
               if(reload == true) BlocProvider.of<AthletesCubit>(context).getAthletesFromTeam(athlete.teamId);
         });

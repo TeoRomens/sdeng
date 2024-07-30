@@ -17,7 +17,7 @@ class EditMedicalForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.read<EditMedicalCubit>().state;
 
-    final expireController = TextEditingController(text: medical.expirationDate?.dMY);
+    final expireController = TextEditingController(text: medical.expire?.dMY);
     MedType? medType;
 
     final formKey = GlobalKey<FormState>();

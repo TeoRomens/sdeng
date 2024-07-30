@@ -172,6 +172,9 @@ class AthletesRepository {
       await _apiClient.addParent(
         athleteId: athlete.id,
       );
+      await _apiClient.addMedical(
+        athleteId: athlete.id,
+      );
       return athlete;
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(AddAthleteFailure(error), stackTrace);

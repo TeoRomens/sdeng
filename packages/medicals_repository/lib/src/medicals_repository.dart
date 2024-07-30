@@ -197,8 +197,8 @@ class MedicalsRepository {
     try {
       return await _apiClient.updateMedical(
           athleteId: medical.athleteId,
-          expire: medical.expirationDate!,
-          medType: medical.type,
+          expire: medical.expire!,
+          medType: medical.type!,
       );
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(UpdateMedicalFailure(error), stackTrace);

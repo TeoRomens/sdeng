@@ -36,7 +36,7 @@ class AthleteMedTile extends StatelessWidget{
       titleTextStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
         fontSize: 19
       ),
-      subtitle: Text(medical.expirationDate?.dMY ?? 'null'),
+      subtitle: Text(medical.expire?.dMY ?? 'null'),
       subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
       trailing: trailing ?? const Padding(
         padding: EdgeInsets.only(right: 10),

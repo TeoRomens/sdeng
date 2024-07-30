@@ -22,7 +22,6 @@ class DocumentInfo extends StatelessWidget {
           ),
           child: ListView(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,18 +54,14 @@ class DocumentInfo extends StatelessWidget {
                     ),
                     AppTextButton(
                       text: 'Upload document',
-                      onPressed: () {
-                        context.read<AthleteCubit>().uploadFile();
-                      }
+                      onPressed: () => context.read<AthleteCubit>().uploadFile()
                     )
                   ],
                 )
                 : EmptyState(
                     actionText: 'Upload',
-                    onPressed: () {
-
-                    },
-                ),
+                    onPressed: () => context.read<AthleteCubit>().uploadFile()
+              ),
               const SizedBox(height: AppSpacing.md),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

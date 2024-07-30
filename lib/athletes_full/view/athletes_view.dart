@@ -5,43 +5,15 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:sdeng/athletes_full/cubit/athletes_cubit.dart';
 import 'package:sdeng/athletes_full/widgets/athlete_tile.dart';
 
-class AthletesPageView extends StatelessWidget {
-  const AthletesPageView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: AppLogo.light(),
-        centerTitle: true,
-      ),
-      body: BlocListener<AthletesPageCubit, AthletesPageState>(
-        listener: (context, state) {
-          if (state.status == AthletesStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(content: Text(state.error)),
-              );
-          } else if (state.status == AthletesStatus.teamDeleted) {
-            Navigator.of(context).pop();
-          }
-        },
-        child: const AthletesPageScreen(),
-      ),
-    );
-  }
-}
-
 @visibleForTesting
-class AthletesPageScreen extends StatefulWidget {
-  const AthletesPageScreen({super.key});
+class AthletesView extends StatefulWidget {
+  const AthletesView({super.key});
 
   @override
-  State<AthletesPageScreen> createState() => _AthletesPageScreenState();
+  State<AthletesView> createState() => _AthletesPageScreenState();
 }
 
-class _AthletesPageScreenState extends State<AthletesPageScreen> {
+class _AthletesPageScreenState extends State<AthletesView> {
   late final ScrollController _controller;
   int _loadedAthletes = 20;
 
@@ -93,7 +65,38 @@ class _AthletesPageScreenState extends State<AthletesPageScreen> {
               else if (bloc.state.athletes.isEmpty)
                 EmptyState(
                   actionText: 'New athlete',
-                  onPressed: () {},
+                  onPressed: () {
+                    showAppModal(
+                        context: context,
+                        content: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppSpacing.lg,
+                            AppSpacing.lg,
+                            AppSpacing.lg,
+                            AppSpacing.xlg,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'New Athlete',
+                                style: Theme.of(context).textTheme.headlineMedium,
+                                textAlign: TextAlign.center,
+                              ),
+                              const Divider(endIndent: 0, indent: 0, height: 25),
+                              Padding(
+                                padding: const EdgeInsets.all(AppSpacing.sm),
+                                child: Text(
+                                  'To add a new athlete please go in the team page where you would like to add your athlete',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    );
+                  },
                 )
               else
                 ListView.separated(

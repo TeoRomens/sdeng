@@ -403,7 +403,7 @@ class FlutterSdengApiClient {
         .delete()
         .eq('id', id)
         .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
+      print(err.toString()),
     );
   }
 
@@ -550,7 +550,7 @@ class FlutterSdengApiClient {
         .eq('athlete_id', athleteId)
         .limit(1)
         .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
+      throw FlutterSdengApiRequestFailure(message: err.toString()),
     );
 
     if(res.isEmpty) return null;
@@ -652,8 +652,8 @@ class FlutterSdengApiClient {
   /// [expire] - The future expiring date.
   Future<Medical> addMedical({
     required String athleteId,
-    required MedType type,
-    required DateTime expire,
+    MedType? type,
+    DateTime? expire,
   }) async {
     final res = await _supabase
         .from('medical')

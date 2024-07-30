@@ -29,26 +29,26 @@ class Medical {
     required this.athleteId,
     required this.fullName,
     required this.type,
-    required this.expirationDate,
+    required this.expire,
   });
 
   final String athleteId;
   /// Athlete full name
   final String fullName;
 
-  final MedType type;
+  final MedType? type;
 
-  final DateTime? expirationDate;
+  final DateTime? expire;
 
   static Map<String, dynamic> create({
     required String athleteId,
-    required MedType type,
-    required DateTime expirationDate,
+    MedType? type,
+    DateTime? expirationDate,
   }) {
     return {
       'athlete_id': athleteId,
-      'type': type.name,
-      'expire': expirationDate.toIso8601String(),
+      'type': type?.name,
+      'expire': expirationDate?.toIso8601String(),
     };
   }
 
@@ -56,12 +56,19 @@ class Medical {
     return data.map(Medical.fromMap).toList();
   }
 
-  Medical.fromMap(Map<String, dynamic> map)
-      : athleteId = map['athlete_id'] as String,
-        fullName = map['athletes']['full_name'] as String,
-        type = map['type'] == 'not_required' ? MedType.not_required : map['type'] == 'not_agonistic' ? MedType.not_agonistic : MedType.agonistic,
-        expirationDate = DateTime.parse(map['expire']  as String)
-  ;
+  factory Medical.fromMap(Map<String, dynamic> map) {
+    return Medical(
+      athleteId: map['athlete_id'] as String,
+      fullName: map['athletes']['full_name'] as String,
+      type: map['type'] == 'not_required'
+          ? MedType.not_required
+          : map['type'] == 'not_agonistic'
+          ? MedType.not_agonistic
+          : MedType.agonistic,
+      expire: map['expire'] != null
+          ? DateTime.tryParse(map['expire'] as String) : null,
+    );
+  }
 
   Medical copyWith({
     String? athleteId,
@@ -73,7 +80,7 @@ class Medical {
       athleteId: athleteId ?? this.athleteId,
       fullName: fullName ?? this.fullName,
       type: type ?? this.type,
-      expirationDate: expirationDate ?? this.expirationDate,
+      expire: expirationDate ?? this.expire,
     );
   }
 }

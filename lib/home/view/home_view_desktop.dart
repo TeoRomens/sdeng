@@ -1,100 +1,149 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:sdeng/medical/view/view.dart';
-import 'package:sdeng/notes/view/notes_view.dart';
-import 'package:sdeng/payments/payments.dart';
-import 'package:sdeng/teams/view/teams_view_desktop.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sdeng/app/bloc/app_bloc.dart';
+import 'package:sdeng/athletes_full/view/athletes_page.dart';
+import 'package:sdeng/medical/view/medicals_page.dart';
+import 'package:sdeng/notes/view/notes_page.dart';
+import 'package:sdeng/payments/view/payments_page.dart';
+import 'package:sdeng/profile_modal/view/profile_modal.dart';
+import 'package:sdeng/teams/view/teams_page.dart';
 import 'package:sdeng/settings/widgets/user_profile_button.dart';
 
-class HomeViewDesktop extends StatefulWidget {
+class HomeViewDesktop extends StatelessWidget {
   const HomeViewDesktop({super.key});
 
   @override
-  State<HomeViewDesktop> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeViewDesktop> {
-  final pageController = PageController();
-  int selectedPageIndex = 1;
-
-  List<IconData> listOfIcons = [
-    FeatherIcons.home,
-    FeatherIcons.filePlus,
-    FeatherIcons.dollarSign,
-    FeatherIcons.edit3,
-  ];
-
-  List<String> listOfStrings = [
-    'Home',
-    'Medical',
-    'Payments',
-    'Notes',
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: AppLogo.light(),
-        centerTitle: true,
-        actions: const [UserProfileButton()],
-      ),
-      body: Flex(
-        direction: Axis.horizontal,
-        children: [
-          Flexible(
-            child: ListView.builder(
-              itemCount: listOfStrings.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    right: AppSpacing.xs,
-                    left: AppSpacing.xs,
-                    bottom: AppSpacing.xs
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.only(
-                      right: AppSpacing.sm,
-                      left: AppSpacing.lg
-                    ),
-                    horizontalTitleGap: 8,
-                    selected: selectedPageIndex == index,
-                    visualDensity: VisualDensity.compact,
-                    tileColor: AppColors.brightGrey,
-                    selectedTileColor: AppColors.primary,
-                    iconColor: AppColors.black,
-                    textColor: AppColors.black,
-                    selectedColor: AppColors.white,
-                    leading: Icon(listOfIcons[index]),
-                    title: Text(listOfStrings[index], style: UITextStyle.headlineSmall,),
-                    onTap: () {
-                      setState(() {
-                        selectedPageIndex = index;
-                      });
-                      pageController.jumpToPage(index);
-                    }
-                  ),
-                );
-              }
-            )
-          ),
-          const VerticalDivider(width: 0, indent: 0,),
-          Flexible(
-            flex: 5,
-            child: PageView(
-              controller: pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                TeamsViewDesktop(),
-                MedicalView(),
-                PaymentsView(),
-                NotesView(),
-              ],
+    final bloc = context.read<AppBloc>();
+
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AppBloc, AppState>(
+          listener: (context, state) {
+            if (state.showProfileOverlay) {
+              showAppModal(
+                isDismissible: false,
+                enableDrag: false,
+                context: context,
+                content: ProfileModal(userId: state.sdengUser!.id),
+              );
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: AppLogo.light(),
+          centerTitle: false,
+          actions: const [UserProfileButton()],
+        ),
+        body: SafeArea(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(16.0),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 1.5,
             ),
-          )
-        ]
+            itemCount: 6, // Total number of AppCards and InfoCard
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return InfoCard(
+                  title: 'Welcome, ${bloc.state.sdengUser?.societyName ?? 'null'}',
+                  content: 'Here\'s a simple dashboard where you can easily reach all services',
+                );
+              } else {
+                final cards = [
+                  AppCard(
+                    title: 'Teams',
+                    content: Text(
+                      bloc.state.homeValues?['teams'].toString() ?? 'null',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    image: Assets.images.logo1.svg(height: 87),
+                    action: SecondaryButton(
+                      text: 'View all',
+                      onPressed: () => Navigator.of(context).push(TeamsPage.route()),
+                    ),
+                  ),
+                  AppCard(
+                    title: 'Athletes',
+                    content: Text(
+                      bloc.state.homeValues?['athletes'].toString() ?? 'null',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    image: Assets.images.logo3.svg(height: 87),
+                    action: SecondaryButton(
+                      text: 'View all',
+                      onPressed: () => Navigator.of(context).push(AthletesPage.route()),
+                    ),
+                  ),
+                  AppCard(
+                    title: 'Medical Visits',
+                    content: Text(
+                      '${bloc.state.homeValues?['expired_medicals'].toString() ?? 'null'} Expired',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    image: Assets.images.logo5.svg(height: 87),
+                    action: SecondaryButton(
+                      text: 'Fix',
+                      onPressed: () => Navigator.of(context).push(MedicalsPage.route()),
+                    ),
+                  ),
+                  AppCard(
+                    title: 'Payments',
+                    content: Text(
+                      bloc.state.homeValues?['payments'].toString() ?? 'null',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    image: Assets.images.logo2.svg(height: 87),
+                    action: SecondaryButton(
+                      text: 'View all',
+                      onPressed: () => Navigator.of(context).push(PaymentsPage.route()),
+                    ),
+                  ),
+                  AppCard(
+                    title: 'Notes',
+                    content: Text(
+                      bloc.state.homeValues?['notes'].toString() ?? 'null',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    image: Assets.images.logo4.svg(height: 87),
+                    action: SecondaryButton(
+                      text: 'View all',
+                      onPressed: () => Navigator.of(context).push(NotesPage.route()),
+                    ),
+                  ),
+                ];
+                return cards[index - 1];
+              }
+            },
+          ),
+        ),
       ),
     );
   }
 }
+

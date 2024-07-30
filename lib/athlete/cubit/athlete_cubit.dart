@@ -94,7 +94,7 @@ class AthleteCubit extends Cubit<AthleteState> {
     try {
       await _athletesRepository.deleteAthlete(id: state.athleteId);
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure));
+      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error deleting athlete.'));
       addError(error, stackTrace);
     }
   }

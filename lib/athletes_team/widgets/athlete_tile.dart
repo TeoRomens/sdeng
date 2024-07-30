@@ -41,13 +41,7 @@ class AthleteTile extends StatelessWidget{
         padding: EdgeInsets.only(right: 10),
         child: Icon(FeatherIcons.chevronRight),
       ),
-      onTap: onTap ?? () async {
-        await Navigator.of(context).push(
-            AthletePage.route(athleteId: athlete.id, athlete: athlete))
-            .then((reload) {
-              if(reload == true) BlocProvider.of<AthletesCubit>(context).getAthletesFromTeam(athlete.teamId);
-        });
-      }
+      onTap: onTap
     );
   }
 }

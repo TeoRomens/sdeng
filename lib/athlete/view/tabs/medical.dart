@@ -52,11 +52,11 @@ class MedicalInfo extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm,),
                 CustomContainer(
                   icon: FeatherIcons.calendar,
-                  text: bloc.state.medical!.expirationDate?.dMY ?? '',
+                  text: bloc.state.medical!.expire?.dMY ?? '',
                 ),
                 CustomContainer(
                   icon: FeatherIcons.tag,
-                  text: bloc.state.medical!.type.name,
+                  text: bloc.state.medical!.type!.name,
                 ),
               ],
             )

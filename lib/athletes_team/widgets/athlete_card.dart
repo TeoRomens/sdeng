@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// A customizable info card.
-class AppCard extends StatelessWidget {
+class AthleteCard extends StatelessWidget {
 
-  /// {@macro app_card}
-  const AppCard({
+  const AthleteCard({
     super.key,
     required this.title,
     required this.content,
@@ -20,7 +18,9 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(
+        vertical: 8
+      ),
       color: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0.5,
@@ -64,7 +64,7 @@ class AppCard extends StatelessWidget {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                    child: image ?? const SizedBox(),
+                  child: image ?? const SizedBox(),
                 ),
               ],
             ),

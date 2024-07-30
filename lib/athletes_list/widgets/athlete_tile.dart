@@ -47,7 +47,6 @@ class AthleteTile extends StatelessWidget{
       onTap: onTap ?? () => Navigator.of(context).push(
           AthletePage.route(
             athleteId: athlete.id,
-            athlete: athlete,
           )),
     );
   }

@@ -38,7 +38,7 @@ class MedicalTile extends StatelessWidget{
       titleTextStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
         fontSize: 19
       ),
-      subtitle: Text('Expired on ${medical.expirationDate?.dMY}'),
+      subtitle: Text('Expired on ${medical.expire?.dMY}'),
       subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
       trailing: trailing ?? const Padding(
         padding: EdgeInsets.only(right: 10),

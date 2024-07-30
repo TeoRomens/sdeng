@@ -3,7 +3,6 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/edit_athlete/view/edit_athlete_modal.dart';
 import 'package:sdeng/edit_parent/view/edit_parent_modal.dart';
@@ -25,7 +24,7 @@ class AthleteInfo extends StatelessWidget {
       ),
       child: ListView(
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -32,9 +32,6 @@ class AddTeamForm extends StatelessWidget {
             bottomText: 'The name can\'t be empty',
             controller: _nameController,
             validator: (value) {
-              for(var team in state.teams){
-                if(team.name == value) return 'Team name already used';
-              }
               if(value == null || value.isEmpty) return 'Required';
               return null;
             },
