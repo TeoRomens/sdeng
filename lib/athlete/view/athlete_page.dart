@@ -10,7 +10,8 @@ import 'package:sdeng/athlete/athlete.dart';
 import 'package:user_repository/user_repository.dart';
 
 class AthletePage extends StatelessWidget {
-  const AthletePage({super.key,
+  const AthletePage({
+    super.key,
     required this.athleteId,
   });
 
@@ -53,42 +54,52 @@ class AthletePage extends StatelessWidget {
             centerTitle: true,
             actions: [
               PopupMenuButton(
-                padding: EdgeInsets.zero,
-                shape: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Color(0xffcccccc), width: 0.5),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                elevation: 0.5,
-                shadowColor: Colors.grey.shade200,
-                offset: Offset.fromDirection(20, 30),
-                surfaceTintColor: Colors.transparent,
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    height: 36,
-                    onTap: () async {
-                      await context.read<AthleteCubit>().deleteAthlete()
-                        .whenComplete(() => Navigator.of(context).pop()
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(FeatherIcons.trash, color: Colors.red, size: 20,),
-                        const SizedBox(width: 8,),
-                        Text('Delete', style: Theme.of(context).textTheme.labelLarge,),
-                      ],
-                    )
-                  )
-                ]
-              ),
+                  padding: EdgeInsets.zero,
+                  shape: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Color(0xffcccccc), width: 0.5),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  elevation: 0.5,
+                  shadowColor: Colors.grey.shade200,
+                  offset: Offset.fromDirection(20, 30),
+                  surfaceTintColor: Colors.transparent,
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            height: 36,
+                            onTap: () async {
+                              await context
+                                  .read<AthleteCubit>()
+                                  .deleteAthlete()
+                                  .whenComplete(
+                                      () => Navigator.of(context).pop());
+                            },
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  FeatherIcons.trash,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  'Delete',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                              ],
+                            ))
+                      ]),
             ],
           ),
           body: SafeArea(
             child: OrientationBuilder(
                 builder: (BuildContext context, Orientation orientation) {
-                  return orientation == Orientation.portrait ?
-                  const AthleteView() : const AthleteViewDesktop();
-                }
-            ),
+              return orientation == Orientation.portrait
+                  ? const AthleteView()
+                  : const AthleteViewDesktop();
+            }),
           ),
         ),
       ),

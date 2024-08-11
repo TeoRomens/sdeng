@@ -13,10 +13,10 @@ class EditParentModal extends StatelessWidget {
 
   final Parent _parent;
 
-  static Route<void> route(Parent parent) =>
-      MaterialPageRoute<void>(builder: (_) => EditParentModal(
-        parent: parent,
-      ));
+  static Route<void> route(Parent parent) => MaterialPageRoute<void>(
+      builder: (_) => EditParentModal(
+            parent: parent,
+          ));
 
   static const String name = '/editParentModal';
 
@@ -27,8 +27,7 @@ class EditParentModal extends StatelessWidget {
         athletesRepository: context.read<AthletesRepository>(),
         parent: _parent,
       ),
-      child: EditParentForm(
-        parent: _parent),
+      child: EditParentForm(parent: _parent),
     );
   }
 }

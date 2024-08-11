@@ -23,14 +23,12 @@ class MedicalsListViewDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Medicals list'),
+        title: const Text('Medicals list'),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.xlg
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xlg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +64,8 @@ class MedicalsListViewDesktop extends StatelessWidget {
                         },
                         child: SecondaryButton(
                           text: 'View',
-                          onPressed: () => Navigator.of(context).push(AthletePage.route(athleteId: medical.athleteId)),
+                          onPressed: () => Navigator.of(context).push(
+                              AthletePage.route(athleteId: medical.athleteId)),
                         ),
                       ),
                     );

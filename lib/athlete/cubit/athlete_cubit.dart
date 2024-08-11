@@ -24,12 +24,12 @@ class AthleteCubit extends Cubit<AthleteState> {
     required UserRepository userRepository,
     required String athleteId,
     Athlete? athlete,
-  }) : _athletesRepository = athletesRepository,
-       _medicalsRepository = medicalsRepository,
-       _paymentsRepository = paymentsRepository,
-       _documentsRepository = documentsRepository,
-       _userRepository = userRepository,
-       super(AthleteState.initial(athleteId: athleteId, athlete: athlete));
+  })  : _athletesRepository = athletesRepository,
+        _medicalsRepository = medicalsRepository,
+        _paymentsRepository = paymentsRepository,
+        _documentsRepository = documentsRepository,
+        _userRepository = userRepository,
+        super(AthleteState.initial(athleteId: athleteId, athlete: athlete));
 
   final AthletesRepository _athletesRepository;
   final MedicalsRepository _medicalsRepository;
@@ -45,7 +45,8 @@ class AthleteCubit extends Cubit<AthleteState> {
         _athletesRepository.getParentFromAthleteId(state.athleteId),
         _medicalsRepository.getMedicalFromAthleteId(state.athleteId),
         _paymentsRepository.getPaymentsFromAthleteId(state.athleteId),
-        _documentsRepository.getDocumentsFromAthleteId(athleteId: state.athleteId),
+        _documentsRepository.getDocumentsFromAthleteId(
+            athleteId: state.athleteId),
         _paymentsRepository.getPaymentFormulaFromAthleteId(state.athleteId),
       ]);
 
@@ -59,7 +60,8 @@ class AthleteCubit extends Cubit<AthleteState> {
         paymentFormula: results[5] as PaymentFormula?,
       ));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error while loading.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure, error: 'Error while loading.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -68,10 +70,13 @@ class AthleteCubit extends Cubit<AthleteState> {
   Future<void> reloadAthlete() async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
-      final result = await _athletesRepository.getAthleteFromId(state.athleteId);
+      final result =
+          await _athletesRepository.getAthleteFromId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, athlete: result));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error while reloading athlete.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error while reloading athlete.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -80,10 +85,13 @@ class AthleteCubit extends Cubit<AthleteState> {
   Future<void> reloadParent() async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
-      final result = await _athletesRepository.getParentFromAthleteId(state.athleteId);
+      final result =
+          await _athletesRepository.getParentFromAthleteId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, parent: result));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error while reloading parent.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error while reloading parent.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -94,7 +102,8 @@ class AthleteCubit extends Cubit<AthleteState> {
     try {
       await _athletesRepository.deleteAthlete(id: state.athleteId);
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error deleting athlete.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure, error: 'Error deleting athlete.'));
       addError(error, stackTrace);
     }
   }
@@ -106,10 +115,7 @@ class AthleteCubit extends Cubit<AthleteState> {
     emit(state.copyWith(status: AthleteStatus.loading));
     try {
       final medical = await _medicalsRepository.addMedical(
-          athleteId: state.athleteId,
-          expire: expire,
-          type: type
-      );
+          athleteId: state.athleteId, expire: expire, type: type);
       emit(state.copyWith(status: AthleteStatus.loaded, medical: medical));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: AthleteStatus.failure));
@@ -120,19 +126,19 @@ class AthleteCubit extends Cubit<AthleteState> {
   Future<void> openDocument({required String path}) async {
     try {
       final bytes = await _documentsRepository.downloadFile(
-          path: path,
+        path: path,
       );
 
       final tempDir = await getTemporaryDirectory();
       // Unique file name
-      final filename = '${DateTime.now().millisecondsSinceEpoch}_${path.split('/').last}';
+      final filename =
+          '${DateTime.now().millisecondsSinceEpoch}_${path.split('/').last}';
       // Create a temporary file path
       final tempFilePath = '${tempDir.path}/$filename';
 
       final file = File(tempFilePath);
       await file.writeAsBytes(bytes);
       await OpenFile.open(file.path);
-
     } catch (error, stackTrace) {
       emit(state.copyWith(status: AthleteStatus.failure));
       addError(error, stackTrace);
@@ -142,31 +148,33 @@ class AthleteCubit extends Cubit<AthleteState> {
   Future<void> uploadFile() async {
     try {
       final filePickerResult = await FilePicker.platform.pickFiles();
-      if(filePickerResult != null){
+      if (filePickerResult != null) {
         await _documentsRepository.uploadAthleteDocument(
-            file: File(filePickerResult.files.first.path!),
-            athleteId: state.athleteId,
+          file: File(filePickerResult.files.first.path!),
+          athleteId: state.athleteId,
         );
       }
-      final documents = await _documentsRepository.getDocumentsFromAthleteId(athleteId: state.athleteId);
+      final documents = await _documentsRepository.getDocumentsFromAthleteId(
+          athleteId: state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, documents: documents));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error uploading your file.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure, error: 'Error uploading your file.'));
       addError(error, stackTrace);
     }
   }
 
   Future<void> generateRichiestaVisitaMedica() async {
     try {
-      if(state.athlete != null){
+      if (state.athlete != null) {
         final pdf = await _documentsRepository.generateRichiestaVisitaMedica(
-          athlete: state.athlete!,
-          user: _userRepository.sdengUser!
-        );
+            athlete: state.athlete!, user: _userRepository.sdengUser!);
         await OpenFile.open(pdf.path);
       }
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error generating Visita Medica.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error generating Visita Medica.'));
       addError(error, stackTrace);
     }
   }
@@ -175,10 +183,14 @@ class AthleteCubit extends Cubit<AthleteState> {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
       await _documentsRepository.deleteFile(path: document.path);
-      final updatedDocuments = List<Document>.from(state.documents)..remove(document);
-      emit(state.copyWith(status: AthleteStatus.loaded, documents: updatedDocuments));
+      final updatedDocuments = List<Document>.from(state.documents)
+        ..remove(document);
+      emit(state.copyWith(
+          status: AthleteStatus.loaded, documents: updatedDocuments));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error deleting ${document.name}.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error deleting ${document.name}.'));
       addError(error, stackTrace);
     }
   }
@@ -187,12 +199,13 @@ class AthleteCubit extends Cubit<AthleteState> {
     required String? formulaId,
   }) async {
     try {
-      final updatedAthlete = state.athlete!.copyWith(
-          paymentFormulaId: formulaId
-      );
+      final updatedAthlete =
+          state.athlete!.copyWith(paymentFormulaId: formulaId);
       await _athletesRepository.updateAthlete(athlete: updatedAthlete);
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error selecting this payment formula.'));
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error selecting this payment formula.'));
       addError(error, stackTrace);
     }
   }

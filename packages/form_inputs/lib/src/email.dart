@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 enum EmailValidationError {
   /// Email is invalid (generic validation error)
   invalid,
+
   /// Email is empty
   empty
 }
@@ -32,7 +33,6 @@ class Email extends FormzInput<String, EmailValidationError> {
 
     return null;
   }
-
 }
 
 /// {@template email}

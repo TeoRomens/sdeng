@@ -13,6 +13,7 @@ class RegisterPage extends StatelessWidget {
       builder: (_) => const RegisterPage(),
     );
   }
+
   static const String name = '/signup';
 
   @override

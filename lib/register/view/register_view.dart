@@ -16,22 +16,22 @@ class RegisterView extends StatelessWidget {
       listener: (context, state) {
         if (state.status.isLoggedIn) {
           // Pop all routes on top of login page
-          Navigator.of(context).popUntil((route) => route.settings.name == LoginPage.name);
+          Navigator.of(context)
+              .popUntil((route) => route.settings.name == LoginPage.name);
           Navigator.of(context).pushReplacement(HomePage.route());
         }
       },
       child: BlocListener<RegisterBloc, RegisterState>(
-          listener: (context, state) {
-            if (state.status.isFailure) {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    backgroundColor: AppColors.red,
-                    content: Text(state.error)),
-                );
-            }
-          },
+        listener: (context, state) {
+          if (state.status.isFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                    backgroundColor: AppColors.red, content: Text(state.error)),
+              );
+          }
+        },
         child: Scaffold(
           appBar: AppBar(
             leading: const AppBackButton(),

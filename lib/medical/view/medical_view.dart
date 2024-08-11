@@ -29,7 +29,8 @@ class MedicalView extends StatelessWidget {
           children: [
             const TextBox(
               title: 'Medical Visits',
-              content: 'Below you find all your medical visits you have registered. First of all there are the expired ones.',
+              content:
+                  'Below you find all your medical visits you have registered. First of all there are the expired ones.',
             ),
             if (bloc.state.status == MedicalStatus.loading)
               const LoadingBox()
@@ -43,7 +44,8 @@ class MedicalView extends StatelessWidget {
                   child: Icon(FeatherIcons.x, color: AppColors.white),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MedicalsListView.route(bloc.state.expiredMedicals));
+                  Navigator.of(context)
+                      .push(MedicalsListView.route(bloc.state.expiredMedicals));
                 },
               ),
               MedicalTile(
@@ -55,7 +57,8 @@ class MedicalView extends StatelessWidget {
                   child: Icon(FeatherIcons.clock, color: AppColors.white),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MedicalsListView.route(bloc.state.expiringMedicals));
+                  Navigator.of(context).push(
+                      MedicalsListView.route(bloc.state.expiringMedicals));
                 },
               ),
               MedicalTile(
@@ -67,7 +70,8 @@ class MedicalView extends StatelessWidget {
                   child: Icon(FeatherIcons.check, color: AppColors.white),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MedicalsListView.route(bloc.state.goodMedicals));
+                  Navigator.of(context)
+                      .push(MedicalsListView.route(bloc.state.goodMedicals));
                 },
               ),
               MedicalTile(
@@ -79,7 +83,8 @@ class MedicalView extends StatelessWidget {
                   child: Icon(FeatherIcons.helpCircle, color: AppColors.white),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MedicalsListView.route(bloc.state.unknownMedicals));
+                  Navigator.of(context)
+                      .push(MedicalsListView.route(bloc.state.unknownMedicals));
                 },
               ),
             ],

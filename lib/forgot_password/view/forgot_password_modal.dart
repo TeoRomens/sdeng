@@ -7,9 +7,9 @@ class ForgotPasswordModal extends StatelessWidget {
   const ForgotPasswordModal({super.key});
 
   static Route<void> route() => MaterialPageRoute<void>(
-    builder: (_) => const ForgotPasswordModal(),
-    settings: const RouteSettings(name: name),
-  );
+        builder: (_) => const ForgotPasswordModal(),
+        settings: const RouteSettings(name: name),
+      );
 
   static const String name = '/forgotPassword';
 

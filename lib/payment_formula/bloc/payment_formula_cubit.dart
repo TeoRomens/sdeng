@@ -24,8 +24,7 @@ class PaymentFormulaCubit extends Cubit<PaymentFormulaState> {
       );
       emit(state.copyWith(
           status: PaymentFormulaStatus.loaded,
-          paymentsFormulas: paymentFormulas
-      ));
+          paymentsFormulas: paymentFormulas));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: PaymentFormulaStatus.failure));
       log(error.toString());
@@ -49,10 +48,11 @@ class PaymentFormulaCubit extends Cubit<PaymentFormulaState> {
           amount1: amount1,
           date1: date1,
           amount2: amount2,
-          date2: date2
-      );
+          date2: date2);
       state.paymentsFormulas.add(paymentFormula);
-      emit(state.copyWith(status: PaymentFormulaStatus.loaded, paymentsFormulas: state.paymentsFormulas));
+      emit(state.copyWith(
+          status: PaymentFormulaStatus.loaded,
+          paymentsFormulas: state.paymentsFormulas));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: PaymentFormulaStatus.failure));
       addError(error, stackTrace);
@@ -77,13 +77,11 @@ class PaymentFormulaCubit extends Cubit<PaymentFormulaState> {
           amount1: amount1,
           date1: date1,
           amount2: amount2,
-          date2: date2
-      );
+          date2: date2);
       emit(state.copyWith(status: PaymentFormulaStatus.loaded));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: PaymentFormulaStatus.failure));
       addError(error, stackTrace);
     }
   }
-
 }

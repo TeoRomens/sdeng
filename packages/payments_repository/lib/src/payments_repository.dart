@@ -188,13 +188,15 @@ class PaymentsRepository {
   ///
   /// Supported parameters:
   /// [athleteId] - The athlete id to get payments.
-  Future<PaymentFormula?> getPaymentFormulaFromAthleteId(String athleteId) async {
+  Future<PaymentFormula?> getPaymentFormulaFromAthleteId(
+      String athleteId) async {
     try {
       return await _apiClient.getPaymentFormulaFromAthleteId(
         athleteId: athleteId,
       );
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(GetPaymentFormulaFromAthleteIdFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          GetPaymentFormulaFromAthleteIdFailure(error), stackTrace);
     }
   }
 }

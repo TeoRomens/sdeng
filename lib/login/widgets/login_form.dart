@@ -17,9 +17,7 @@ class LoginForm extends StatelessWidget {
         return Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: constraints.maxHeight * .95,
-              maxWidth: 400
-            ),
+                maxHeight: constraints.maxHeight * .95, maxWidth: 400),
             child: ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -27,17 +25,16 @@ class LoginForm extends StatelessWidget {
                 AppSpacing.xxlg,
               ),
               children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: AppLogo.light()
-                ),
+                Align(alignment: Alignment.centerLeft, child: AppLogo.light()),
                 const SizedBox(height: AppSpacing.xlg),
                 const _LoginTitle(),
                 const SizedBox(height: AppSpacing.sm),
                 const _LoginSubtitle(),
                 const SizedBox(height: AppSpacing.xlg),
                 _GoogleLoginButton(),
-                const Divider(height: AppSpacing.xxlg,),
+                const Divider(
+                  height: AppSpacing.xxlg,
+                ),
                 _LoginWithCredentials(),
                 const SizedBox(height: AppSpacing.xlg),
                 const _RegisterAndForgotPassword()
@@ -138,25 +135,27 @@ class _LoginWithCredentials extends StatelessWidget {
                       ),
                     ),
                   ],
-              )
+                )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Login', style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppColors.white
-                    ),),
+                    Text(
+                      'Login',
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge
+                          ?.copyWith(color: AppColors.white),
+                    ),
                   ],
                 ),
           onPressed: () => context.read<LoginBloc>().loginWithCredentials(
-            email: Email.dirty(_emailController.text),
-            password: Password.dirty(_passwordController.text)
-          ),
+              email: Email.dirty(_emailController.text),
+              password: Password.dirty(_passwordController.text)),
         )
       ],
     );
   }
 }
-
 
 class _RegisterAndForgotPassword extends StatelessWidget {
   const _RegisterAndForgotPassword();
@@ -174,29 +173,32 @@ class _RegisterAndForgotPassword extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(RegisterPage.route());
               },
-              child: Text('Register', style: UITextStyle.bodyMedium.copyWith(
-                color: AppColors.primary
-              ),),
+              child: Text(
+                'Register',
+                style:
+                    UITextStyle.bodyMedium.copyWith(color: AppColors.primary),
+              ),
             ),
           ],
         ),
         TextButton(
           onPressed: () {
-            MediaQuery.sizeOf(context).width < 700 ?
-              showAppModal(
-                context: context,
-                content: const ForgotPasswordModal(),
-                //routeSettings: const RouteSettings(name: ForgotPasswordForm.name),
-              )
-            : showAppSideModal(
-                context: context,
-                content: const ForgotPasswordModal(),
-                //routeSettings: const RouteSettings(name: ForgotPasswordForm.name),
-              );
+            MediaQuery.sizeOf(context).width < 700
+                ? showAppModal(
+                    context: context,
+                    content: const ForgotPasswordModal(),
+                    //routeSettings: const RouteSettings(name: ForgotPasswordForm.name),
+                  )
+                : showAppSideModal(
+                    context: context,
+                    content: const ForgotPasswordModal(),
+                    //routeSettings: const RouteSettings(name: ForgotPasswordForm.name),
+                  );
           },
-          child: Text('Forgot password?', style: UITextStyle.bodyMedium.copyWith(
-              color: AppColors.primary
-          ),),
+          child: Text(
+            'Forgot password?',
+            style: UITextStyle.bodyMedium.copyWith(color: AppColors.primary),
+          ),
         ),
       ],
     );

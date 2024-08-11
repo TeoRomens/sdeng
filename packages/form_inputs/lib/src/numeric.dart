@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 enum NumericValidationError {
   /// Value is empty
   empty,
+
   /// Value is not a valid number
   invalid,
 }

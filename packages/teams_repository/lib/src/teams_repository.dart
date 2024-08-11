@@ -38,7 +38,6 @@ class CountAthletesInTeamFailure extends TeamsFailure {
   const CountAthletesInTeamFailure(super.error);
 }
 
-
 /// A repository that manages teams data.
 class TeamsRepository {
   /// {@macro teams_repository}
@@ -128,6 +127,4 @@ class TeamsRepository {
       Error.throwWithStackTrace(CountAthletesInTeamFailure(error), stackTrace);
     }
   }
-
-
 }

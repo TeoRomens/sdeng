@@ -27,16 +27,9 @@ class SettingTile extends StatelessWidget {
       elevation: 0.5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(
-              color: Color(0xFFE4E7EC),
-              width: 0.5
-          )
-      ),
+          side: const BorderSide(color: Color(0xFFE4E7EC), width: 0.5)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 2
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
         visualDensity: VisualDensity.compact,
         horizontalTitleGap: 0,
         minLeadingWidth: hasLeading ? _leadingWidth : 0,
@@ -51,8 +44,7 @@ class SettingTile extends StatelessWidget {
             fontWeight: FontWeight.w500,
             fontFamily: 'Inter',
             color: Colors.black,
-            height: 1.6
-        ),
+            height: 1.6),
         subtitleTextStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -61,19 +53,6 @@ class SettingTile extends StatelessWidget {
         ),
         onTap: onTap,
       ),
-    );
-    return ListTile(
-        contentPadding: EdgeInsets.fromLTRB(
-          hasLeading ? AppSpacing.sm : AppSpacing.xlg,
-          AppSpacing.xs,
-          AppSpacing.lg,
-          AppSpacing.xs,
-        ),
-        horizontalTitleGap: 0,
-        minLeadingWidth: hasLeading ? _leadingWidth : 0,
-        onTap: onTap,
-        title: Text(title),
-        titleTextStyle: Theme.of(context).textTheme.labelLarge
     );
   }
 }

@@ -17,8 +17,10 @@ class EditParentForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.read<EditParentCubit>().state;
 
-    final nameController = TextEditingController(text: parent.fullName?.split(' ').first);
-    final surnameController = TextEditingController(text: parent.fullName?.split(' ').last);
+    final nameController =
+        TextEditingController(text: parent.fullName?.split(' ').first);
+    final surnameController =
+        TextEditingController(text: parent.fullName?.split(' ').last);
     final emailController = TextEditingController(text: parent.email);
     final phoneController = TextEditingController(text: parent.phone);
 
@@ -60,13 +62,16 @@ class EditParentForm extends StatelessWidget {
           PrimaryButton(
             onPressed: () async {
               formKey.currentState!.validate()
-                ? await context.read<EditParentCubit>().updateParent(
-                    name: nameController.text,
-                    surname: surnameController.text,
-                    email: emailController.text,
-                    phone: phoneController.text,
-                  ).then((_) => Navigator.of(context).pop())
-                : null;
+                  ? await context
+                      .read<EditParentCubit>()
+                      .updateParent(
+                        name: nameController.text,
+                        surname: surnameController.text,
+                        email: emailController.text,
+                        phone: phoneController.text,
+                      )
+                      .then((_) => Navigator.of(context).pop())
+                  : null;
             },
             child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(

@@ -1,6 +1,5 @@
 /// A instance of a team
 class Team {
-
   /// {@macro team}
   Team({
     required this.id,
@@ -19,9 +18,7 @@ class Team {
   final int numAthletes;
 
   ///
-  static Map<String, dynamic> create({
-    required String name
-  }) {
+  static Map<String, dynamic> create({required String name}) {
     return {
       'name': name,
     };

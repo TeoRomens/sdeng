@@ -27,7 +27,6 @@ class AppTextButton extends StatelessWidget {
         _minimumSize = minimumSize ?? _defaultMinimumSize,
         _padding = padding ?? _defaultPadding;
 
-
   /// The maximum size of the button.
   static const _defaultMaximumSize = Size(double.maxFinite, 40);
 
@@ -107,19 +106,28 @@ class AppTextButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(width: AppSpacing.sm,),
-          const CircleAvatar(
-              radius: 10,
-              backgroundColor: AppColors.primary,
-              child: Icon(FeatherIcons.plus, color: Colors.white, size: 15),
+          const SizedBox(
+            width: AppSpacing.sm,
           ),
-          const SizedBox(width: AppSpacing.sm,),
-          Text(text, style: const TextStyle(
+          const CircleAvatar(
+            radius: 10,
+            backgroundColor: AppColors.primary,
+            child: Icon(FeatherIcons.plus, color: Colors.white, size: 15),
+          ),
+          const SizedBox(
+            width: AppSpacing.sm,
+          ),
+          Text(
+            text,
+            style: const TextStyle(
               color: AppColors.primary,
               fontWeight: FontWeight.w700,
               fontSize: 13,
-          ),),
-          const SizedBox(width: AppSpacing.sm,),
+            ),
+          ),
+          const SizedBox(
+            width: AppSpacing.sm,
+          ),
         ],
       ),
     );

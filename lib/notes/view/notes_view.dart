@@ -18,28 +18,24 @@ class NotesView extends StatelessWidget {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const TextBox(
                 title: 'Notes',
-                content: 'Here you find all the messaged, todos, reminders for being always on point'
-            ),
+                content:
+                    'Here you find all the messaged, todos, reminders for being always on point'),
             AppTextButton(
                 text: 'Add note',
                 onPressed: () => showAppModal(
-                  context: context,
-                  content: const AddNoteModal(),
-                )
-            ),
+                      context: context,
+                      content: const AddNoteModal(),
+                    )),
             ConstrainedBox(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * .672
-              ),
+                  maxHeight: MediaQuery.of(context).size.height * .672),
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: bloc.state.notes.length,

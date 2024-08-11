@@ -48,7 +48,7 @@ class MedicalsListView extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
-                const Divider(height: 0, indent: 70, endIndent: 20),
+                    const Divider(height: 0, indent: 70, endIndent: 20),
               ),
           ],
         ),

@@ -27,12 +27,16 @@ class AddNoteForm extends StatelessWidget {
         ),
         children: [
           const _ModalTitle(),
-          const Divider(endIndent: 0, indent: 0, height: 25,),
+          const Divider(
+            endIndent: 0,
+            indent: 0,
+            height: 25,
+          ),
           AppTextFormField(
             label: 'Content',
             controller: _contentController,
             validator: (value) {
-              if(value == null || value.isEmpty) return 'Required';
+              if (value == null || value.isEmpty) return 'Required';
               return null;
             },
             maxLines: 4,
@@ -43,32 +47,38 @@ class AddNoteForm extends StatelessWidget {
             label: 'Author',
             controller: _authorController,
             validator: (value) {
-              if(value == null || value.isEmpty) return 'Required';
+              if (value == null || value.isEmpty) return 'Required';
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.xlg,),
+          const SizedBox(
+            height: AppSpacing.xlg,
+          ),
           PrimaryButton(
-              onPressed: () async {
-                if(_formKey.currentState!.validate()) {
-                  await BlocProvider.of<NotesCubit>(context)
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                await BlocProvider.of<NotesCubit>(context)
                     .addNote(
                       content: _contentController.text,
                       author: _authorController.text,
-                    ).then((_) => Navigator.of(context).pop());
-                }
-              },
-              child: state.status == NotesStatus.loading ?
-                  const SizedBox.square(
+                    )
+                    .then((_) => Navigator.of(context).pop());
+              }
+            },
+            child: state.status == NotesStatus.loading
+                ? const SizedBox.square(
                     dimension: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.5,
                       color: AppColors.white,
                       strokeCap: StrokeCap.round,
                     ),
-                  ) : const Text('Add'),
+                  )
+                : const Text('Add'),
           ),
-          const SizedBox(height: AppSpacing.xlg,),
+          const SizedBox(
+            height: AppSpacing.xlg,
+          ),
         ],
       ),
     );

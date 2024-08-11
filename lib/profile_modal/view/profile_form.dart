@@ -27,12 +27,18 @@ class _ProfileFormState extends State<ProfileForm> {
   @override
   void initState() {
     super.initState();
-    _presNameController = TextEditingController(text: widget.sdengUser?.fullName ?? '');
-    _societyPivaController = TextEditingController(text: widget.sdengUser?.societyPiva ?? '');
-    _societyAddressController = TextEditingController(text: widget.sdengUser?.societyAddress ?? '');
-    _societyEmailController = TextEditingController(text: widget.sdengUser?.societyEmail ?? '');
-    _societyNameController = TextEditingController(text: widget.sdengUser?.societyName ?? '');
-    _societyPhoneController = TextEditingController(text: widget.sdengUser?.societyPhone ?? '');
+    _presNameController =
+        TextEditingController(text: widget.sdengUser?.fullName ?? '');
+    _societyPivaController =
+        TextEditingController(text: widget.sdengUser?.societyPiva ?? '');
+    _societyAddressController =
+        TextEditingController(text: widget.sdengUser?.societyAddress ?? '');
+    _societyEmailController =
+        TextEditingController(text: widget.sdengUser?.societyEmail ?? '');
+    _societyNameController =
+        TextEditingController(text: widget.sdengUser?.societyName ?? '');
+    _societyPhoneController =
+        TextEditingController(text: widget.sdengUser?.societyPhone ?? '');
   }
 
   @override
@@ -67,59 +73,70 @@ class _ProfileFormState extends State<ProfileForm> {
           AppTextFormField(
             label: 'President Full Name',
             controller: _presNameController,
-            validator: (value) => bloc.state.fullName.validator(value ?? '')?.text,
+            validator: (value) =>
+                bloc.state.fullName.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Name',
             controller: _societyNameController,
-            validator: (value) => bloc.state.societyName.validator(value ?? '')?.text,
+            validator: (value) =>
+                bloc.state.societyName.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society PIVA',
             controller: _societyPivaController,
-            validator: (value) => bloc.state.societyPiva.validator(value ?? '')?.text,
+            validator: (value) =>
+                bloc.state.societyPiva.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Address',
             controller: _societyAddressController,
-            validator: (value) => bloc.state.societyAddress.validator(value ?? '')?.text,
+            validator: (value) =>
+                bloc.state.societyAddress.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Email',
             controller: _societyEmailController,
-            validator: (value) => bloc.state.societyEmail.validator(value ?? '')?.text,
+            validator: (value) =>
+                bloc.state.societyEmail.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Phone',
             controller: _societyPhoneController,
-            validator: (value) => bloc.state.societyPhone.validator(value ?? '')?.text,
+            validator: (value) =>
+                bloc.state.societyPhone.validator(value ?? '')?.text,
           ),
           const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
             onPressed: () async {
               _formKey.currentState?.validate() ?? false
-                  ? await bloc.updateProfile(
-                      fullName: _presNameController.text,
-                      societyName: _societyNameController.text,
-                      societyPiva: _societyPivaController.text,
-                      societyAddress: _societyAddressController.text,
-                      societyEmail: _societyEmailController.text,
-                      societyPhone: _societyPhoneController.text
-                  ).then((_) => Navigator.of(context).pop())
+                  ? await bloc
+                      .updateProfile(
+                          fullName: _presNameController.text,
+                          societyName: _societyNameController.text,
+                          societyPiva: _societyPivaController.text,
+                          societyAddress: _societyAddressController.text,
+                          societyEmail: _societyEmailController.text,
+                          societyPhone: _societyPhoneController.text)
+                      .then((_) => Navigator.of(context).pop())
                   : null;
             },
             child: bloc.state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: AppColors.white,
-                strokeCap: StrokeCap.round,
-              ),
-            )
-                : Text('Save', style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.white
-            ),),
+                    dimension: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: AppColors.white,
+                      strokeCap: StrokeCap.round,
+                    ),
+                  )
+                : Text(
+                    'Save',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: AppColors.white),
+                  ),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

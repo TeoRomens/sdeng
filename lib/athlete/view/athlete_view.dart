@@ -12,7 +12,8 @@ class AthleteView extends StatefulWidget {
   AthleteDetailsMobileState createState() => AthleteDetailsMobileState();
 }
 
-class AthleteDetailsMobileState extends State<AthleteView> with TickerProviderStateMixin {
+class AthleteDetailsMobileState extends State<AthleteView>
+    with TickerProviderStateMixin {
   late final TabController _tabController;
 
   @override

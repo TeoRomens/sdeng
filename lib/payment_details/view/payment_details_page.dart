@@ -15,15 +15,10 @@ class PaymentDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
-      builder: (BuildContext context, Orientation orientation) {
-        return orientation == Orientation.portrait
-          ? PaymentDetailsView(
-            payment: payment
-          )
-          : PaymentDetailsView(
-            payment: payment
-          );
-      }
-    );
+        builder: (BuildContext context, Orientation orientation) {
+      return orientation == Orientation.portrait
+          ? PaymentDetailsView(payment: payment)
+          : PaymentDetailsView(payment: payment);
+    });
   }
 }

@@ -22,16 +22,15 @@ class MedicalViewDesktop extends StatelessWidget {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.xlg
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xlg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const TextBox(
                 title: 'Medical Visits',
-                content: 'Below you find all your medical visits you have registered. First of all there are the expired ones.',
+                content:
+                    'Below you find all your medical visits you have registered. First of all there are the expired ones.',
               ),
               if (bloc.state.status == MedicalStatus.loading)
                 const LoadingBox()
@@ -45,7 +44,8 @@ class MedicalViewDesktop extends StatelessWidget {
                     mainAxisSpacing: 16.0,
                     childAspectRatio: 1.6,
                   ),
-                  itemCount: 4, // We have 4 categories: Expired, Expiring, Good, Unknown
+                  itemCount:
+                      4, // We have 4 categories: Expired, Expiring, Good, Unknown
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
@@ -62,7 +62,9 @@ class MedicalViewDesktop extends StatelessWidget {
                           ),
                           action: SecondaryButton(
                             text: 'View',
-                            onPressed: () => Navigator.of(context).push(MedicalsListViewDesktop.route(bloc.state.expiredMedicals)),
+                            onPressed: () => Navigator.of(context).push(
+                                MedicalsListViewDesktop.route(
+                                    bloc.state.expiredMedicals)),
                           ),
                         );
                       case 1:
@@ -79,7 +81,9 @@ class MedicalViewDesktop extends StatelessWidget {
                           ),
                           action: SecondaryButton(
                             text: 'View',
-                            onPressed: () => Navigator.of(context).push(MedicalsListViewDesktop.route(bloc.state.expiringMedicals)),
+                            onPressed: () => Navigator.of(context).push(
+                                MedicalsListViewDesktop.route(
+                                    bloc.state.expiringMedicals)),
                           ),
                         );
                       case 2:
@@ -96,7 +100,9 @@ class MedicalViewDesktop extends StatelessWidget {
                           ),
                           action: SecondaryButton(
                             text: 'View',
-                            onPressed: () => Navigator.of(context).push(MedicalsListViewDesktop.route(bloc.state.goodMedicals)),
+                            onPressed: () => Navigator.of(context).push(
+                                MedicalsListViewDesktop.route(
+                                    bloc.state.goodMedicals)),
                           ),
                         );
                       case 3:
@@ -113,7 +119,9 @@ class MedicalViewDesktop extends StatelessWidget {
                           ),
                           action: SecondaryButton(
                             text: 'View',
-                            onPressed: () => Navigator.of(context).push(MedicalsListViewDesktop.route(bloc.state.unknownMedicals)),
+                            onPressed: () => Navigator.of(context).push(
+                                MedicalsListViewDesktop.route(
+                                    bloc.state.unknownMedicals)),
                           ),
                         );
                       default:

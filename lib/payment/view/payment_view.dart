@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sdeng_api/client.dart';
 
 class PaymentDetailsView extends StatelessWidget {
-  const PaymentDetailsView({
-    super.key,
-    required this.payment
-  });
+  const PaymentDetailsView({super.key, required this.payment});
 
   static Route<Athlete> route(Payment payment) {
     return MaterialPageRoute<Athlete>(
@@ -26,9 +23,7 @@ class PaymentDetailsView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm
-        ),
+            horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -62,18 +57,15 @@ class PaymentDetailsView extends StatelessWidget {
               initialValue: payment.athleteId,
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  top: AppSpacing.xlg
-              ),
+              padding: const EdgeInsets.only(top: AppSpacing.xlg),
               child: TextButton(
-                onPressed: () {
-
-                },
-                child: Text('Delete', style: UITextStyle.bodyMedium.copyWith(
-                  color: AppColors.red,
-                  fontWeight: AppFontWeight.semiBold
-                ),)
-              ),
+                  onPressed: () {},
+                  child: Text(
+                    'Delete',
+                    style: UITextStyle.bodyMedium.copyWith(
+                        color: AppColors.red,
+                        fontWeight: AppFontWeight.semiBold),
+                  )),
             )
           ],
         ),

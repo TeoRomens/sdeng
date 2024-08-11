@@ -14,9 +14,9 @@ class AthletesCubit extends Cubit<AthletesState> {
     required AthletesRepository athletesRepository,
     required TeamsRepository teamsRepository,
     required Team team,
-  }) : _athletesRepository = athletesRepository,
-       _teamsRepository = teamsRepository,
-       super(AthletesState.initial(team: team));
+  })  : _athletesRepository = athletesRepository,
+        _teamsRepository = teamsRepository,
+        super(AthletesState.initial(team: team));
 
   final AthletesRepository _athletesRepository;
   final TeamsRepository _teamsRepository;
@@ -28,15 +28,13 @@ class AthletesCubit extends Cubit<AthletesState> {
   Future<void> getAthletesFromTeam(String teamId) async {
     emit(state.copyWith(status: AthletesStatus.loading));
     try {
-      final athletes = await _athletesRepository.getAthletesFromTeamId(
-          teamId: teamId
-      );
-      emit(state.copyWith(
-          status: AthletesStatus.populated,
-          athletes: athletes
-      ));
+      final athletes =
+          await _athletesRepository.getAthletesFromTeamId(teamId: teamId);
+      emit(
+          state.copyWith(status: AthletesStatus.populated, athletes: athletes));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthletesStatus.failure, error: 'Error loading athletes.'));
+      emit(state.copyWith(
+          status: AthletesStatus.failure, error: 'Error loading athletes.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -47,7 +45,8 @@ class AthletesCubit extends Cubit<AthletesState> {
     try {
       await _athletesRepository.deleteAthlete(id: id);
       state.athletes.removeWhere((elem) => elem.id == id);
-      emit(state.copyWith(status: AthletesStatus.populated, athletes: state.athletes));
+      emit(state.copyWith(
+          status: AthletesStatus.populated, athletes: state.athletes));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: AthletesStatus.failure));
       addError(error, stackTrace);
@@ -57,15 +56,20 @@ class AthletesCubit extends Cubit<AthletesState> {
   Future<void> deleteTeam(String id) async {
     emit(state.copyWith(status: AthletesStatus.loading));
     try {
-      if(state.status == AthletesStatus.populated && state.athletes.isNotEmpty) {
-        emit(state.copyWith(status: AthletesStatus.failure, error: 'Error deleting team. Delete all athletes before deleting.'));
+      if (state.status == AthletesStatus.populated &&
+          state.athletes.isNotEmpty) {
+        emit(state.copyWith(
+            status: AthletesStatus.failure,
+            error:
+                'Error deleting team. Delete all athletes before deleting.'));
         emit(state.copyWith(status: AthletesStatus.populated, error: ''));
         return;
       }
       await _teamsRepository.deleteTeam(id: id);
       emit(state.copyWith(status: AthletesStatus.teamDeleted));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthletesStatus.failure, error: 'Error deleting team.'));
+      emit(state.copyWith(
+          status: AthletesStatus.failure, error: 'Error deleting team.'));
       addError(error, stackTrace);
     }
   }

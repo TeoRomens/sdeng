@@ -35,23 +35,29 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
         ),
         children: [
           const _ModalTitle(),
-          const Divider(endIndent: 0, indent: 0, height: 25,),
+          const Divider(
+            endIndent: 0,
+            indent: 0,
+            height: 25,
+          ),
           AppTextFormField(
             label: 'Name',
             controller: _nameController,
             validator: (value) {
-              if(value == null || value.isEmpty) return 'Required';
+              if (value == null || value.isEmpty) return 'Required';
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.sm,),
+          const SizedBox(
+            height: AppSpacing.sm,
+          ),
           AppTextFormField(
             label: 'Quota 1',
             controller: _amount1Controller,
             keyboardType: TextInputType.number,
             validator: (value) {
-              if(value == null || value.isEmpty) return 'Required';
-              try{
+              if (value == null || value.isEmpty) return 'Required';
+              try {
                 num.parse(value);
               } catch (err) {
                 return 'Only digits are accepted';
@@ -59,7 +65,9 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.sm,),
+          const SizedBox(
+            height: AppSpacing.sm,
+          ),
           AppTextFormField(
             label: 'To be paid before',
             prefix: const Icon(FeatherIcons.calendar),
@@ -67,12 +75,12 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
             readOnly: true,
             onTap: () async {
               DateTime? selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2100),
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2100),
               );
-              if(selectedDate != null) {
+              if (selectedDate != null) {
                 _date1Controller.text = selectedDate.dMY;
               }
             },
@@ -83,78 +91,96 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.sm,),
+          const SizedBox(
+            height: AppSpacing.sm,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Single rata', style: UITextStyle.bodyLarge,),
+              Text(
+                'Single rata',
+                style: UITextStyle.bodyLarge,
+              ),
               Switch.adaptive(
                   value: full,
                   onChanged: (value) {
                     setState(() {
                       full = value;
                     });
-                  }
-              ),
+                  }),
             ],
           ),
-          const SizedBox(height: AppSpacing.sm,),
-          full ? const SizedBox.shrink() : AppTextFormField(
-            label: 'Quota 2',
-            controller: _amount2Controller,
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              if(value == null || value.isEmpty) return 'Required';
-              try{
-                num.parse(value);
-              } catch (err) {
-                return 'Only digits are accepted';
-              }
-              return null;
-            },
+          const SizedBox(
+            height: AppSpacing.sm,
           ),
-          full ? const SizedBox.shrink() : const SizedBox(height: AppSpacing.sm,),
-          full ? const SizedBox.shrink() : AppTextFormField(
-            label: 'To be paid before',
-            prefix: const Icon(FeatherIcons.calendar),
-            controller: _date2Controller,
-            readOnly: true,
-            onTap: () async {
-              DateTime? selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2100)
-              );
-              if(selectedDate != null) {
-                _date2Controller.text = selectedDate.dMY;
-              }
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Required';
-              }
-              return null;
-            },
+          full
+              ? const SizedBox.shrink()
+              : AppTextFormField(
+                  label: 'Quota 2',
+                  controller: _amount2Controller,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Required';
+                    try {
+                      num.parse(value);
+                    } catch (err) {
+                      return 'Only digits are accepted';
+                    }
+                    return null;
+                  },
+                ),
+          full
+              ? const SizedBox.shrink()
+              : const SizedBox(
+                  height: AppSpacing.sm,
+                ),
+          full
+              ? const SizedBox.shrink()
+              : AppTextFormField(
+                  label: 'To be paid before',
+                  prefix: const Icon(FeatherIcons.calendar),
+                  controller: _date2Controller,
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2100));
+                    if (selectedDate != null) {
+                      _date2Controller.text = selectedDate.dMY;
+                    }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                ),
+          const SizedBox(
+            height: AppSpacing.lg,
           ),
-          const SizedBox(height: AppSpacing.lg,),
           PrimaryButton(
-              onPressed: () async {
-                if(_formKey.currentState!.validate()) {
-                  await BlocProvider.of<PaymentFormulaCubit>(context)
-                      .addPaymentFormula(
-                        name: _nameController.text,
-                        full: full,
-                        amount1: num.parse(_amount1Controller.text),
-                        date1: _date1Controller.text.toDateTime!,
-                        amount2: full ? null : num.parse(_amount2Controller.text),
-                        date2: full ? null : _date2Controller.text.toDateTime!,
-                      ).then((_) => Navigator.of(context).pop());
-                }
-              },
-              child: const Text('Add'),
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                await BlocProvider.of<PaymentFormulaCubit>(context)
+                    .addPaymentFormula(
+                      name: _nameController.text,
+                      full: full,
+                      amount1: num.parse(_amount1Controller.text),
+                      date1: _date1Controller.text.toDateTime!,
+                      amount2: full ? null : num.parse(_amount2Controller.text),
+                      date2: full ? null : _date2Controller.text.toDateTime!,
+                    )
+                    .then((_) => Navigator.of(context).pop());
+              }
+            },
+            child: const Text('Add'),
           ),
-          const SizedBox(height: AppSpacing.xlg,),
+          const SizedBox(
+            height: AppSpacing.xlg,
+          ),
         ],
       ),
     );

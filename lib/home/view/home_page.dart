@@ -34,10 +34,11 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) => MedicalCubit(
             medicalsRepository: context.read<MedicalsRepository>(),
-          )..getExpiredMedicals()
-           ..getExpiringMedicals()
-           ..getGoodMedicals()
-           ..getUnknownMedicals(),
+          )
+            ..getExpiredMedicals()
+            ..getExpiringMedicals()
+            ..getGoodMedicals()
+            ..getUnknownMedicals(),
         ),
         BlocProvider(
           create: (context) => PaymentsCubit(
@@ -52,10 +53,10 @@ class HomePage extends StatelessWidget {
       ],
       child: OrientationBuilder(
           builder: (BuildContext context, Orientation orientation) {
-            return orientation == Orientation.portrait ?
-                const HomeView() : const HomeViewDesktop();
-          }
-      ),
+        return orientation == Orientation.portrait
+            ? const HomeView()
+            : const HomeViewDesktop();
+      }),
     );
   }
 }

@@ -12,7 +12,6 @@ abstract class AuthenticationException implements Exception {
   final Object error;
 }
 
-
 /// {@template log_in_with_google_failure}
 /// Thrown during the sign in with google process if a failure occurs.
 /// {@endtemplate}
@@ -74,25 +73,23 @@ class AuthenticationClient {
   AuthenticationClient({
     SupabaseClient? supabaseClient,
     GoogleSignIn? googleSignIn,
-  }) : _supabaseClient = supabaseClient ?? Supabase.instance.client,
-       _googleSignIn = googleSignIn ?? GoogleSignIn(
-         clientId: '424833225652-ehsmi8dg6fmu6j4tgssjkl8q5hnf33hj.apps.googleusercontent.com',
-         serverClientId: '424833225652-s9n3jlj2q6fkdeo95234e8hjcp1iiv48.apps.googleusercontent.com',
-       );
+  })  : _supabaseClient = supabaseClient ?? Supabase.instance.client,
+        _googleSignIn = googleSignIn ??
+            GoogleSignIn(
+              clientId:
+                  '424833225652-ehsmi8dg6fmu6j4tgssjkl8q5hnf33hj.apps.googleusercontent.com',
+              serverClientId:
+                  '424833225652-s9n3jlj2q6fkdeo95234e8hjcp1iiv48.apps.googleusercontent.com',
+            );
 
   final SupabaseClient _supabaseClient;
   final GoogleSignIn _googleSignIn;
 
-  /// Stream of [AuthUser] which will emit the current user when
-  /// the authentication state changes.
-  ///
-  /// Emits [AuthUser.anonymous] if the user is not authenticated.
   Stream<User?> get user {
     return _supabaseClient.auth.onAuthStateChange.map((data) {
       return data.session?.user;
     });
   }
-
 
   /// Starts the Sign In with Google Flow.
   ///
@@ -111,13 +108,11 @@ class AuthenticationClient {
       final idToken = googleAuth.idToken;
       if (accessToken == null) {
         throw LogInWithGoogleFailure(
-            Exception('No Access Token found.'),
+          Exception('No Access Token found.'),
         );
       }
       if (idToken == null) {
-        throw LogInWithGoogleFailure(
-          Exception('No ID Token found.')
-        );
+        throw LogInWithGoogleFailure(Exception('No ID Token found.'));
       }
       await _supabaseClient.auth.signInWithIdToken(
         provider: OAuthProvider.google,
@@ -162,7 +157,8 @@ class AuthenticationClient {
         //emailRedirectTo: 'io.teoromens.sdeng://home'
       );
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(SignUpWithCredentialsFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          SignUpWithCredentialsFailure(error), stackTrace);
     }
   }
 
@@ -192,15 +188,12 @@ class AuthenticationClient {
       }
 
       // TODO: Implement deletion
-
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(DeleteAccountFailure(error), stackTrace);
     }
   }
 
-  Future<void> forgotPassword({
-    required String email
-  }) async {
+  Future<void> forgotPassword({required String email}) async {
     try {
       await _supabaseClient.auth.resetPasswordForEmail(
         email,
@@ -209,5 +202,4 @@ class AuthenticationClient {
       Error.throwWithStackTrace(ForgotPasswordFailure(error), stackTrace);
     }
   }
-
 }

@@ -16,9 +16,10 @@ class MedicalState extends Equatable {
     this.unknownMedicals = const [],
   });
 
-  const MedicalState.initial() : this(
-    status: MedicalStatus.initial,
-  );
+  const MedicalState.initial()
+      : this(
+          status: MedicalStatus.initial,
+        );
 
   final MedicalStatus status;
   final List<Medical> expiredMedicals;
@@ -28,12 +29,12 @@ class MedicalState extends Equatable {
 
   @override
   List<Object> get props => [
-    status,
-    expiredMedicals,
-    expiringMedicals,
-    goodMedicals,
-    unknownMedicals,
-  ];
+        status,
+        expiredMedicals,
+        expiringMedicals,
+        goodMedicals,
+        unknownMedicals,
+      ];
 
   MedicalState copyWith({
     MedicalStatus? status,

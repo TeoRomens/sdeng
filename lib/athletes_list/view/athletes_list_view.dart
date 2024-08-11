@@ -38,13 +38,14 @@ class _AthletesListViewState extends State<AthletesListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select athlete'),
-      ),
-      body: _loading
-        ? const LoadingBox()
-        : AthletesPopulated(athletes: _athletes,)
-    );
+        appBar: AppBar(
+          title: const Text('Select athlete'),
+        ),
+        body: _loading
+            ? const LoadingBox()
+            : AthletesPopulated(
+                athletes: _athletes,
+              ));
   }
 }
 
@@ -55,7 +56,7 @@ class AthletesPopulated extends StatefulWidget {
   AthletesPopulated({
     super.key,
     List<Athlete>? athletes,
-  })  : _athletes = athletes ?? [];
+  }) : _athletes = athletes ?? [];
 
   final List<Athlete> _athletes;
 
@@ -66,7 +67,6 @@ class AthletesPopulated extends StatefulWidget {
 /// State of AthleteList widget. Made public for testing purposes.
 @visibleForTesting
 class AthletesPopulatedState extends State<AthletesPopulated> {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -80,19 +80,24 @@ class AthletesPopulatedState extends State<AthletesPopulated> {
               heightFactor: 5,
               child: Text('It seems empty here'),
             )
-          else ListView.separated(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            itemCount: widget._athletes.length,
-            itemBuilder: (context, index) {
-              return AthleteTile(
-                athlete: widget._athletes[index],
-                onTap: () => Navigator.of(context).pop(widget._athletes[index]),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index)
-              => const Divider(height: 0, indent: 70, endIndent: 20,)
-          ),
+          else
+            ListView.separated(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: widget._athletes.length,
+                itemBuilder: (context, index) {
+                  return AthleteTile(
+                    athlete: widget._athletes[index],
+                    onTap: () =>
+                        Navigator.of(context).pop(widget._athletes[index]),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                      height: 0,
+                      indent: 70,
+                      endIndent: 20,
+                    )),
         ],
       ),
     );

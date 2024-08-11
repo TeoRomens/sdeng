@@ -1,13 +1,12 @@
 class PaymentFormula {
-  PaymentFormula({
-    required this.id,
-    required this.name,
-    required this.full,
-    required this.date1,
-    required this.quota1,
-    this.date2,
-    this.quota2
-  });
+  PaymentFormula(
+      {required this.id,
+      required this.name,
+      required this.full,
+      required this.date1,
+      required this.quota1,
+      this.date2,
+      this.quota2});
 
   final String id;
   final String name;

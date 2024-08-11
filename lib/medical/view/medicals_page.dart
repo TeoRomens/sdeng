@@ -8,7 +8,7 @@ import 'package:sdeng/medical/view/view.dart';
 
 class MedicalsPage extends StatelessWidget {
   const MedicalsPage({super.key});
-  
+
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const MedicalsPage(),
@@ -20,7 +20,8 @@ class MedicalsPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => MedicalCubit(
         medicalsRepository: context.read<MedicalsRepository>(),
-      ) ..getExpiredMedicals()
+      )
+        ..getExpiredMedicals()
         ..getExpiringMedicals()
         ..getUnknownMedicals(),
       child: BlocListener<MedicalCubit, MedicalState>(
@@ -30,9 +31,8 @@ class MedicalsPage extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 const SnackBar(
-                  backgroundColor: AppColors.red,
-                  content: Text('Error getting medical visits.')
-                ),
+                    backgroundColor: AppColors.red,
+                    content: Text('Error getting medical visits.')),
               );
           }
         },
@@ -42,11 +42,11 @@ class MedicalsPage extends StatelessWidget {
             centerTitle: true,
           ),
           body: OrientationBuilder(
-            builder: (BuildContext context, Orientation orientation) {
-              return orientation == Orientation.portrait ?
-                const MedicalView() : const MedicalViewDesktop();
-            }
-          ),
+              builder: (BuildContext context, Orientation orientation) {
+            return orientation == Orientation.portrait
+                ? const MedicalView()
+                : const MedicalViewDesktop();
+          }),
         ),
       ),
     );

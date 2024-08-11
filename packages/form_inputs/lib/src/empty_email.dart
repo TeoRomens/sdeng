@@ -22,14 +22,13 @@ class EmptyEmail extends FormzInput<String, EmptyEmailValidationError> {
 
   @override
   EmptyEmailValidationError? validator(String value) {
-    if(value.isEmpty) return null;
+    if (value.isEmpty) return null;
 
     if (!_emailRegExp.hasMatch(value)) {
       return EmptyEmailValidationError.invalid;
     }
     return null;
   }
-
 }
 
 /// {@template email}

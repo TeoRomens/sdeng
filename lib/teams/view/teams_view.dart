@@ -10,18 +10,17 @@ class TeamsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TeamsCubit,TeamsState>(
-      listener: (context, state) {
-        if (state.status == TeamsStatus.failure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
-        }
-      },
-      child: const TeamsScreen()
-    );
+    return BlocListener<TeamsCubit, TeamsState>(
+        listener: (context, state) {
+          if (state.status == TeamsStatus.failure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
+          }
+        },
+        child: const TeamsScreen());
   }
 }
 
@@ -29,7 +28,9 @@ class TeamsView extends StatelessWidget {
 @visibleForTesting
 class TeamsScreen extends StatelessWidget {
   /// Main view of Teams.
-  const TeamsScreen({super.key,});
+  const TeamsScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,51 +50,55 @@ class TeamsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const TextBox(
-                title: 'Teams',
-                content: 'Below you find all your team you have created. Go inside to find the players belonging to a specific team.'
-              ),
+                  title: 'Teams',
+                  content:
+                      'Below you find all your team you have created. Go inside to find the players belonging to a specific team.'),
               bloc.state.status == TeamsStatus.loading
-                ? const LoadingBox()
-                : bloc.state.teams.isEmpty
-                ? EmptyState(
-                    actionText: 'New team',
-                    onPressed: () async => await showAppModal(
-                      context: context,
-                      content: const AddTeamModal(),
-                    ).then((_) => bloc.getTeams())
-                  )
-                : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: bloc.state.teams.length,
-                        itemBuilder: (_,index) => TeamTile(
-                          name: bloc.state.teams[index].name,
-                          numAthletes:  bloc.state.teams[index].numAthletes,
-                          onTap: () => Navigator.of(context).push(AthletesPage.route(team: bloc.state.teams[index])),
-                        ),
-                        separatorBuilder: (_,index) => const Divider(height: 0, indent: 20,),
-                    ),
-                    const Divider(indent: 70, height: 0),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: AppSpacing.sm,
-                          left: AppSpacing.xlg
-                      ),
-                      child: AppTextButton(
-                          text: 'Add team',
+                  ? const LoadingBox()
+                  : bloc.state.teams.isEmpty
+                      ? EmptyState(
+                          actionText: 'New team',
                           onPressed: () async => await showAppModal(
-                            context: context,
-                            content: const AddTeamModal(),
-                          ).then((_) => bloc.getTeams())
-                      ),
-                    ),
-                  ],
-                ),
-              const SizedBox(height: 100,)
+                                context: context,
+                                content: const AddTeamModal(),
+                              ).then((_) => bloc.getTeams()))
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemCount: bloc.state.teams.length,
+                              itemBuilder: (_, index) => TeamTile(
+                                name: bloc.state.teams[index].name,
+                                numAthletes:
+                                    bloc.state.teams[index].numAthletes,
+                                onTap: () => Navigator.of(context).push(
+                                    AthletesPage.route(
+                                        team: bloc.state.teams[index])),
+                              ),
+                              separatorBuilder: (_, index) => const Divider(
+                                height: 0,
+                                indent: 20,
+                              ),
+                            ),
+                            const Divider(indent: 70, height: 0),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: AppSpacing.sm, left: AppSpacing.xlg),
+                              child: AppTextButton(
+                                  text: 'Add team',
+                                  onPressed: () async => await showAppModal(
+                                        context: context,
+                                        content: const AddTeamModal(),
+                                      ).then((_) => bloc.getTeams())),
+                            ),
+                          ],
+                        ),
+              const SizedBox(
+                height: 100,
+              )
             ],
           ),
         ),
@@ -119,8 +124,8 @@ class TeamsLoading extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const HomeStats(
-            numTeam: 0,
-            numAthletes: 0,
+          numTeam: 0,
+          numAthletes: 0,
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(
@@ -132,24 +137,24 @@ class TeamsLoading extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Teams', style: UITextStyle.headlineMedium,),
+              Text(
+                'Teams',
+                style: UITextStyle.headlineMedium,
+              ),
             ],
           ),
         ),
         const LoadingBox(),
         const Divider(indent: 70, height: 0),
         Padding(
-          padding: const EdgeInsets.only(
-              top: AppSpacing.sm,
-              left: AppSpacing.xlg
-          ),
+          padding:
+              const EdgeInsets.only(top: AppSpacing.sm, left: AppSpacing.xlg),
           child: AppTextButton(
               text: 'Add team',
               onPressed: () async => await showAppModal(
-                context: context,
-                content: const AddTeamModal(),
-              ).then((_) => bloc.getTeams())
-          ),
+                    context: context,
+                    content: const AddTeamModal(),
+                  ).then((_) => bloc.getTeams())),
         )
       ],
     );

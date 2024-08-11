@@ -17,8 +17,10 @@ class EditAthleteForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.read<EditAthleteCubit>().state;
 
-    final nameController = TextEditingController(text: athlete.fullName.split(' ').first);
-    final surnameController = TextEditingController(text: athlete.fullName.split(' ').last);
+    final nameController =
+        TextEditingController(text: athlete.fullName.split(' ').first);
+    final surnameController =
+        TextEditingController(text: athlete.fullName.split(' ').last);
     final taxcodeController = TextEditingController(text: athlete.taxCode);
     final birthController = TextEditingController(text: athlete.birthdate?.dMY);
     final emailController = TextEditingController(text: athlete.email);
@@ -90,16 +92,19 @@ class EditAthleteForm extends StatelessWidget {
           PrimaryButton(
             onPressed: () async {
               formKey.currentState!.validate()
-                ? await context.read<EditAthleteCubit>().updateAthlete(
-                    name: nameController.text,
-                    surname: surnameController.text,
-                    taxCode: taxcodeController.text,
-                    birthdate: birthController.text.toDateTime,
-                    address: addressController.text,
-                    email: emailController.text,
-                    phone: phoneController.text,
-                  ).then((_) => Navigator.of(context).pop(true))
-                : null;
+                  ? await context
+                      .read<EditAthleteCubit>()
+                      .updateAthlete(
+                        name: nameController.text,
+                        surname: surnameController.text,
+                        taxCode: taxcodeController.text,
+                        birthdate: birthController.text.toDateTime,
+                        address: addressController.text,
+                        email: emailController.text,
+                        phone: phoneController.text,
+                      )
+                      .then((_) => Navigator.of(context).pop(true))
+                  : null;
             },
             child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(

@@ -25,7 +25,8 @@ class SettingsView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Settings',
+            Text(
+              'Settings',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 20),
@@ -38,10 +39,10 @@ class SettingsView extends StatelessWidget {
                     Text(
                       'Profile',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: AppColors.blueGrey,
-                          fontWeight: AppFontWeight.semiBold,
-                          fontSize: 17,
-                      ),
+                            color: AppColors.blueGrey,
+                            fontWeight: AppFontWeight.semiBold,
+                            fontSize: 17,
+                          ),
                     ),
                     const Text(
                       'Update your profile details here',
@@ -55,19 +56,17 @@ class SettingsView extends StatelessWidget {
                   ],
                 ),
                 SecondaryButton(
-                  text: 'Edit',
-                  onPressed: () {
-                    showAppModal(
-                        isDismissible: true,
-                        enableDrag: false,
-                        context: context,
-                        content: ProfileModal(
-                          userId: user!.id,
-                          sdengUser: user,
-                        )
-                    );
-                  }
-                )
+                    text: 'Edit',
+                    onPressed: () {
+                      showAppModal(
+                          isDismissible: true,
+                          enableDrag: false,
+                          context: context,
+                          content: ProfileModal(
+                            userId: user!.id,
+                            sdengUser: user,
+                          ));
+                    })
               ],
             ),
             const Divider(
@@ -80,8 +79,7 @@ class SettingsView extends StatelessWidget {
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppColors.blueGrey,
                   fontWeight: AppFontWeight.semiBold,
-                  fontSize: 17
-              ),
+                  fontSize: 17),
             ),
             const SizedBox(height: AppSpacing.sm),
             //TODO: Payments formula settings
@@ -108,10 +106,10 @@ class SettingsView extends StatelessWidget {
                     Text(
                       'Terms of Service',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: AppColors.blueGrey,
-                        fontWeight: AppFontWeight.semiBold,
-                        fontSize: 17,
-                      ),
+                            color: AppColors.blueGrey,
+                            fontWeight: AppFontWeight.semiBold,
+                            fontSize: 17,
+                          ),
                     ),
                     const Text(
                       'View the terms of services of SDENG',
@@ -128,8 +126,7 @@ class SettingsView extends StatelessWidget {
                     text: 'View',
                     onPressed: () {
                       //TODO: Terms of use
-                    }
-                )
+                    })
               ],
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -142,10 +139,10 @@ class SettingsView extends StatelessWidget {
                     Text(
                       'About',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: AppColors.blueGrey,
-                        fontWeight: AppFontWeight.semiBold,
-                        fontSize: 17,
-                      ),
+                            color: AppColors.blueGrey,
+                            fontWeight: AppFontWeight.semiBold,
+                            fontSize: 17,
+                          ),
                     ),
                     const Text(
                       'Know more about us',
@@ -159,34 +156,25 @@ class SettingsView extends StatelessWidget {
                   ],
                 ),
                 SecondaryButton(
-                    text: 'View',
-                    onPressed: () {
-                      //TODO: About SDENG
-                    }
-                )
+                  text: 'View',
+                  onPressed: () {
+                    //TODO: About SDENG
+                  })
               ],
+            ),
+            const SizedBox(height: AppSpacing.xxlg),
+            Align(
+              alignment: Alignment.center,
+              child: SecondaryButton(
+                  text: 'Logout',
+                  onPressed: () {
+                    //TODO: Logout
+                  }),
             ),
             const SizedBox(height: AppSpacing.lg),
             const SizedBox(height: AppSpacing.lg),
           ],
         ),
-      ),
-    );
-  }
-}
-
-@visibleForTesting
-class UserProfileTitle extends StatelessWidget {
-  const UserProfileTitle({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: Text(
-        'Profile',
-        style: theme.textTheme.headlineLarge,
       ),
     );
   }

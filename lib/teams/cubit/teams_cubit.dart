@@ -7,10 +7,9 @@ import 'package:teams_repository/teams_repository.dart';
 part 'teams_state.dart';
 
 class TeamsCubit extends Cubit<TeamsState> {
-  TeamsCubit({
-    required TeamsRepository teamsRepository
-  }) : _teamsRepository = teamsRepository,
-       super(const TeamsState.initial());
+  TeamsCubit({required TeamsRepository teamsRepository})
+      : _teamsRepository = teamsRepository,
+        super(const TeamsState.initial());
 
   final TeamsRepository _teamsRepository;
 
@@ -20,7 +19,7 @@ class TeamsCubit extends Cubit<TeamsState> {
       final teams = await _teamsRepository.getTeams();
       final teamsWithAthletes = <Team>[];
       int totAthletes = 0;
-      for(var team in teams) {
+      for (var team in teams) {
         final num = await _teamsRepository.countAthletesInTeam(id: team.id);
         totAthletes = totAthletes + num;
         teamsWithAthletes.add(team.copyWith(numAthletes: num));
@@ -28,8 +27,7 @@ class TeamsCubit extends Cubit<TeamsState> {
       emit(state.copyWith(
           status: TeamsStatus.populated,
           teams: teamsWithAthletes,
-          numAthletes: totAthletes
-      ));
+          numAthletes: totAthletes));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: TeamsStatus.failure));
       addError(error, stackTrace);

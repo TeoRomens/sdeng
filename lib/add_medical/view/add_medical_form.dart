@@ -33,7 +33,11 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
         ),
         children: [
           const _ModalTitle(),
-          const Divider(endIndent: 0, indent: 0, height: 25,),
+          const Divider(
+            endIndent: 0,
+            indent: 0,
+            height: 25,
+          ),
           RadioListTile.adaptive(
             value: MedType.agonistic,
             groupValue: currentOption,
@@ -42,7 +46,10 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
                 currentOption = value;
               });
             },
-            title: Text('Agonistic', style: UITextStyle.bodyLarge,),
+            title: Text(
+              'Agonistic',
+              style: UITextStyle.bodyLarge,
+            ),
             contentPadding: EdgeInsets.zero,
             dense: true,
             visualDensity: VisualDensity.compact,
@@ -76,7 +83,9 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
             visualDensity: VisualDensity.compact,
             useCupertinoCheckmarkStyle: true,
           ),
-          const SizedBox(height: AppSpacing.md,),
+          const SizedBox(
+            height: AppSpacing.md,
+          ),
           AppTextFormField(
             label: 'Expire',
             controller: _expireController,
@@ -85,44 +94,49 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now(),
-                  lastDate: DateTime(2100)
-              );
-              if(selectedDate != null) {
+                  lastDate: DateTime(2100));
+              if (selectedDate != null) {
                 _expireController.text = selectedDate.dMY;
               }
               FocusManager.instance.primaryFocus?.unfocus();
             },
             validator: (value) {
-              if(currentOption != MedType.not_required &&
+              if (currentOption != MedType.not_required &&
                   (value == null || value.isEmpty)) {
                 return 'Required';
               }
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.xlg,),
-          PrimaryButton(
-              onPressed: () async {
-                _formKey.currentState!.validate()
-                ? await context.read<AthleteCubit>()
-                  .addMedical(
-                    type: currentOption ?? MedType.agonistic,
-                    expire: _expireController.text.toDateTime!,
-                  )
-                  .then((_) => Navigator.of(context).pop())
-                : null;
-              },
-              child: state.status == AthleteStatus.loading ?
-                const SizedBox.square(
-                  dimension: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: AppColors.white,
-                    strokeCap: StrokeCap.round,
-                  ),
-                ) : const Text('Add'),
+          const SizedBox(
+            height: AppSpacing.xlg,
           ),
-          const SizedBox(height: AppSpacing.xlg,),
+          PrimaryButton(
+            onPressed: () async {
+              _formKey.currentState!.validate()
+                  ? await context
+                      .read<AthleteCubit>()
+                      .addMedical(
+                        type: currentOption ?? MedType.agonistic,
+                        expire: _expireController.text.toDateTime!,
+                      )
+                      .then((_) => Navigator.of(context).pop())
+                  : null;
+            },
+            child: state.status == AthleteStatus.loading
+                ? const SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: AppColors.white,
+                      strokeCap: StrokeCap.round,
+                    ),
+                  )
+                : const Text('Add'),
+          ),
+          const SizedBox(
+            height: AppSpacing.xlg,
+          ),
         ],
       ),
     );

@@ -9,7 +9,8 @@ enum EmptyPhoneNumberValidationError {
 /// {@template phone_number}
 /// Reusable phone number form input.
 /// {@endtemplate}
-class EmptyPhoneNumber extends FormzInput<String, EmptyPhoneNumberValidationError> {
+class EmptyPhoneNumber
+    extends FormzInput<String, EmptyPhoneNumberValidationError> {
   /// {@macro phone_number}
   const EmptyPhoneNumber.pure() : super.pure('');
 
@@ -22,7 +23,7 @@ class EmptyPhoneNumber extends FormzInput<String, EmptyPhoneNumberValidationErro
 
   @override
   EmptyPhoneNumberValidationError? validator(String value) {
-    if(value.isEmpty) return null;
+    if (value.isEmpty) return null;
 
     if (!_phoneNumberRegExp.hasMatch(value)) {
       return EmptyPhoneNumberValidationError.invalid;

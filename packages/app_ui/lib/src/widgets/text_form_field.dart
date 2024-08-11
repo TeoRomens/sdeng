@@ -106,13 +106,14 @@ class AppTextFormField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if(label != null)
+        if (label != null)
           Padding(
             padding: const EdgeInsets.only(
               top: AppSpacing.sm,
               bottom: AppSpacing.sm,
             ),
-            child: Text(label!,
+            child: Text(
+              label!,
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ),
@@ -128,14 +129,14 @@ class AppTextFormField extends StatelessWidget {
           autofillHints: autoFillHints,
           cursorColor: AppColors.primary,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Colors.black,
-          ),
+                color: Colors.black,
+              ),
           onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: const Color(0xFF667085),
-            ),
+                  color: const Color(0xFF667085),
+                ),
             errorText: errorText,
             prefixIcon: prefix,
             suffixIcon: suffix,
@@ -157,14 +158,13 @@ class AppTextFormField extends StatelessWidget {
           textInputAction: TextInputAction.next,
           onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
         ),
-        if(bottomText != null)
+        if (bottomText != null)
           Padding(
             padding: const EdgeInsets.only(
-                top: AppSpacing.sm,
+              top: AppSpacing.sm,
             ),
             child: Text(bottomText!,
-              style: Theme.of(context).textTheme.labelSmall
-            ),
+                style: Theme.of(context).textTheme.labelSmall),
           ),
       ],
     );

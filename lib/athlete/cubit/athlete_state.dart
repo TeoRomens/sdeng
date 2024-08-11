@@ -20,11 +20,11 @@ class AthleteState extends Equatable {
     this.error = '',
   });
 
-  const AthleteState.initial({required String athleteId, Athlete? athlete}) : this(
-    status: AthleteStatus.initial,
-    athleteId: athleteId,
-    athlete: athlete
-  );
+  const AthleteState.initial({required String athleteId, Athlete? athlete})
+      : this(
+            status: AthleteStatus.initial,
+            athleteId: athleteId,
+            athlete: athlete);
 
   final AthleteStatus status;
   final String athleteId;
@@ -38,14 +38,14 @@ class AthleteState extends Equatable {
 
   @override
   List<Object?> get props => [
-    status,
-    athlete,
-    parent,
-    medical,
-    payments,
-    documents,
-    error,
-  ];
+        status,
+        athlete,
+        parent,
+        medical,
+        payments,
+        documents,
+        error,
+      ];
 
   AthleteState copyWith({
     String? athleteId,

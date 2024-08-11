@@ -26,36 +26,45 @@ class AddTeamForm extends StatelessWidget {
         ),
         children: [
           const _ModalTitle(),
-          const Divider(endIndent: 0, indent: 0, height: 25,),
+          const Divider(
+            endIndent: 0,
+            indent: 0,
+            height: 25,
+          ),
           AppTextFormField(
             label: 'Name',
             bottomText: 'The name can\'t be empty',
             controller: _nameController,
             validator: (value) {
-              if(value == null || value.isEmpty) return 'Required';
+              if (value == null || value.isEmpty) return 'Required';
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.xlg,),
+          const SizedBox(
+            height: AppSpacing.xlg,
+          ),
           PrimaryButton(
-              onPressed: () async {
-                _formKey.currentState!.validate() ?
-                  await BlocProvider.of<TeamsCubit>(context)
+            onPressed: () async {
+              _formKey.currentState!.validate()
+                  ? await BlocProvider.of<TeamsCubit>(context)
                       .addTeam(_nameController.text)
                       .then((_) => Navigator.of(context).pop())
                   : null;
-              },
-              child: state.status == TeamsStatus.loading ?
-                  const SizedBox.square(
+            },
+            child: state.status == TeamsStatus.loading
+                ? const SizedBox.square(
                     dimension: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.5,
                       color: AppColors.white,
                       strokeCap: StrokeCap.round,
                     ),
-                  ) : const Text('Add'),
+                  )
+                : const Text('Add'),
           ),
-          const SizedBox(height: AppSpacing.xlg,),
+          const SizedBox(
+            height: AppSpacing.xlg,
+          ),
         ],
       ),
     );

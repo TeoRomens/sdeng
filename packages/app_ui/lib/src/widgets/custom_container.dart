@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomContainer extends StatelessWidget {
-
   const CustomContainer({
     super.key,
     required this.icon,
@@ -19,7 +18,8 @@ class CustomContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(vertical: onPressed != null ? 5 : 12, horizontal: 14),
+      padding: EdgeInsets.symmetric(
+          vertical: onPressed != null ? 5 : 12, horizontal: 14),
       decoration: BoxDecoration(
         color: const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(8),
@@ -47,7 +47,8 @@ class CustomContainer extends StatelessWidget {
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
                 elevation: 0.2,
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                 backgroundColor: Colors.white,
                 surfaceTintColor: Colors.white,
                 visualDensity: VisualDensity.compact,

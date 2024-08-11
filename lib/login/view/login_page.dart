@@ -10,9 +10,9 @@ class LoginPage extends StatelessWidget {
   static Page<void> page() => const MaterialPage<void>(child: LoginPage());
 
   static Route<void> route() => MaterialPageRoute(
-    builder: (context) => const LoginPage(),
-    settings: const RouteSettings(name: name),
-  );
+        builder: (context) => const LoginPage(),
+        settings: const RouteSettings(name: name),
+      );
 
   static const String name = '/login';
 

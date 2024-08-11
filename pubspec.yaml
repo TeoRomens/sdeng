@@ -35,13 +35,11 @@ dependencies:
   bloc: ^8.1.4
   connectivity_plus: ^6.0.3
   cupertino_icons: ^1.0.6
-  data_table_2: ^2.5.12
   documents_repository:
     path: packages/documents_repository
   equatable: ^2.0.5
   feather_icons: ^1.2.0
   file_picker: ^8.0.2
-  flow_builder: ^0.1.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5

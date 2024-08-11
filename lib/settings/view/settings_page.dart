@@ -28,11 +28,11 @@ class SettingsPage extends StatelessWidget {
           centerTitle: true,
         ),
         body: OrientationBuilder(
-            builder: (BuildContext context, Orientation orientation) {
-              return orientation == Orientation.portrait ?
-              const SettingsView() : const SettingsViewDesktop();
-            }
-        ),
+            builder: (context, orientation) {
+          return orientation == Orientation.portrait
+              ? const SettingsView()
+              : const SettingsViewDesktop();
+        }),
       ),
     );
   }

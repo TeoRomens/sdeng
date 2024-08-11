@@ -24,20 +24,16 @@ class NotesViewDesktop extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Assets.images.logo4.svg(height: 120)
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Notes',
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                  ]
-              ),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Assets.images.logo4.svg(height: 120)),
+                const SizedBox(height: 8),
+                Text(
+                  'Notes',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+              ]),
             ),
           ),
           VerticalDivider(
@@ -56,40 +52,40 @@ class NotesViewDesktop extends StatelessWidget {
                   children: [
                     const TextBox(
                         title: 'Notes',
-                        content: 'Here you find all the messaged, todos, reminders for being always on point'
-                    ),
+                        content:
+                            'Here you find all the messaged, todos, reminders for being always on point'),
                     AppTextButton(
                         text: 'Add note',
                         onPressed: () => showAppModal(
-                          context: context,
-                          content: const AddNoteModal(),
-                        )
-                    ),
-                    bloc.state.status != NotesStatus.loading && bloc.state.notes.isEmpty
-                      ? EmptyState(
-                        actionText: 'Add note',
-                        onPressed: () {
-                          showAppModal(
-                            context: context,
-                            content: const AddNoteModal(),
-                          );
-                        },
-                      )
-                      : ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * .672
-                          ),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: bloc.state.notes.length,
-                            itemBuilder: (context, index) {
-                              return NoteTile(
-                                note: bloc.state.notes[index],
+                              context: context,
+                              content: const AddNoteModal(),
+                            )),
+                    bloc.state.status != NotesStatus.loading &&
+                            bloc.state.notes.isEmpty
+                        ? EmptyState(
+                            actionText: 'Add note',
+                            onPressed: () {
+                              showAppModal(
+                                context: context,
+                                content: const AddNoteModal(),
                               );
                             },
+                          )
+                        : ConstrainedBox(
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * .672),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: bloc.state.notes.length,
+                              itemBuilder: (context, index) {
+                                return NoteTile(
+                                  note: bloc.state.notes[index],
+                                );
+                              },
+                            ),
                           ),
-                      ),
                   ],
                 ),
               ),

@@ -25,20 +25,16 @@ class PaymentsViewDesktop extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Assets.images.logo2.svg(height: 120)
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Payments',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                ]
-              ),
+                    child: Assets.images.logo2.svg(height: 120)),
+                const SizedBox(height: 8),
+                Text(
+                  'Payments',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+              ]),
             ),
           ),
           VerticalDivider(
@@ -56,9 +52,8 @@ class PaymentsViewDesktop extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const TextBox(
-                      title: 'Payments',
-                      content: 'Here you can find all your transactions.'
-                    ),
+                        title: 'Payments',
+                        content: 'Here you can find all your transactions.'),
                     AppTextButton(
                       text: 'Add payment',
                       onPressed: () => showAppModal(
@@ -66,34 +61,41 @@ class PaymentsViewDesktop extends StatelessWidget {
                         content: const AddPaymentModal(),
                       ),
                     ),
-                    bloc.state.status != PaymentsStatus.loading && bloc.state.payments.isEmpty
-                      ? EmptyState(
-                          actionText: 'Add payment',
-                          onPressed: () {
-                            showAppModal(
-                              context: context,
-                              content: const AddPaymentModal(),
-                            );
-                          },
-                        )
-                      : ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * .672
-                          ),
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: bloc.state.payments.length,
-                            itemBuilder: (context, index) => PaymentTile(
-                              payment: bloc.state.payments[index],
-                              onTap: () => Navigator.of(context).push(
-                                PaymentDetailsPage.route(bloc.state.payments[index]),
+                    bloc.state.status != PaymentsStatus.loading &&
+                            bloc.state.payments.isEmpty
+                        ? EmptyState(
+                            actionText: 'Add payment',
+                            onPressed: () {
+                              showAppModal(
+                                context: context,
+                                content: const AddPaymentModal(),
+                              );
+                            },
+                          )
+                        : ConstrainedBox(
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * .672),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: bloc.state.payments.length,
+                              itemBuilder: (context, index) => PaymentTile(
+                                payment: bloc.state.payments[index],
+                                onTap: () => Navigator.of(context).push(
+                                  PaymentDetailsPage.route(
+                                      bloc.state.payments[index]),
+                                ),
+                              ),
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      const Divider(
+                                height: 0,
+                                indent: 60,
+                                endIndent: 20,
                               ),
                             ),
-                            separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(height: 0, indent: 60, endIndent: 20,),
                           ),
-                      ),
                   ],
                 ),
               ),

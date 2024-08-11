@@ -15,9 +15,10 @@ class AthletesPageState extends Equatable {
     this.error = '',
   });
 
-  const AthletesPageState.initial({Team? team}) : this(
-    status: AthletesStatus.initial,
-  );
+  const AthletesPageState.initial({Team? team})
+      : this(
+          status: AthletesStatus.initial,
+        );
 
   final AthletesStatus status;
   final List<Athlete> athletes;
@@ -25,10 +26,10 @@ class AthletesPageState extends Equatable {
 
   @override
   List<Object> get props => [
-    status,
-    athletes,
-    error,
-  ];
+        status,
+        athletes,
+        error,
+      ];
 
   AthletesPageState copyWith({
     AthletesStatus? status,

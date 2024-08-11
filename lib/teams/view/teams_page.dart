@@ -6,7 +6,7 @@ import 'package:teams_repository/teams_repository.dart';
 
 class TeamsPage extends StatelessWidget {
   const TeamsPage({super.key});
-  
+
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const TeamsPage(),
@@ -21,10 +21,10 @@ class TeamsPage extends StatelessWidget {
       )..getTeams(),
       child: OrientationBuilder(
           builder: (BuildContext context, Orientation orientation) {
-            return orientation == Orientation.portrait ?
-                const TeamsView() : const TeamsViewDesktop();
-          }
-      ),
+        return orientation == Orientation.portrait
+            ? const TeamsView()
+            : const TeamsViewDesktop();
+      }),
     );
   }
 }

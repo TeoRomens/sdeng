@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// A customizable info card.
 class HomeCard extends StatelessWidget {
-
   /// {@macro app_card}
   const HomeCard({
     super.key,
@@ -64,7 +63,7 @@ class HomeCard extends StatelessWidget {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                    child: image ?? const SizedBox(),
+                  child: image ?? const SizedBox(),
                 ),
               ],
             ),

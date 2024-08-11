@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 enum ItalianTaxCodeValidationError {
   /// Tax code is invalid
   invalid,
+
   /// Tax code is empty
   empty
 }

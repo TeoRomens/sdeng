@@ -35,16 +35,14 @@ class AthletesPage extends StatelessWidget {
         athletesRepository: context.read<AthletesRepository>(),
         teamsRepository: context.read<TeamsRepository>(),
       )..getAthletesFromTeam(team.id),
-      child: BlocListener<AthletesCubit,AthletesState>(
+      child: BlocListener<AthletesCubit, AthletesState>(
         listener: (context, state) {
           if (state.status == AthletesStatus.failure) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                    backgroundColor: AppColors.red,
-                    content: Text(state.error)
-                ),
+                    backgroundColor: AppColors.red, content: Text(state.error)),
               );
           }
           if (state.status == AthletesStatus.teamDeleted) {
@@ -57,52 +55,72 @@ class AthletesPage extends StatelessWidget {
             centerTitle: true,
             actions: [
               PopupMenuButton(
-                padding: EdgeInsets.zero,
-                shape: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Color(0xffcccccc), width: 0.5),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                elevation: 0.5,
-                shadowColor: Colors.grey.shade200,
-                offset: Offset.fromDirection(20, 30),
-                surfaceTintColor: Colors.transparent,
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                      height: 40,
-                      onTap: () async {
-                        await showAppModal(
-                            context: context,
-                            content: RenameTeamModal(team: context.read<AthletesCubit>().state.team!,)
-                        );
-                      },
-                      child: const Row(
-                        children: [
-                          Icon(FeatherIcons.edit, color: Colors.black, size: 20,),
-                          SizedBox(width: 12,),
-                          Text('Rename'),
-                        ],
-                      )
+                  padding: EdgeInsets.zero,
+                  shape: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Color(0xffcccccc), width: 0.5),
+                    borderRadius: BorderRadius.circular(7),
                   ),
-                  PopupMenuItem(
-                      height: 40,
-                      onTap: () => context.read<AthletesCubit>().deleteTeam(context.read<AthletesCubit>().state.team!.id),
-                      child: const Row(
-                        children: [
-                          Icon(FeatherIcons.trash, color: Colors.red, size: 20,),
-                          SizedBox(width: 12,),
-                          Text('Delete'),
-                        ],
-                      )
-                  )
-                ]
-              ),
+                  elevation: 0.5,
+                  shadowColor: Colors.grey.shade200,
+                  offset: Offset.fromDirection(20, 30),
+                  surfaceTintColor: Colors.transparent,
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            height: 40,
+                            onTap: () async {
+                              await showAppModal(
+                                  context: context,
+                                  content: RenameTeamModal(
+                                    team: context
+                                        .read<AthletesCubit>()
+                                        .state
+                                        .team!,
+                                  ));
+                            },
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  FeatherIcons.edit,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                Text('Rename'),
+                              ],
+                            )),
+                        PopupMenuItem(
+                            height: 40,
+                            onTap: () => context
+                                .read<AthletesCubit>()
+                                .deleteTeam(context
+                                    .read<AthletesCubit>()
+                                    .state
+                                    .team!
+                                    .id),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  FeatherIcons.trash,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                Text('Delete'),
+                              ],
+                            ))
+                      ]),
             ],
           ),
           body: OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               return orientation == Orientation.portrait
-                ? const AthletesView()
-                : const AthletesViewDesktop();
+                  ? const AthletesView()
+                  : const AthletesViewDesktop();
             },
           ),
         ),

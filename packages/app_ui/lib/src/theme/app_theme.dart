@@ -61,18 +61,17 @@ class AppTheme {
 
   SnackBarThemeData get _snackBarTheme {
     return SnackBarThemeData(
-      contentTextStyle: UITextStyle.bodyLarge.copyWith(
-        color: AppColors.white,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      actionTextColor: AppColors.white,
-      backgroundColor: AppColors.primaryDark,
-      elevation: 3,
-      behavior: SnackBarBehavior.floating,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 10)
-    );
+        contentTextStyle: UITextStyle.bodyLarge.copyWith(
+          color: AppColors.white,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        actionTextColor: AppColors.white,
+        backgroundColor: AppColors.primaryDark,
+        elevation: 3,
+        behavior: SnackBarBehavior.floating,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 10));
   }
 
   Color get _backgroundColor => AppColors.white;
@@ -109,28 +108,28 @@ class AppTheme {
 
   DropdownMenuThemeData get _dropdownTheme {
     return const DropdownMenuThemeData(
-        menuStyle: MenuStyle(
-          backgroundColor: MaterialStatePropertyAll<Color>(AppColors.white),
-          surfaceTintColor: MaterialStatePropertyAll<Color>(AppColors.white),
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          constraints: BoxConstraints(maxHeight: 48),
-          isDense: true,
-        ),
+      menuStyle: MenuStyle(
+        backgroundColor: MaterialStatePropertyAll<Color>(AppColors.white),
+        surfaceTintColor: MaterialStatePropertyAll<Color>(AppColors.white),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        constraints: BoxConstraints(maxHeight: 48),
+        isDense: true,
+      ),
     );
   }
 
   MenuButtonThemeData get _menuButtonTheme {
     return MenuButtonThemeData(
-        style: MenuItemButton.styleFrom(
-          backgroundColor: AppColors.white,
-          surfaceTintColor: AppColors.white,
-          shadowColor: AppColors.white,
-          textStyle: const TextStyle(
-              fontSize: 16,
-              fontFamily: FontFamily.plusJakartaSans,
-          ),
+      style: MenuItemButton.styleFrom(
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
+        shadowColor: AppColors.white,
+        textStyle: const TextStyle(
+          fontSize: 16,
+          fontFamily: FontFamily.plusJakartaSans,
         ),
+      ),
     );
   }
 
@@ -149,52 +148,57 @@ class AppTheme {
       style: ButtonStyle(
         elevation: MaterialStateProperty.resolveWith((states) => 0),
         shape: MaterialStateProperty.resolveWith(
-              (states) => const CircleBorder(),),
+          (states) => const CircleBorder(),
+        ),
       ),
     );
   }
 
   DatePickerThemeData get _datePickerTheme {
     return DatePickerThemeData(
-        surfaceTintColor: Colors.transparent,
-        shadowColor: AppColors.shadow,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        dayStyle: const TextStyle(
+      surfaceTintColor: Colors.transparent,
+      shadowColor: AppColors.shadow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      dayStyle: const TextStyle(
+        fontFamily: FontFamily.plusJakartaSans,
+        fontWeight: FontWeight.w500,
+      ),
+      weekdayStyle: const TextStyle(
+        fontFamily: FontFamily.plusJakartaSans,
+        fontWeight: FontWeight.w500,
+      ),
+      yearStyle: const TextStyle(
+        fontFamily: FontFamily.plusJakartaSans,
+        fontWeight: FontWeight.w500,
+      ),
+      headerHelpStyle: const TextStyle(
+        fontFamily: FontFamily.plusJakartaSans,
+        fontWeight: FontWeight.w500,
+      ),
+      headerHeadlineStyle: const TextStyle(
+        fontFamily: FontFamily.plusJakartaSans,
+        fontWeight: FontWeight.w700,
+        fontSize: 32,
+      ),
+      cancelButtonStyle: const ButtonStyle(
+        enableFeedback: true,
+        textStyle: MaterialStatePropertyAll<TextStyle>(
+          TextStyle(
             fontFamily: FontFamily.plusJakartaSans,
-            fontWeight: FontWeight.w500,
+          ),
         ),
-        weekdayStyle: const TextStyle(
+      ),
+      confirmButtonStyle: const ButtonStyle(
+        enableFeedback: true,
+        textStyle: MaterialStatePropertyAll<TextStyle>(
+          TextStyle(
+            fontWeight: FontWeight.w600,
             fontFamily: FontFamily.plusJakartaSans,
-            fontWeight: FontWeight.w500,
+          ),
         ),
-        yearStyle: const TextStyle(
-            fontFamily: FontFamily.plusJakartaSans,
-            fontWeight: FontWeight.w500,
-        ),
-        headerHelpStyle: const TextStyle(
-          fontFamily: FontFamily.plusJakartaSans,
-          fontWeight: FontWeight.w500,
-        ),
-        headerHeadlineStyle: const TextStyle(
-            fontFamily: FontFamily.plusJakartaSans,
-            fontWeight: FontWeight.w700,
-            fontSize: 32,
-        ),
-        cancelButtonStyle: const ButtonStyle(
-          enableFeedback: true,
-          textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(
-              fontFamily: FontFamily.plusJakartaSans,
-          ),),
-        ),
-        confirmButtonStyle: const ButtonStyle(
-          enableFeedback: true,
-          textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: FontFamily.plusJakartaSans,
-          ),),
-        ),
+      ),
     );
   }
 
@@ -256,16 +260,20 @@ class AppTheme {
 
   SearchBarThemeData get _searchBarTheme {
     return SearchBarThemeData(
-        elevation: MaterialStateProperty.resolveWith((states) => 0.5),
-        surfaceTintColor: MaterialStateColor.resolveWith((states) => Colors.white),
-        side: MaterialStateBorderSide.resolveWith(
-          (states) => const BorderSide(color: AppColors.pastelGrey,),
+      elevation: MaterialStateProperty.resolveWith((states) => 0.5),
+      surfaceTintColor:
+          MaterialStateColor.resolveWith((states) => Colors.white),
+      side: MaterialStateBorderSide.resolveWith(
+        (states) => const BorderSide(
+          color: AppColors.pastelGrey,
         ),
-        shape: MaterialStateProperty.resolveWith(
-          (states) => const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            side: BorderSide(color: Color(0xffe0e0e0), width: 0.8),
-        ),),
+      ),
+      shape: MaterialStateProperty.resolveWith(
+        (states) => const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          side: BorderSide(color: Color(0xffe0e0e0), width: 0.8),
+        ),
+      ),
     );
   }
 
@@ -275,8 +283,8 @@ class AppTheme {
       surfaceTintColor: AppColors.white,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-          side: const BorderSide(color: AppColors.pastelGrey, width: 0.8),
-          borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: AppColors.pastelGrey, width: 0.8),
+        borderRadius: BorderRadius.circular(12),
       ),
       elevation: 0,
     );
@@ -311,7 +319,7 @@ class AppTheme {
         backgroundColor: AppColors.transparent,
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(6),
         ),
         enableFeedback: true,
       ),
@@ -324,7 +332,7 @@ class AppTheme {
       surfaceTintColor: AppColors.transparent,
       //clipBehavior: Clip.hardEdge,
       constraints: BoxConstraints(
-          minWidth: double.maxFinite,
+        minWidth: double.maxFinite,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -337,26 +345,21 @@ class AppTheme {
 
   ListTileThemeData get _listTileTheme {
     return ListTileThemeData(
-      tileColor: AppColors.white,
-      iconColor: AppColors.lightBlack,
-      contentPadding: const EdgeInsets.fromLTRB(
-          AppSpacing.lg,
-          AppSpacing.sm,
-          AppSpacing.lg,
-          AppSpacing.sm
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      titleTextStyle: _textTheme.headlineMedium,
-      subtitleTextStyle: const TextStyle(
+        tileColor: AppColors.white,
+        iconColor: AppColors.lightBlack,
+        contentPadding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.sm),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        titleTextStyle: _textTheme.headlineMedium,
+        subtitleTextStyle: const TextStyle(
           color: AppColors.lightBlack,
           fontSize: 11.5,
           fontWeight: AppFontWeight.medium,
           fontFamily: FontFamily.plusJakartaSans,
-      ),
-      enableFeedback: true
-    );
+        ),
+        enableFeedback: true);
   }
 
   SwitchThemeData get _switchTheme {
@@ -387,20 +390,19 @@ class AppTheme {
 
   TabBarTheme get _tabBarTheme {
     return TabBarTheme(
-      labelStyle: UITextStyle.titleMedium,
-      unselectedLabelStyle: UITextStyle.titleMedium,
-      labelColor: AppColors.white,
-      labelPadding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md - AppSpacing.xxs,
-      ),
-      unselectedLabelColor: AppColors.grey,
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.primary,
-      ),
-      indicatorSize: TabBarIndicatorSize.tab,
-      dividerHeight: 0
-    );
+        labelStyle: UITextStyle.titleMedium,
+        unselectedLabelStyle: UITextStyle.titleMedium,
+        labelColor: AppColors.white,
+        labelPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md - AppSpacing.xxs,
+        ),
+        unselectedLabelColor: AppColors.grey,
+        indicator: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.primary,
+        ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0);
   }
 
   DialogTheme get _dialogTheme {
@@ -417,10 +419,10 @@ class AppTheme {
         color: AppColors.lightBlack,
       ),
       contentTextStyle: const TextStyle(
-          fontFamily: FontFamily.plusJakartaSans,
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppColors.lightBlack,
+        fontFamily: FontFamily.plusJakartaSans,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColors.lightBlack,
       ),
     );
   }
@@ -432,14 +434,14 @@ InputBorder get _textFieldBorder => OutlineInputBorder(
     );
 
 InputBorder get _textFieldFocusBorder => OutlineInputBorder(
-    borderSide: const BorderSide(color: AppColors.primary),
-    borderRadius: BorderRadius.circular(7),
-);
+      borderSide: const BorderSide(color: AppColors.primary),
+      borderRadius: BorderRadius.circular(7),
+    );
 
 InputBorder get _textFieldErrorBorder => OutlineInputBorder(
-    borderSide: const BorderSide(color: AppColors.red),
-    borderRadius: BorderRadius.circular(7),
-);
+      borderSide: const BorderSide(color: AppColors.red),
+      borderRadius: BorderRadius.circular(7),
+    );
 
 BottomNavigationBarThemeData get _bottomAppBarTheme {
   return BottomNavigationBarThemeData(
@@ -516,9 +518,7 @@ class AppDarkTheme extends AppTheme {
 
   @override
   IconThemeData get _iconTheme {
-    return const IconThemeData(
-        color: AppColors.black
-    );
+    return const IconThemeData(color: AppColors.black);
   }
 
   @override

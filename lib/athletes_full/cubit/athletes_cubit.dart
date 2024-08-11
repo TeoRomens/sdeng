@@ -10,8 +10,8 @@ part 'athletes_state.dart';
 class AthletesPageCubit extends Cubit<AthletesPageState> {
   AthletesPageCubit({
     required AthletesRepository athletesRepository,
-  }) : _athletesRepository = athletesRepository,
-       super(const AthletesPageState.initial());
+  })  : _athletesRepository = athletesRepository,
+        super(const AthletesPageState.initial());
 
   final AthletesRepository _athletesRepository;
 
@@ -19,18 +19,18 @@ class AthletesPageCubit extends Cubit<AthletesPageState> {
     emit(state.copyWith(status: AthletesStatus.loading));
     try {
       final currentAthletes = state.athletes;
-      final newAthletes = await _athletesRepository.getAthletes(
-        limit: 20,
-        offset: offset
-      );
-      final List<Athlete> athletes = List.from(currentAthletes)..addAll(newAthletes);
+      final newAthletes =
+          await _athletesRepository.getAthletes(limit: 20, offset: offset);
+      final List<Athlete> athletes = List.from(currentAthletes)
+        ..addAll(newAthletes);
 
       emit(state.copyWith(
-          status: AthletesStatus.populated,
-          athletes: athletes,
+        status: AthletesStatus.populated,
+        athletes: athletes,
       ));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthletesStatus.failure, error: 'Error loading athletes.'));
+      emit(state.copyWith(
+          status: AthletesStatus.failure, error: 'Error loading athletes.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -46,7 +46,8 @@ class AthletesPageCubit extends Cubit<AthletesPageState> {
         athletes: results,
       ));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthletesStatus.failure, error: 'Error searcing athletes.'));
+      emit(state.copyWith(
+          status: AthletesStatus.failure, error: 'Error searcing athletes.'));
       log(error.toString());
       addError(error, stackTrace);
     }

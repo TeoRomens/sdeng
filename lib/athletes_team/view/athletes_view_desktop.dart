@@ -19,55 +19,60 @@ class AthletesViewDesktop extends StatelessWidget {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.xlg
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xlg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const TextBox(
                 title: 'Athletes',
-                content: 'Below you find all the athletes added to this team. Go inside to find view their details.',
+                content:
+                    'Below you find all the athletes added to this team. Go inside to find view their details.',
               ),
               bloc.state.status == AthletesStatus.loading
                   ? const LoadingBox()
                   : bloc.state.athletes.isEmpty
-                  ? EmptyState(
-                actionText: 'New athlete',
-                onPressed: () async => await showAppSideModal(
-                  context: context,
-                  content: AddAthleteModal(teamId: bloc.state.team!.id),
-                ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id)),
-              )
-                  : GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 16.0,
-                  mainAxisSpacing: 16.0,
-                  childAspectRatio: 1.82,
-                ),
-                padding: EdgeInsets.zero,
-                itemCount: bloc.state.athletes.length,
-                itemBuilder: (_, index) => AthleteCard(
-                  title: bloc.state.athletes[index].fullName,
-                  content: Text(
-                    bloc.state.athletes[index].taxCode,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                  image: Assets.images.logo3.svg(height: 60),
-                  action: SecondaryButton(
-                    text: 'View',
-                    onPressed: () => Navigator.of(context).push(AthletePage.route(athleteId: bloc.state.athletes[index].id)),
-                  ),
-                ),
-              ),
+                      ? EmptyState(
+                          actionText: 'New athlete',
+                          onPressed: () async => await showAppSideModal(
+                            context: context,
+                            content:
+                                AddAthleteModal(teamId: bloc.state.team!.id),
+                          ).then((_) =>
+                              bloc.getAthletesFromTeam(bloc.state.team!.id)),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 16.0,
+                            mainAxisSpacing: 16.0,
+                            childAspectRatio: 1.82,
+                          ),
+                          padding: EdgeInsets.zero,
+                          itemCount: bloc.state.athletes.length,
+                          itemBuilder: (_, index) => AthleteCard(
+                            title: bloc.state.athletes[index].fullName,
+                            content: Text(
+                              bloc.state.athletes[index].taxCode,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                            image: Assets.images.logo3.svg(height: 60),
+                            action: SecondaryButton(
+                              text: 'View',
+                              onPressed: () => Navigator.of(context).push(
+                                  AthletePage.route(
+                                      athleteId:
+                                          bloc.state.athletes[index].id)),
+                            ),
+                          ),
+                        ),
               AppTextButton(
                 text: 'Add athlete',
                 onPressed: () async => await showAppSideModal(

@@ -45,13 +45,15 @@ class PrimaryButton extends StatelessWidget {
             ),
             const SizedBox(width: 5),
           ],
-          child ?? Text(text ?? 'Button',
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child ??
+              Text(
+                text ?? 'Button',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
         ],
       ),
     );

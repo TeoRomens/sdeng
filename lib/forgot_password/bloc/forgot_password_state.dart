@@ -20,9 +20,8 @@ class ForgotPasswordState extends Equatable {
     String? error,
   }) {
     return ForgotPasswordState(
-      email: email ?? this.email,
-      status: status ?? this.status,
-      error: error ?? this.error
-    );
+        email: email ?? this.email,
+        status: status ?? this.status,
+        error: error ?? this.error);
   }
 }

@@ -44,17 +44,23 @@ class EditMedicalForm extends StatelessWidget {
                   context: context,
                   initialDate: DateTime.now().add(const Duration(days: 365)),
                   firstDate: DateTime.now(),
-                  lastDate: DateTime(2100)
-              );
-              if(pickedDate != null) {
+                  lastDate: DateTime(2100));
+              if (pickedDate != null) {
                 expireController.text = pickedDate.dMY;
               }
             },
             validator: (value) => state.expire.validator(value ?? '')?.text,
           ),
-          const SizedBox(height: AppSpacing.sm,),
-          Text('Type', style: UITextStyle.label,),
-          const SizedBox(height: AppSpacing.sm,),
+          const SizedBox(
+            height: AppSpacing.sm,
+          ),
+          Text(
+            'Type',
+            style: UITextStyle.label,
+          ),
+          const SizedBox(
+            height: AppSpacing.sm,
+          ),
           SizedBox(
             height: 44,
             child: DropdownMenu(
@@ -63,21 +69,25 @@ class EditMedicalForm extends StatelessWidget {
                 enableSearch: false,
                 onSelected: (value) => medType = value,
                 dropdownMenuEntries: const [
-                  DropdownMenuEntry(value: MedType.agonistic, label: 'Agonistic'),
-                  DropdownMenuEntry(value: MedType.not_agonistic, label: 'Not Agonistic'),
-                  DropdownMenuEntry(value: MedType.not_required, label: 'Not required')
-                ]
-            ),
+                  DropdownMenuEntry(
+                      value: MedType.agonistic, label: 'Agonistic'),
+                  DropdownMenuEntry(
+                      value: MedType.not_agonistic, label: 'Not Agonistic'),
+                  DropdownMenuEntry(
+                      value: MedType.not_required, label: 'Not required')
+                ]),
           ),
           const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
             onPressed: () async {
               formKey.currentState!.validate()
-                ? await context.read<EditMedicalCubit>().updateMedical(
-                    expire: expireController.text.toDateTime,
-                    medType: medType
-                  ).then((_) => Navigator.of(context).pop())
-                : null;
+                  ? await context
+                      .read<EditMedicalCubit>()
+                      .updateMedical(
+                          expire: expireController.text.toDateTime,
+                          medType: medType)
+                      .then((_) => Navigator.of(context).pop())
+                  : null;
             },
             child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(

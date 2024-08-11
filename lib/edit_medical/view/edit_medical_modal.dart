@@ -13,10 +13,10 @@ class EditMedicalModal extends StatelessWidget {
 
   final Medical _medical;
 
-  static Route<void> route(Medical medical) =>
-      MaterialPageRoute<void>(builder: (_) => EditMedicalModal(
-        medical: medical,
-      ));
+  static Route<void> route(Medical medical) => MaterialPageRoute<void>(
+      builder: (_) => EditMedicalModal(
+            medical: medical,
+          ));
 
   static const String name = '/editMedicalModal';
 
@@ -27,8 +27,7 @@ class EditMedicalModal extends StatelessWidget {
         medicalsRepository: context.read<MedicalsRepository>(),
         medical: _medical,
       ),
-      child: EditMedicalForm(
-        medical: _medical),
+      child: EditMedicalForm(medical: _medical),
     );
   }
 }

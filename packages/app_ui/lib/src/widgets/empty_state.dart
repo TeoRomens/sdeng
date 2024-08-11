@@ -31,22 +31,29 @@ class EmptyState extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: const Icon(Icons.search_sharp, size: 40,),
+            child: const Icon(
+              Icons.search_sharp,
+              size: 40,
+            ),
           ),
           const SizedBox(height: 16),
-          const Text('No result found', style: TextStyle(
-              fontSize: 18,
-              letterSpacing: -0.2,
-              color: Color(0xFF101828),
-              fontWeight: FontWeight.w600
-          ),),
+          const Text(
+            'No result found',
+            style: TextStyle(
+                fontSize: 18,
+                letterSpacing: -0.2,
+                color: Color(0xFF101828),
+                fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 8),
-          const Text("The loading doesn't provided results,", style: TextStyle(
-              fontSize: 15,
-              fontFamily: 'Inter',
-              color: Color(0xFF475467),
-              fontWeight: FontWeight.w400
-          ),),
+          const Text(
+            "The loading doesn't provided results,",
+            style: TextStyle(
+                fontSize: 15,
+                fontFamily: 'Inter',
+                color: Color(0xFF475467),
+                fontWeight: FontWeight.w400),
+          ),
           const SizedBox(height: 20),
           Row(
             mainAxisSize: MainAxisSize.min,

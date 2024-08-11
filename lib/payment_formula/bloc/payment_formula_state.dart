@@ -16,10 +16,9 @@ class PaymentFormulaState extends Equatable {
 
   const PaymentFormulaState.initial()
       : this(
-          status: PaymentFormulaStatus.initial,
-          paymentsFormulas: const [],
-          error: ''
-        );
+            status: PaymentFormulaStatus.initial,
+            paymentsFormulas: const [],
+            error: '');
 
   final PaymentFormulaStatus status;
   final List<PaymentFormula> paymentsFormulas;

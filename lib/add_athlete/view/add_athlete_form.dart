@@ -36,7 +36,6 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
       key: _formKey0,
       child: Column(
@@ -97,9 +96,13 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                 ? setState(() => currentPageIndex = 1)
                 : null;
           },
-          child: Text('Next', style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: AppColors.white
-          ),),
+          child: Text(
+            'Next',
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: AppColors.white),
+          ),
         ),
         const SizedBox(height: AppSpacing.xlg),
       ],
@@ -128,7 +131,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
               style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
-          ),          const Divider(endIndent: 0, indent: 0, height: 25),
+          ),
+          const Divider(endIndent: 0, indent: 0, height: 25),
           AppTextFormField(
             label: 'Birthdate',
             controller: _birthController,
@@ -138,9 +142,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(1900),
-                  lastDate: DateTime.now()
-              );
-              if(pickedDate != null) {
+                  lastDate: DateTime.now());
+              if (pickedDate != null) {
                 _birthController.text = pickedDate.dMY;
               }
             },
@@ -161,43 +164,50 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
           ),
           const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
-            onPressed: () async {
-              if (_formKey1.currentState!.validate()) {
-                await BlocProvider.of<AddAthleteCubit>(context).addAthlete(
-                  name: _nameController.text,
-                  surname: _surnameController.text,
-                  taxId: _taxcodeController.text,
-                ).then((_) => Navigator.of(context).pop());
-              }
-            },
-            child: const Text('Skip')
-          ),
+              onPressed: () async {
+                if (_formKey1.currentState!.validate()) {
+                  await BlocProvider.of<AddAthleteCubit>(context)
+                      .addAthlete(
+                        name: _nameController.text,
+                        surname: _surnameController.text,
+                        taxId: _taxcodeController.text,
+                      )
+                      .then((_) => Navigator.of(context).pop());
+                }
+              },
+              child: const Text('Skip')),
           PrimaryButton(
             onPressed: () async {
               if (_formKey1.currentState!.validate()) {
-                await BlocProvider.of<AddAthleteCubit>(context).addAthlete(
-                  name: _nameController.text,
-                  surname: _surnameController.text,
-                  taxId: _taxcodeController.text.toUpperCase(),
-                  birthdate: _birthController.text.toDateTime,
-                  address: _addressController.text,
-                  email: _emailController.text,
-                  phone: _phoneController.text,
-                ).then((_) => Navigator.of(context).pop());
+                await BlocProvider.of<AddAthleteCubit>(context)
+                    .addAthlete(
+                      name: _nameController.text,
+                      surname: _surnameController.text,
+                      taxId: _taxcodeController.text.toUpperCase(),
+                      birthdate: _birthController.text.toDateTime,
+                      address: _addressController.text,
+                      email: _emailController.text,
+                      phone: _phoneController.text,
+                    )
+                    .then((_) => Navigator.of(context).pop());
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress
-              ? const SizedBox.square(
-                  dimension: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: AppColors.white,
-                    strokeCap: StrokeCap.round,
+                ? const SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: AppColors.white,
+                      strokeCap: StrokeCap.round,
+                    ),
+                  )
+                : Text(
+                    'Done',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: AppColors.white),
                   ),
-                )
-              : Text('Done', style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.white
-            ),),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

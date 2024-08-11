@@ -17,14 +17,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SdengUser? sdengUser;
   final UserRepository _userRepository;
 
-  Future<SdengUser?> updateProfile({
-    required String fullName,
-    required String societyName,
-    required String societyEmail,
-    required String societyPhone,
-    required String societyAddress,
-    required String societyPiva
-  }) async {
+  Future<SdengUser?> updateProfile(
+      {required String fullName,
+      required String societyName,
+      required String societyEmail,
+      required String societyPhone,
+      required String societyAddress,
+      required String societyPiva}) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
       await _userRepository.updateUserData(
@@ -43,5 +42,4 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
     return _userRepository.sdengUser;
   }
-
 }

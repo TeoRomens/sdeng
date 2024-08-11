@@ -34,17 +34,16 @@ class FlutterSdengApiClient {
 
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  Future<SdengUser> getUserData({
-    required String userId
-  }) async {
+  Future<SdengUser> getUserData({required String userId}) async {
     final res = await _supabase
         .from('users')
         .select()
         .eq('id', userId)
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return SdengUser.fromMap(res);
   }
@@ -73,70 +72,64 @@ class FlutterSdengApiClient {
           .single();
 
       return SdengUser.fromMap(user);
-
     } catch (err) {
       throw FlutterSdengApiRequestFailure(message: err.toString());
     }
   }
 
-  Future<int> countTeams({
-    required String userId
-  }) async {
+  Future<int> countTeams({required String userId}) async {
     return await _supabase
         .from('teams')
         .count()
         .eq('owner_id', userId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
-  Future<int> countAthletes({
-    required String userId
-  }) async {
+  Future<int> countAthletes({required String userId}) async {
     return await _supabase
         .from('athletes')
         .count()
         .eq('owner_id', userId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
-  Future<int> countNotes({
-    required String userId
-  }) async {
+  Future<int> countNotes({required String userId}) async {
     return await _supabase
         .from('notes')
         .count()
         .eq('owner_id', userId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
-  Future<int> countExpiredMedicals({
-    required String userId
-  }) async {
+  Future<int> countExpiredMedicals({required String userId}) async {
     return await _supabase
         .from('medical')
         .count()
         .lte('expire', DateTime.now())
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
-  Future<int> countPayments({
-    required String userId
-  }) async {
+  Future<int> countPayments({required String userId}) async {
     return await _supabase
         .from('payments')
         .count()
         .eq('owner_id', userId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
   /// Requests teams data.
@@ -144,13 +137,11 @@ class FlutterSdengApiClient {
   /// Supported parameters:
   /// * [limit] - The number of results to return.
   Future<List<Team>> getTeams({int? limit}) async {
-    final res = await _supabase
-        .from('teams')
-        .select()
-        .limit(limit ?? 1000)
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+    final res =
+        await _supabase.from('teams').select().limit(limit ?? 1000).catchError(
+              (Object err) =>
+                  throw FlutterSdengApiRequestFailure(message: err.toString()),
+            );
 
     return Team.fromList(res);
   }
@@ -167,9 +158,10 @@ class FlutterSdengApiClient {
         .insert(Team.create(name: name))
         .select()
         .single()
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Team.fromMap(res);
   }
@@ -181,18 +173,11 @@ class FlutterSdengApiClient {
   Future<void> deleteTeam({
     required String id,
   }) async {
-    if( await _supabase
-        .from('athletes')
-        .count()
-        .eq('team_id', id) == 0)
-    {
-      await _supabase
-        .from('teams')
-        .delete()
-        .eq('id', id)
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-      );
+    if (await _supabase.from('athletes').count().eq('team_id', id) == 0) {
+      await _supabase.from('teams').delete().eq('id', id).catchError(
+            (Object err) =>
+                throw FlutterSdengApiRequestFailure(message: err.toString()),
+          );
     }
   }
 
@@ -209,9 +194,10 @@ class FlutterSdengApiClient {
         .eq('id', id)
         .select()
         .single()
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Team.fromMap(res);
   }
@@ -223,13 +209,11 @@ class FlutterSdengApiClient {
   Future<int> countAthletesInTeam({
     required String id,
   }) async {
-    final num = await _supabase
-        .from('athletes')
-        .count()
-        .eq('team_id', id)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+    final num =
+        await _supabase.from('athletes').count().eq('team_id', id).catchError(
+              (Object err) =>
+                  throw FlutterSdengApiRequestFailure(message: err.toString()),
+            );
     return num;
   }
 
@@ -243,29 +227,26 @@ class FlutterSdengApiClient {
         .select()
         .eq('id', id)
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     final athlete = Athlete.fromMap(res);
     return athlete;
   }
 
-
-  Future<List<Athlete>> getAthletes({
-    int? limit,
-    int? offset
-  }) async {
-
+  Future<List<Athlete>> getAthletes({int? limit, int? offset}) async {
     final res = await _supabase
         .from('athletes')
         .select()
         .order('full_name', ascending: true)
         .limit(20)
         .range(offset ?? 0, offset ?? 0 + 20)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Athlete.fromList(res);
   }
@@ -284,9 +265,10 @@ class FlutterSdengApiClient {
         .eq('team_id', teamId)
         .order('full_name', ascending: true)
         .limit(limit ?? 9999)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Athlete.fromList(res);
   }
@@ -306,13 +288,9 @@ class FlutterSdengApiClient {
     String? address,
     DateTime? birthdate,
   }) async {
-    if(await _supabase
-        .from('athletes')
-        .count()
-        .eq('tax_code', taxCode) != 0
-    ) {
+    if (await _supabase.from('athletes').count().eq('tax_code', taxCode) != 0) {
       throw const FlutterSdengApiRequestFailure(
-          message: 'Athlete already exists.',
+        message: 'Athlete already exists.',
       );
     }
 
@@ -327,12 +305,14 @@ class FlutterSdengApiClient {
             phone: phone,
             birthDate: birthdate,
             fullAddress: address,
-        ),)
+          ),
+        )
         .select()
         .single()
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Athlete.fromMap(res);
   }
@@ -366,9 +346,10 @@ class FlutterSdengApiClient {
         .eq('id', id)
         .select()
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Athlete.fromMap(res);
   }
@@ -384,9 +365,10 @@ class FlutterSdengApiClient {
         .from('athletes')
         .select('id, full_name, tax_code')
         .order('full_name', ascending: true)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Athlete.fromList(res);
   }
@@ -398,13 +380,9 @@ class FlutterSdengApiClient {
   Future<void> deleteAthlete({
     required String id,
   }) async {
-    await _supabase
-        .from('athletes')
-        .delete()
-        .eq('id', id)
-        .catchError((Object err) =>
-      print(err.toString()),
-    );
+    await _supabase.from('athletes').delete().eq('id', id).catchError(
+          (Object err) => print(err.toString()),
+        );
   }
 
   Future<List<Athlete>> searchAthlete(String searchText) async {
@@ -412,13 +390,13 @@ class FlutterSdengApiClient {
         .from('athletes')
         .select()
         .ilike('full_name', '%$searchText%')
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Athlete.fromList(res);
   }
-
 
   /// Get an athlete's parent.
   ///
@@ -432,12 +410,13 @@ class FlutterSdengApiClient {
         .select()
         .eq('athlete_id', id)
         .limit(1)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
-    if(res.isEmpty) return Parent(athleteId: id);
-    
+    if (res.isEmpty) return Parent(athleteId: id);
+
     final parent = Parent.fromMap(res.first);
     return parent;
   }
@@ -449,11 +428,8 @@ class FlutterSdengApiClient {
   Future<Parent> addParent({
     required String athleteId,
   }) async {
-    if (await _supabase
-        .from('parents')
-        .count()
-        .eq('athlete_id', athleteId) != 0
-    ) {
+    if (await _supabase.from('parents').count().eq('athlete_id', athleteId) !=
+        0) {
       throw const FlutterSdengApiRequestFailure(
         message: 'Parent already exists.',
       );
@@ -464,17 +440,19 @@ class FlutterSdengApiClient {
         .insert(
           Parent.create(
             athleteId: athleteId,
-          ),)
+          ),
+        )
         .select()
         .single()
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Parent.fromMap(res);
   }
 
-    /// Delete a parent.
+  /// Delete a parent.
   ///
   /// Supported parameters:
   /// [athleteId] - The id of the athlete with releted parent to delete.
@@ -485,9 +463,10 @@ class FlutterSdengApiClient {
         .from('parents')
         .delete()
         .eq('athlete_id', athleteId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
   Future<Parent> updateParent({
@@ -508,9 +487,10 @@ class FlutterSdengApiClient {
         .eq('athlete_id', athleteId)
         .select()
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Parent.fromMap(res);
   }
@@ -520,16 +500,13 @@ class FlutterSdengApiClient {
   /// Supported parameters:
   /// * [limit] - The number of results to return.
   Future<List<Medical>> getMedicals({int? limit}) async {
-    final res = await _supabase
-        .from('medical')
-        .select('''
+    final res = await _supabase.from('medical').select('''
           *,
           athletes: athlete_id(full_name)
-        ''')
-        .limit(limit ?? 1000)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        ''').limit(limit ?? 1000).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Medical.fromList(res);
   }
@@ -541,19 +518,15 @@ class FlutterSdengApiClient {
   Future<Medical?> getMedicalFromAthleteId({
     required String athleteId,
   }) async {
-    final res = await _supabase
-        .from('medical')
-        .select('''
+    final res = await _supabase.from('medical').select('''
           *,
           athletes: athlete_id(full_name)
-        ''')
-        .eq('athlete_id', athleteId)
-        .limit(1)
-        .catchError((Object err) =>
-      throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        ''').eq('athlete_id', athleteId).limit(1).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
-    if(res.isEmpty) return null;
+    if (res.isEmpty) return null;
 
     final medVisit = Medical.fromMap(res.first);
     return medVisit;
@@ -564,18 +537,15 @@ class FlutterSdengApiClient {
   /// Supported parameters:
   /// * [limit] - The number of results to return.
   Future<List<Medical>> getExpiredMedicals({int? limit}) async {
-    final res = await _supabase
-        .from('medical')
-        .select('''
+    final res = await _supabase.from('medical').select('''
           *,
           athletes: athlete_id(full_name)
-        ''')
-        .lte('expire', DateTime.now())
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        ''').lte('expire', DateTime.now()).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
-    if(res.isEmpty) return [];
+    if (res.isEmpty) return [];
 
     return Medical.fromList(res);
   }
@@ -593,11 +563,12 @@ class FlutterSdengApiClient {
         ''')
         .gt('expire', DateTime.now())
         .lte('expire', DateTime.now().add(const Duration(days: 14)))
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
-    if(res.isEmpty) return [];
+    if (res.isEmpty) return [];
 
     return Medical.fromList(res);
   }
@@ -614,11 +585,12 @@ class FlutterSdengApiClient {
           athletes: athlete_id(full_name)
         ''')
         .gt('expire', DateTime.now().add(const Duration(days: 14)))
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
-    if(res.isEmpty) return [];
+    if (res.isEmpty) return [];
 
     return Medical.fromList(res);
   }
@@ -628,18 +600,15 @@ class FlutterSdengApiClient {
   /// Supported parameters:
   /// * [limit] - The number of results to return.
   Future<List<Medical>> getUnknownMedicals({int? limit}) async {
-    final res = await _supabase
-        .from('medical')
-        .select('''
+    final res = await _supabase.from('medical').select('''
           *,
           athletes: athlete_id(full_name)
-        ''')
-        .filter('expire', 'is', null)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        ''').filter('expire', 'is', null).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
-    if(res.isEmpty) return [];
+    if (res.isEmpty) return [];
 
     return Medical.fromList(res);
   }
@@ -670,9 +639,10 @@ class FlutterSdengApiClient {
         ''')
         .limit(1)
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Medical.fromMap(res);
   }
@@ -695,7 +665,8 @@ class FlutterSdengApiClient {
           'type': medType == MedType.agonistic
               ? 'agonistic'
               : medType == MedType.not_agonistic
-              ? 'not_agonistic' : 'not_required',
+                  ? 'not_agonistic'
+                  : 'not_required',
         })
         .eq('athlete_id', athleteId)
         .select('''
@@ -703,9 +674,7 @@ class FlutterSdengApiClient {
           athletes: athlete_id(full_name)
         ''')
         .single()
-        .catchError((Object err) =>
-    print(err)
-    );
+        .catchError((Object err) => print(err));
 
     return Medical.fromMap(res);
   }
@@ -724,9 +693,10 @@ class FlutterSdengApiClient {
         .range(from, to)
         .limit(limit ?? 20)
         .order('created_at', ascending: false)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Payment.fromList(res);
   }
@@ -744,9 +714,10 @@ class FlutterSdengApiClient {
         .select()
         .eq('athlete_id', athleteId)
         .limit(limit ?? 1000)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Payment.fromList(res);
   }
@@ -767,20 +738,22 @@ class FlutterSdengApiClient {
     required PaymentMethod paymentMethod,
   }) async {
     final res = await _supabase
-      .from('payments')
-      .insert(
-        Payment.create(
-          athleteId: athleteId,
-          cause: cause,
-          amount: amount,
-          type: paymentType,
-          method: paymentMethod,
-      ),)
-      .select()
-      .single()
-      .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .from('payments')
+        .insert(
+          Payment.create(
+            athleteId: athleteId,
+            cause: cause,
+            amount: amount,
+            type: paymentType,
+            method: paymentMethod,
+          ),
+        )
+        .select()
+        .single()
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Payment.fromMap(res);
   }
@@ -792,13 +765,10 @@ class FlutterSdengApiClient {
   Future<void> deletePayment({
     required String id,
   }) async {
-    await _supabase
-        .from('payments')
-        .delete()
-        .eq('id', id)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+    await _supabase.from('payments').delete().eq('id', id).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
 
   /// Requests payments.
@@ -806,14 +776,16 @@ class FlutterSdengApiClient {
   /// Supported parameters:
   /// * [limit] - The number of results to return.
   /// * [offset] - The offset of the first result to return.
-  Future<List<PaymentFormula>> getPaymentFormulas({int? limit, int? offset}) async {
+  Future<List<PaymentFormula>> getPaymentFormulas(
+      {int? limit, int? offset}) async {
     final res = await _supabase
         .from('formulas')
         .select()
         .order('name', ascending: true)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return PaymentFormula.fromList(res);
   }
@@ -829,20 +801,22 @@ class FlutterSdengApiClient {
         .from('athletes')
         .select('payment_formula_id')
         .eq('id', athleteId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     final formulaId = formula.first['payment_formula_id'] as String?;
-    if(formulaId == null) return null;
+    if (formulaId == null) return null;
 
     final res = await _supabase
         .from('formulas')
         .select()
         .eq('id', formulaId)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return PaymentFormula.fromMap(res.first);
   }
@@ -868,12 +842,14 @@ class FlutterSdengApiClient {
             date1: date1,
             quota2: amount2,
             date2: date2,
-          ),)
+          ),
+        )
         .select()
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return PaymentFormula.fromMap(res);
   }
@@ -901,9 +877,10 @@ class FlutterSdengApiClient {
         .eq('id', id)
         .select()
         .single()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return PaymentFormula.fromMap(res);
   }
@@ -915,15 +892,11 @@ class FlutterSdengApiClient {
   Future<void> deletePaymentFormula({
     required String id,
   }) async {
-    await _supabase
-        .from('formulas')
-        .delete()
-        .eq('id', id)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+    await _supabase.from('formulas').delete().eq('id', id).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
   }
-
 
   /// Get all notes.
   ///
@@ -935,13 +908,13 @@ class FlutterSdengApiClient {
         .select()
         .limit(limit ?? 1000)
         .order('created_at')
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Note.fromList(res);
   }
-
 
   /// Add a new notes.
   ///
@@ -958,38 +931,35 @@ class FlutterSdengApiClient {
           Note.create(
             author: author,
             content: content,
-        ),)
+          ),
+        )
         .select()
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+        .catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return Note.fromMap(res.first);
   }
 
   /// Get the user personal folder in the online storage.
   Future<Bucket> getUserBucket() async {
-    if(_supabase.auth.currentUser == null) {
+    if (_supabase.auth.currentUser == null) {
       throw const FlutterSdengApiRequestFailure(
           message: 'User not authenticated. Cannot get user id.');
     }
     final userId = _supabase.auth.currentUser!.id;
-    final bucket = await _supabase
-        .storage
+    final bucket = await _supabase.storage
         .getBucket(userId)
         .catchError((Object err) async {
-          final exception = err as StorageException;
-          if(exception.statusCode == '404') {
-            log('Bucket not found\nCreating bucket...');
-            await _supabase
-                .storage
-                .createBucket(userId);
-            log('Bucket created with id $userId');
-          }
-          return _supabase
-              .storage
-              .getBucket(userId);
-        });
+      final exception = err as StorageException;
+      if (exception.statusCode == '404') {
+        log('Bucket not found\nCreating bucket...');
+        await _supabase.storage.createBucket(userId);
+        log('Bucket created with id $userId');
+      }
+      return _supabase.storage.getBucket(userId);
+    });
 
     return bucket;
   }
@@ -1000,12 +970,9 @@ class FlutterSdengApiClient {
   }) async {
     final documents = <Document>[];
     final bucket = await getUserBucket();
-    final files = await _supabase
-        .storage
-        .from(bucket.id)
-        .list(path: path);
+    final files = await _supabase.storage.from(bucket.id).list(path: path);
 
-    for(final file in files) {
+    for (final file in files) {
       documents.add(
         Document(
           name: file.name,
@@ -1026,13 +993,10 @@ class FlutterSdengApiClient {
     required String path,
   }) async {
     final bucket = await getUserBucket();
-    await _supabase
-        .storage
-        .from(bucket.id)
-        .upload(path, file)
-        .catchError((Object err) =>
-    throw FlutterSdengApiRequestFailure(message: err.toString()),
-    );
+    await _supabase.storage.from(bucket.id).upload(path, file).catchError(
+          (Object err) =>
+              throw FlutterSdengApiRequestFailure(message: err.toString()),
+        );
 
     return path;
   }
@@ -1044,12 +1008,11 @@ class FlutterSdengApiClient {
   Future<Uint8List> downloadFile({required String path}) async {
     final bucket = await getUserBucket();
     log(path);
-    final file = await _supabase
-        .storage
+    final file = await _supabase.storage
         .from(bucket.id)
         .download(path)
         .catchError((Object err) {
-          log(err.toString());
+      log(err.toString());
       throw FlutterSdengApiRequestFailure(message: err.toString());
     });
 
@@ -1062,11 +1025,9 @@ class FlutterSdengApiClient {
   /// [path] - Path of the file to be downloaded.
   Future<void> deleteFile({required String path}) async {
     final bucket = await getUserBucket();
-    await _supabase
-        .storage
+    await _supabase.storage
         .from(bucket.id)
-        .remove([path])
-        .catchError((Object err) {
+        .remove([path]).catchError((Object err) {
       log(err.toString());
       throw FlutterSdengApiRequestFailure(message: err.toString());
     });

@@ -120,32 +120,26 @@ class $AssetsImagesGen {
       const SvgGenImage('assets/images/continue_with_twitter.svg');
 
   /// File path: assets/images/logo_dark.png
-  SvgGenImage get logoDark =>
-      const SvgGenImage('assets/images/logo_dark.svg');
+  SvgGenImage get logoDark => const SvgGenImage('assets/images/logo_dark.svg');
 
   /// File path: assets/images/logo_light.png
   SvgGenImage get logoLight =>
       const SvgGenImage('assets/images/logo_light.svg');
 
   /// File path: assets/images/logo1.png
-  SvgGenImage get logo1 =>
-      const SvgGenImage('assets/images/logo1.svg');
+  SvgGenImage get logo1 => const SvgGenImage('assets/images/logo1.svg');
 
   /// File path: assets/images/logo2.png
-  SvgGenImage get logo2 =>
-      const SvgGenImage('assets/images/logo2.svg');
+  SvgGenImage get logo2 => const SvgGenImage('assets/images/logo2.svg');
 
   /// File path: assets/images/logo3.png
-  SvgGenImage get logo3 =>
-      const SvgGenImage('assets/images/logo3.svg');
+  SvgGenImage get logo3 => const SvgGenImage('assets/images/logo3.svg');
 
   /// File path: assets/images/logo4.svg
-  SvgGenImage get logo4 =>
-      const SvgGenImage('assets/images/logo4.svg');
+  SvgGenImage get logo4 => const SvgGenImage('assets/images/logo4.svg');
 
   /// File path: assets/images/logo5.svg
-  SvgGenImage get logo5 =>
-      const SvgGenImage('assets/images/logo5.svg');
+  SvgGenImage get logo5 => const SvgGenImage('assets/images/logo5.svg');
 
   /// File path: assets/images/payment_cash.svg
   SvgGenImage get paymentCash =>
@@ -183,7 +177,6 @@ class Assets {
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
-
 }
 
 class AssetGenImage {

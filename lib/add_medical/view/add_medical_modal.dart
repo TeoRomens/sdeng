@@ -14,10 +14,10 @@ class AddMedicalModal extends StatelessWidget {
     required this.athlete,
   });
 
-  static Route<void> route(Athlete athlete) =>
-      MaterialPageRoute<void>(builder: (_) => AddMedicalModal(
-        athlete: athlete,
-      ));
+  static Route<void> route(Athlete athlete) => MaterialPageRoute<void>(
+      builder: (_) => AddMedicalModal(
+            athlete: athlete,
+          ));
 
   static const String name = '/addMedicalModal';
 

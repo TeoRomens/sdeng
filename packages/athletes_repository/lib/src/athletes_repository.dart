@@ -130,7 +130,8 @@ class AthletesRepository {
         limit: limit,
       );
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(GetAthletesFromTeamIdFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          GetAthletesFromTeamIdFailure(error), stackTrace);
     }
   }
 
@@ -147,7 +148,6 @@ class AthletesRepository {
       Error.throwWithStackTrace(GetAthletesFailure(error), stackTrace);
     }
   }
-
 
   /// Add a new team
   ///
@@ -186,24 +186,24 @@ class AthletesRepository {
     try {
       return await _apiClient.getParentFromAthleteId(athleteId);
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(GetParentFromAthleteIdFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          GetParentFromAthleteIdFailure(error), stackTrace);
     }
   }
 
   Future<Athlete> updateAthlete({required Athlete athlete}) async {
     try {
       return await _apiClient.updateAthlete(
-        id: athlete.id,
-        fullName: athlete.fullName,
-        fullAddress: athlete.fullAddress,
-        taxCode: athlete.taxCode,
-        birthDate: athlete.birthdate,
-        phone: athlete.phone,
-        email: athlete.email,
-        paymentFormulaId: athlete.paymentFormulaId,
-        teamId: athlete.teamId,
-        archived: athlete.archived
-      );
+          id: athlete.id,
+          fullName: athlete.fullName,
+          fullAddress: athlete.fullAddress,
+          taxCode: athlete.taxCode,
+          birthDate: athlete.birthdate,
+          phone: athlete.phone,
+          email: athlete.email,
+          paymentFormulaId: athlete.paymentFormulaId,
+          teamId: athlete.teamId,
+          archived: athlete.archived);
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(UpdateAthleteFailure(error), stackTrace);
     }
@@ -217,7 +217,6 @@ class AthletesRepository {
       Error.throwWithStackTrace(GetAthletesListFailure(error), stackTrace);
     }
   }
-
 
   /// Delete an athlete.
   ///
@@ -235,16 +234,14 @@ class AthletesRepository {
     }
   }
 
-  Future<Parent> updateParent({
-    required Parent parent
-  }) async {
+  Future<Parent> updateParent({required Parent parent}) async {
     try {
       return await _apiClient.updateParent(
-          athleteId: parent.athleteId,
-          fullName: parent.fullName,
-          fullAddress: parent.fullAddress,
-          phone: parent.phone,
-          email: parent.email,
+        athleteId: parent.athleteId,
+        fullName: parent.fullName,
+        fullAddress: parent.fullAddress,
+        phone: parent.phone,
+        email: parent.email,
       );
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(UpdateAthleteFailure(error), stackTrace);
@@ -262,5 +259,4 @@ class AthletesRepository {
       Error.throwWithStackTrace(SearchAthleteFailure(error), stackTrace);
     }
   }
-
 }

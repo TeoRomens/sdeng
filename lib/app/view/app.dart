@@ -1,19 +1,27 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:athletes_repository/athletes_repository.dart';
 import 'package:documents_repository/documents_repository.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medicals_repository/medicals_repository.dart';
 import 'package:notes_repository/notes_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
+import 'package:sdeng/splash/splash.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:teams_repository/teams_repository.dart';
 import 'package:sdeng/app/bloc/app_bloc.dart';
-import 'package:sdeng/app/routes/routes.dart';
 import 'package:sdeng/theme_selector/bloc/theme_mode_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
+/// The main application widget.
+///
+/// This widget is responsible for initializing and providing various
+/// repositories and BLoCs to the rest of the application. It sets up
+/// the [MultiRepositoryProvider] and [MultiBlocProvider], ensuring that
+/// all dependencies are available throughout the app.
+///
+/// The root widget of the app is the [AppView] which is responsible for
+/// setting up the [MaterialApp] with theming and the initial route.
 class App extends StatelessWidget {
   const App({
     required UserRepository userRepository,
@@ -71,6 +79,11 @@ class App extends StatelessWidget {
   }
 }
 
+/// The main view of the application.
+///
+/// This widget sets up the [MaterialApp] with the necessary theming
+/// and initial route. It configures the theme, dark theme, and theme mode
+/// for the app, and sets the initial screen to be the [SplashScreen].
 class AppView extends StatelessWidget {
   const AppView({super.key});
 
@@ -80,10 +93,7 @@ class AppView extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: const AppTheme().themeData,
       darkTheme: const AppDarkTheme().themeData,
-      home: FlowBuilder<AppStatus>(
-          state: context.select((AppBloc bloc) => bloc.state.status),
-          onGeneratePages: generateAppViewPages,
-      ),
+      home: const SplashScreen(),
     );
   }
 }

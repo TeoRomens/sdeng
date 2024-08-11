@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SecondaryButton extends StatelessWidget {
-
   const SecondaryButton({
     required this.text,
     this.onPressed,
@@ -56,4 +55,3 @@ class SecondaryButton extends StatelessWidget {
     );
   }
 }
-

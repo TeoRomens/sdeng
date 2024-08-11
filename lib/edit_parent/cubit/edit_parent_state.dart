@@ -20,7 +20,8 @@ class EditParentState extends Equatable {
   final String error;
 
   @override
-  List<Object> get props => [parent, name, surname, email, phone, status, error];
+  List<Object> get props =>
+      [parent, name, surname, email, phone, status, error];
 
   EditParentState copyWith({
     Parent? parent,

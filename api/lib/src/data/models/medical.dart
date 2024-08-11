@@ -1,25 +1,31 @@
-enum MedType{
+enum MedType {
   agonistic,
   not_agonistic,
   not_required;
 
   String get name {
     switch (this) {
-      case MedType.agonistic: return 'Agonistic';
-      case MedType.not_agonistic: return 'Not agonistic';
-      case MedType.not_required: return 'Not required';
+      case MedType.agonistic:
+        return 'Agonistic';
+      case MedType.not_agonistic:
+        return 'Not agonistic';
+      case MedType.not_required:
+        return 'Not required';
     }
   }
 }
 
 /// The available medical visit types
-enum MedStatus{
+enum MedStatus {
   /// An expired medical visit
   expired,
+
   /// An medical visit near expiration
   expireSoon,
+
   /// An valid medical visit
   good,
+
   /// An unknown medical visit
   unknown
 }
@@ -33,6 +39,7 @@ class Medical {
   });
 
   final String athleteId;
+
   /// Athlete full name
   final String fullName;
 
@@ -63,10 +70,11 @@ class Medical {
       type: map['type'] == 'not_required'
           ? MedType.not_required
           : map['type'] == 'not_agonistic'
-          ? MedType.not_agonistic
-          : MedType.agonistic,
+              ? MedType.not_agonistic
+              : MedType.agonistic,
       expire: map['expire'] != null
-          ? DateTime.tryParse(map['expire'] as String) : null,
+          ? DateTime.tryParse(map['expire'] as String)
+          : null,
     );
   }
 

@@ -16,13 +16,12 @@ class AddPaymentCubit extends Cubit<AddPaymentState> {
 
   final PaymentsRepository _paymentsRepository;
 
-  Future<void> addPayment({
-    required double amount,
-    required String cause,
-    required PaymentType type,
-    required PaymentMethod method,
-    PaymentFormula? formula
-  }) async {
+  Future<void> addPayment(
+      {required double amount,
+      required String cause,
+      required PaymentType type,
+      required PaymentMethod method,
+      PaymentFormula? formula}) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
       await _paymentsRepository.addPayment(
@@ -30,13 +29,11 @@ class AddPaymentCubit extends Cubit<AddPaymentState> {
           amount: amount,
           cause: cause,
           type: type,
-          method: method
-      );
+          method: method);
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       addError(error, stackTrace);
     }
   }
-
 }

@@ -14,10 +14,10 @@ class PaymentsState extends Equatable {
     this.error = '',
   });
 
-  const PaymentsState.initial() : this(
-
-    status: PaymentsStatus.initial,
-  );
+  const PaymentsState.initial()
+      : this(
+          status: PaymentsStatus.initial,
+        );
 
   final PaymentsStatus status;
   final List<Payment> payments;
@@ -25,10 +25,10 @@ class PaymentsState extends Equatable {
 
   @override
   List<Object> get props => [
-    status,
-    payments,
-    error,
-  ];
+        status,
+        payments,
+        error,
+      ];
 
   PaymentsState copyWith({
     PaymentsStatus? status,

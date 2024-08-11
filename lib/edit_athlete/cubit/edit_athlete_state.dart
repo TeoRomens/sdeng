@@ -26,7 +26,18 @@ class EditAthleteState extends Equatable {
   final String error;
 
   @override
-  List<Object> get props => [athlete, name, surname, taxCode, email, phone, address, birthdate, status, error];
+  List<Object> get props => [
+        athlete,
+        name,
+        surname,
+        taxCode,
+        email,
+        phone,
+        address,
+        birthdate,
+        status,
+        error
+      ];
 
   EditAthleteState copyWith({
     Athlete? athlete,

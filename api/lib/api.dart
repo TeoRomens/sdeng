@@ -2,8 +2,4 @@
 library api;
 
 export 'src/data/models/models.dart'
-    show
-        Subscription,
-        SubscriptionCost,
-        SubscriptionPlan,
-        User;
+    show Subscription, SubscriptionCost, SubscriptionPlan, User;

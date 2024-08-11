@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 enum DateValidationError {
   /// Date is invalid
   invalidFormat,
+
   /// Date is empty
   empty
 }

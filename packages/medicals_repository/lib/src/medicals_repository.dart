@@ -39,7 +39,6 @@ class GetExpiredMedicalsFailure extends MedicalsFailure {
   const GetExpiredMedicalsFailure(super.error);
 }
 
-
 /// Thrown when fetching good medicals fails.
 class GetGoodMedicalsFailure extends MedicalsFailure {
   /// {@macro get_good_medicals_failure}
@@ -103,7 +102,8 @@ class MedicalsRepository {
         athleteId: athleteId,
       );
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(GetMedicalFromAthleteFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          GetMedicalFromAthleteFailure(error), stackTrace);
     }
   }
 
@@ -196,13 +196,12 @@ class MedicalsRepository {
   Future<Medical> updateMedical({required Medical medical}) async {
     try {
       return await _apiClient.updateMedical(
-          athleteId: medical.athleteId,
-          expire: medical.expire!,
-          medType: medical.type!,
+        athleteId: medical.athleteId,
+        expire: medical.expire!,
+        medType: medical.type!,
       );
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(UpdateMedicalFailure(error), stackTrace);
     }
   }
-
 }

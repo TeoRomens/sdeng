@@ -17,23 +17,19 @@ class RenameTeamCubit extends Cubit<RenameTeamState> {
 
   final TeamsRepository _teamsRepository;
 
-  Future<void> rename({
-    required String name
-  }) async {
+  Future<void> rename({required String name}) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
-      final updatedTeam = state.team.copyWith(
-        name: name
-      );
-      await _teamsRepository.updateTeam(
-          team: updatedTeam
-      );
-      emit(state.copyWith(status: FormzSubmissionStatus.success, team: updatedTeam));
+      final updatedTeam = state.team.copyWith(name: name);
+      await _teamsRepository.updateTeam(team: updatedTeam);
+      emit(state.copyWith(
+          status: FormzSubmissionStatus.success, team: updatedTeam));
     } catch (error, stackTrace) {
       print(error);
-      emit(state.copyWith(status: FormzSubmissionStatus.failure, error: 'Error updating medical visit'));
+      emit(state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          error: 'Error updating medical visit'));
       addError(error, stackTrace);
     }
   }
-
 }

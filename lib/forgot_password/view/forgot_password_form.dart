@@ -18,8 +18,8 @@ class ForgotPasswordForm extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               const SnackBar(
-                backgroundColor: AppColors.red,
-                content: Text('Authentication failure')),
+                  backgroundColor: AppColors.red,
+                  content: Text('Authentication failure')),
             );
         }
       },
@@ -44,10 +44,7 @@ class _LoginContent extends StatelessWidget {
               AppSpacing.xxlg,
             ),
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: AppLogo.light()
-              ),
+              Align(alignment: Alignment.centerLeft, child: AppLogo.light()),
               const SizedBox(height: AppSpacing.xlg),
               const _ForgotTitle(),
               const SizedBox(height: AppSpacing.sm),
@@ -124,19 +121,24 @@ class _ForgotPasswordButton extends StatelessWidget {
                       ),
                     ),
                   ],
-              )
+                )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Send', style: UITextStyle.titleMedium.copyWith(
-                      color: AppColors.white
-                    ),),
+                    Text(
+                      'Send',
+                      style: UITextStyle.titleMedium
+                          .copyWith(color: AppColors.white),
+                    ),
                   ],
                 ),
-          onPressed: () async => await context.read<LoginBloc>().forgotPassword(
-            email: Email.dirty(_emailController.text),
-          ).then((_) {
-            if(state.status == FormzSubmissionStatus.success) {
+          onPressed: () async => await context
+              .read<LoginBloc>()
+              .forgotPassword(
+                email: Email.dirty(_emailController.text),
+              )
+              .then((_) {
+            if (state.status == FormzSubmissionStatus.success) {
               Navigator.of(context).pop();
             }
           }),
@@ -158,7 +160,7 @@ class ClearIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final suffixVisible =
-    context.select((LoginBloc bloc) => bloc.state.email.value.isNotEmpty);
+        context.select((LoginBloc bloc) => bloc.state.email.value.isNotEmpty);
 
     return Padding(
       key: const Key('loginForm_clearIconButton'),

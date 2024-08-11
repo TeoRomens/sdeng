@@ -52,7 +52,6 @@ class Athlete {
   ///
   final String? paymentFormulaId;
 
-
   static Map<String, dynamic> create({
     required String teamId,
     required String fullName,
@@ -86,19 +85,18 @@ class Athlete {
   }
 
   Athlete.fromMap(Map<String, dynamic> map)
-    : teamId = map['team_id'] as String,
-      id = map['id'] as String,
-      fullName = map['full_name'] as String,
-      taxCode = map['tax_code'] as String,
-      birthdate = DateTime.tryParse(map['birth_date'] as String? ?? ''),
-      birthPlace = map['birth_place'] as String?,
-      email = map['email'] as String?,
-      phone = map['phone'] as String?,
-      fullAddress = map['full_address'] as String?,
-      nationality = map['nationality'] as String?,
-      archived = map['archived'] as bool?,
-      paymentFormulaId = map['payment_formula_id'] as String?
-  ;
+      : teamId = map['team_id'] as String,
+        id = map['id'] as String,
+        fullName = map['full_name'] as String,
+        taxCode = map['tax_code'] as String,
+        birthdate = DateTime.tryParse(map['birth_date'] as String? ?? ''),
+        birthPlace = map['birth_place'] as String?,
+        email = map['email'] as String?,
+        phone = map['phone'] as String?,
+        fullAddress = map['full_address'] as String?,
+        nationality = map['nationality'] as String?,
+        archived = map['archived'] as bool?,
+        paymentFormulaId = map['payment_formula_id'] as String?;
 
   Athlete copyWith({
     String? id,
@@ -113,16 +111,15 @@ class Athlete {
     String? paymentFormulaId,
   }) {
     return Athlete(
-      id: id ?? this.id,
-      teamId: teamId ?? this.teamId,
-      fullName: fullName ?? this.fullName,
-      taxCode: taxCode ?? this.taxCode,
-      birthdate: birthDate ?? this.birthdate,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      fullAddress: fullAddress ?? this.fullAddress,
-      archived: archived ?? this.archived,
-      paymentFormulaId: paymentFormulaId ?? this.paymentFormulaId
-    );
+        id: id ?? this.id,
+        teamId: teamId ?? this.teamId,
+        fullName: fullName ?? this.fullName,
+        taxCode: taxCode ?? this.taxCode,
+        birthdate: birthDate ?? this.birthdate,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        fullAddress: fullAddress ?? this.fullAddress,
+        archived: archived ?? this.archived,
+        paymentFormulaId: paymentFormulaId ?? this.paymentFormulaId);
   }
 }

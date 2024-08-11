@@ -27,7 +27,16 @@ class ProfileState extends Equatable {
   final String error;
 
   @override
-  List<Object> get props => [fullName, societyName, societyEmail, societyPhone, societyAddress, societyPiva, status, error];
+  List<Object> get props => [
+        fullName,
+        societyName,
+        societyEmail,
+        societyPhone,
+        societyAddress,
+        societyPiva,
+        status,
+        error
+      ];
 
   ProfileState copyWith({
     NonEmpty? fullName,

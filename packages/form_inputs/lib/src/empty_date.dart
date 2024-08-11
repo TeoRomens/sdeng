@@ -18,7 +18,7 @@ class EmptyDate extends FormzInput<String, EmptyDateValidationError> {
 
   @override
   EmptyDateValidationError? validator(String value) {
-    if(value.isEmpty) return null;
+    if (value.isEmpty) return null;
 
     final dateParts = value.split('/');
     if (dateParts.length != 3 ||

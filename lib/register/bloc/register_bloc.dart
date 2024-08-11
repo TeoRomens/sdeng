@@ -34,17 +34,19 @@ class RegisterBloc extends Cubit<RegisterState> {
     required Password password,
   }) async {
     if (!Formz.validate([email])) {
-      emit(state.copyWith(status: FormzSubmissionStatus.failure, ));
+      emit(state.copyWith(
+        status: FormzSubmissionStatus.failure,
+      ));
       return;
     }
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
-      await _userRepository.signUpWithCredentials(email: email.value, password: password.value);
+      await _userRepository.signUpWithCredentials(
+          email: email.value, password: password.value);
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       addError(error, stackTrace);
     }
   }
-
 }

@@ -7,7 +7,7 @@ import 'package:sdeng/notes/view/notes_view_desktop.dart';
 
 class NotesPage extends StatelessWidget {
   const NotesPage({super.key});
-  
+
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const NotesPage(),
@@ -37,10 +37,10 @@ class NotesPage extends StatelessWidget {
           ),
           body: OrientationBuilder(
               builder: (BuildContext context, Orientation orientation) {
-                return orientation == Orientation.portrait ?
-                    const NotesView() : const NotesViewDesktop();
-              }
-          ),
+            return orientation == Orientation.portrait
+                ? const NotesView()
+                : const NotesViewDesktop();
+          }),
         ),
       ),
     );

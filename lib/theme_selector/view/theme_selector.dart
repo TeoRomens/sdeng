@@ -16,7 +16,8 @@ class ThemeSelector extends StatelessWidget {
       key: const Key('themeSelector_dropdown'),
       onChanged: (ThemeMode? selectedThemeMode) => context
           .read<ThemeModeBloc>()
-          .onChange(Change(currentState: themeMode, nextState: selectedThemeMode!)),
+          .onChange(
+              Change(currentState: themeMode, nextState: selectedThemeMode!)),
       value: themeMode,
       items: const [
         DropdownMenuItem(

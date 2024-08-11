@@ -2,7 +2,6 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/app/bloc/app_bloc.dart';
-import 'package:sdeng/payment_formula/payment_formula.dart';
 import 'package:sdeng/payment_formula/view/payment_formula_page_desktop.dart';
 import 'package:sdeng/profile_modal/view/profile_modal.dart';
 
@@ -17,20 +16,16 @@ class SettingsViewDesktop extends StatelessWidget {
       children: [
         Expanded(
           child: Center(
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Assets.images.logo5.svg(height: 120)
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Settings',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                ]
-            ),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Assets.images.logo5.svg(height: 120)),
+              const SizedBox(height: 8),
+              Text(
+                'Settings',
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+            ]),
           ),
         ),
         VerticalDivider(
@@ -52,9 +47,10 @@ class SettingsViewDesktop extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Settings',
+                    Text(
+                      'Settings',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 20),
@@ -66,11 +62,14 @@ class SettingsViewDesktop extends StatelessWidget {
                           children: [
                             Text(
                               'Profile',
-                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  color: AppColors.blueGrey,
-                                  fontWeight: AppFontWeight.semiBold,
-                                  fontSize: 17,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                    color: AppColors.blueGrey,
+                                    fontWeight: AppFontWeight.semiBold,
+                                    fontSize: 17,
+                                  ),
                             ),
                             const Text(
                               'Update your profile details here',
@@ -84,19 +83,17 @@ class SettingsViewDesktop extends StatelessWidget {
                           ],
                         ),
                         SecondaryButton(
-                          text: 'Edit',
-                          onPressed: () {
-                            showAppModal(
-                                isDismissible: true,
-                                enableDrag: false,
-                                context: context,
-                                content: ProfileModal(
-                                  userId: user!.id,
-                                  sdengUser: user,
-                                )
-                            );
-                          }
-                        )
+                            text: 'Edit',
+                            onPressed: () {
+                              showAppModal(
+                                  isDismissible: true,
+                                  enableDrag: false,
+                                  context: context,
+                                  content: ProfileModal(
+                                    userId: user!.id,
+                                    sdengUser: user,
+                                  ));
+                            })
                       ],
                     ),
                     const Divider(
@@ -109,8 +106,7 @@ class SettingsViewDesktop extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: AppColors.blueGrey,
                           fontWeight: AppFontWeight.semiBold,
-                          fontSize: 17
-                      ),
+                          fontSize: 17),
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     //TODO: Payments formula settings
@@ -120,7 +116,8 @@ class SettingsViewDesktop extends StatelessWidget {
                         Icons.chevron_right,
                       ),
                       onTap: () {
-                        Navigator.of(context).push(PaymentFormulaPageDesktop.route());
+                        Navigator.of(context)
+                            .push(PaymentFormulaPageDesktop.route());
                       },
                     ),
                     const Divider(
@@ -136,11 +133,14 @@ class SettingsViewDesktop extends StatelessWidget {
                           children: [
                             Text(
                               'Terms of Service',
-                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                color: AppColors.blueGrey,
-                                fontWeight: AppFontWeight.semiBold,
-                                fontSize: 17,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                    color: AppColors.blueGrey,
+                                    fontWeight: AppFontWeight.semiBold,
+                                    fontSize: 17,
+                                  ),
                             ),
                             const Text(
                               'View the terms of services of SDENG',
@@ -157,8 +157,7 @@ class SettingsViewDesktop extends StatelessWidget {
                             text: 'View',
                             onPressed: () {
                               //TODO: Terms of use
-                            }
-                        )
+                            })
                       ],
                     ),
                     const SizedBox(height: AppSpacing.lg),
@@ -170,11 +169,14 @@ class SettingsViewDesktop extends StatelessWidget {
                           children: [
                             Text(
                               'About',
-                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                color: AppColors.blueGrey,
-                                fontWeight: AppFontWeight.semiBold,
-                                fontSize: 17,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                    color: AppColors.blueGrey,
+                                    fontWeight: AppFontWeight.semiBold,
+                                    fontSize: 17,
+                                  ),
                             ),
                             const Text(
                               'Know more about us',
@@ -191,9 +193,17 @@ class SettingsViewDesktop extends StatelessWidget {
                             text: 'View',
                             onPressed: () {
                               //TODO: About SDENG
-                            }
-                        )
+                            })
                       ],
+                    ),
+                    const SizedBox(height: AppSpacing.xxlg),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SecondaryButton(
+                          text: 'Logout',
+                          onPressed: () {
+                            context.read<AppBloc>().onLogoutRequested();
+                          }),
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     const SizedBox(height: AppSpacing.lg),
@@ -204,23 +214,6 @@ class SettingsViewDesktop extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-@visibleForTesting
-class UserProfileTitle extends StatelessWidget {
-  const UserProfileTitle({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: Text(
-        'Profile',
-        style: theme.textTheme.headlineLarge,
-      ),
     );
   }
 }

@@ -118,7 +118,6 @@ class DocumentsRepository {
   ''';
     final checkBox = pw.SvgImage(svg: svgCheckBox);
 
-
     final pdf = pw.Document()
       ..addPage(
         pw.Page(
@@ -128,42 +127,55 @@ class DocumentsRepository {
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
                 pw.Center(
-                  child: pw.Text("RICHIESTA DI VISITA MEDICO-SPORTIVA PER L'IDONEITA' ALLA PRATICA AGONISTICA",
-                    style: boldStyle,
-                    textAlign: pw.TextAlign.center
-                  ),
+                  child: pw.Text(
+                      "RICHIESTA DI VISITA MEDICO-SPORTIVA PER L'IDONEITA' ALLA PRATICA AGONISTICA",
+                      style: boldStyle,
+                      textAlign: pw.TextAlign.center),
                 ),
                 pw.SizedBox(height: 8),
                 pw.Center(
-                  child: pw.Text('(DM del 24/04/2013 - Decreto Balduzzi e del Decreto del Fare, convertito in legge 98, art. 42.bis, pubblicato nella GU il 20 agosto 2013)',
-                    style: const pw.TextStyle(fontSize: 10),
-                    textAlign: pw.TextAlign.center
-                  ),
+                  child: pw.Text(
+                      '(DM del 24/04/2013 - Decreto Balduzzi e del Decreto del Fare, convertito in legge 98, art. 42.bis, pubblicato nella GU il 20 agosto 2013)',
+                      style: const pw.TextStyle(fontSize: 10),
+                      textAlign: pw.TextAlign.center),
                 ),
                 pw.SizedBox(height: 8),
                 pw.Align(
                   alignment: pw.Alignment.centerRight,
-                  child: pw.Text('Date: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                  child: pw.Text(
+                    'Date: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
                     textAlign: pw.TextAlign.right,
                   ),
                 ),
-                pw.Text('La società: ${user.societyName}',),
-                pw.Text('con sede in: ${user.societyAddress}',),
-                pw.Text('affiliata alla Federazione Sportiva Nazionale con matricola n. ${user.societyPiva}',),
+                pw.Text(
+                  'La società: ${user.societyName}',
+                ),
+                pw.Text(
+                  'con sede in: ${user.societyAddress}',
+                ),
+                pw.Text(
+                  'affiliata alla Federazione Sportiva Nazionale con matricola n. ${user.societyPiva}',
+                ),
                 pw.SizedBox(height: 12),
                 pw.Center(
                   child: pw.Text('chiede che il proprio atleta',
-                      style: boldStyle,
-                      textAlign: pw.TextAlign.center
-                  ),
+                      style: boldStyle, textAlign: pw.TextAlign.center),
                 ),
                 pw.SizedBox(height: 12),
-                pw.Text('Nome e Cognome: ${athlete.fullName}',),
-                pw.Text('Abitante a: ${athlete.fullAddress}',),
-                pw.Text('Cod Fiscale: ${athlete.taxCode}',),
+                pw.Text(
+                  'Nome e Cognome: ${athlete.fullName}',
+                ),
+                pw.Text(
+                  'Abitante a: ${athlete.fullAddress}',
+                ),
+                pw.Text(
+                  'Cod Fiscale: ${athlete.taxCode}',
+                ),
                 pw.SizedBox(height: 12),
                 pw.Center(
-                  child: pw.Text("Si sottoponga ad una visita medico-sportiva per l'idoneità alla pratica agonistica dello sport:",),
+                  child: pw.Text(
+                    "Si sottoponga ad una visita medico-sportiva per l'idoneità alla pratica agonistica dello sport:",
+                  ),
                 ),
                 pw.Center(
                   child: pw.Text('Pallacanestro', style: boldStyle),
@@ -179,33 +191,35 @@ class DocumentsRepository {
                 pw.Row(
                   children: [
                     checkBox,
-                    pw.Text("  Rinnovo (allegare ultimo certificato in originale in possesso dell'atleta)"),
+                    pw.Text(
+                        "  Rinnovo (allegare ultimo certificato in originale in possesso dell'atleta)"),
                   ],
                 ),
                 pw.SizedBox(height: 30),
                 pw.Align(
                   alignment: pw.Alignment.centerRight,
-                  child: pw.Text('Firma del presidente',
+                  child: pw.Text(
+                    'Firma del presidente',
                     textAlign: pw.TextAlign.right,
                   ),
                 ),
                 pw.SizedBox(height: 120),
-                pw.Text("N.B. La mancata o l'errata compilazione di uno dei dati richiesti e/o la mancata presentazione dell'ultimo certificato rende nulla la richiesta.'\nPer prima affiliazione si intende la prima visita in assoluto dell'atleta richiesta per qualsiasi sport, tutte le successive anche per sport diversi sono da considerarsi rinnovi.'\nLa richiesta deve essere compilata a macchina o con carattere stampatello, timbrata e firmata in originale. La richiesta non può essere presentata prima di 30 gg. dalla scadenza del certificato precedente. II presidente non può compilare più richieste di visita per lo stesso atleta nel corso degli 11 mesi successivi.",
-                    style: pw.TextStyle(
-                      fontSize: 9,
-                      fontStyle: pw.FontStyle.italic,
-                    ),
+                pw.Text(
+                  "N.B. La mancata o l'errata compilazione di uno dei dati richiesti e/o la mancata presentazione dell'ultimo certificato rende nulla la richiesta.'\nPer prima affiliazione si intende la prima visita in assoluto dell'atleta richiesta per qualsiasi sport, tutte le successive anche per sport diversi sono da considerarsi rinnovi.'\nLa richiesta deve essere compilata a macchina o con carattere stampatello, timbrata e firmata in originale. La richiesta non può essere presentata prima di 30 gg. dalla scadenza del certificato precedente. II presidente non può compilare più richieste di visita per lo stesso atleta nel corso degli 11 mesi successivi.",
+                  style: pw.TextStyle(
+                    fontSize: 9,
+                    fontStyle: pw.FontStyle.italic,
+                  ),
                 ),
               ],
             ); // Center
           },
         ),
-    );
+      );
 
     final output = await getTemporaryDirectory();
     final file = File('${output.path}/Richiesta-Visita-Medica.pdf');
     await file.writeAsBytes(await pdf.save());
     return file;
   }
-
 }

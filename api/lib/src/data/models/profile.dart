@@ -10,27 +10,25 @@ class Profile {
   final String? societyEmail;
   final String? societyPiva;
 
-  Profile({
-    required this.id,
-    this.fullName,
-    this.avatarUrl,
-    this.billingAddress,
-    this.paymentMethod,
-    this.societyName,
-    this.societyAddress,
-    this.societyEmail,
-    this.societyPhone,
-    this.societyPiva
-  });
+  Profile(
+      {required this.id,
+      this.fullName,
+      this.avatarUrl,
+      this.billingAddress,
+      this.paymentMethod,
+      this.societyName,
+      this.societyAddress,
+      this.societyEmail,
+      this.societyPhone,
+      this.societyPiva});
 
-  static Map<String, dynamic> create({
-    String? fullName,
-    String? societyName,
-    String? societyEmail,
-    String? societyPhone,
-    String? societyAddress,
-    String? societyPiva
-  }) {
+  static Map<String, dynamic> create(
+      {String? fullName,
+      String? societyName,
+      String? societyEmail,
+      String? societyPhone,
+      String? societyAddress,
+      String? societyPiva}) {
     return {
       'full_name': fullName,
       'society_name': societyName,
@@ -55,8 +53,7 @@ class Profile {
         societyEmail = map['society_email'] as String,
         societyPhone = map['society_phone'] as String,
         societyAddress = map['society_address'] as String,
-        societyPiva = map['society_piva'] as String
-  ;
+        societyPiva = map['society_piva'] as String;
 
   /// Converts `Profile` to a map so that it can be save to db.
   Map<String, dynamic> toMap() {
@@ -87,16 +84,15 @@ class Profile {
     String? societyPiva,
   }) {
     return Profile(
-      id: id ?? this.id,
-      fullName: fullName ?? this.fullName,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      billingAddress: billingAddress ?? this.billingAddress,
-      paymentMethod: paymentMethod ?? this.paymentMethod,
-      societyName: societyName ?? this.societyName,
-      societyEmail: societyEmail ?? this.societyEmail,
-      societyAddress: societyAddress ?? this.societyAddress,
-      societyPhone: societyPhone ?? this.societyPhone,
-      societyPiva: societyPiva ?? this.societyPiva
-    );
+        id: id ?? this.id,
+        fullName: fullName ?? this.fullName,
+        avatarUrl: avatarUrl ?? this.avatarUrl,
+        billingAddress: billingAddress ?? this.billingAddress,
+        paymentMethod: paymentMethod ?? this.paymentMethod,
+        societyName: societyName ?? this.societyName,
+        societyEmail: societyEmail ?? this.societyEmail,
+        societyAddress: societyAddress ?? this.societyAddress,
+        societyPhone: societyPhone ?? this.societyPhone,
+        societyPiva: societyPiva ?? this.societyPiva);
   }
 }

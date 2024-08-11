@@ -30,9 +30,7 @@ class AthletesPage extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                  backgroundColor: AppColors.red,
-                  content: Text(state.error)
-                ),
+                    backgroundColor: AppColors.red, content: Text(state.error)),
               );
           } else if (state.status == AthletesStatus.teamDeleted) {
             Navigator.of(context).pop();
@@ -46,8 +44,8 @@ class AthletesPage extends StatelessWidget {
           body: OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               return orientation == Orientation.portrait
-                ? const AthletesView()
-                : const AthletesViewDesktop();
+                  ? const AthletesView()
+                  : const AthletesViewDesktop();
             },
           ),
         ),

@@ -41,18 +41,18 @@ class _AthletesPageScreenState extends State<AthletesView> {
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const TextBox(
                   title: 'All athletes',
-                  content: 'Below you find all your registered athletes. Tap on a player to see the details.',
+                  content:
+                      'Below you find all your registered athletes. Tap on a player to see the details.',
                 ),
                 AppTextFormField(
-                  onChanged: (text) => context.read<AthletesPageCubit>().searchAthlete(text),
+                  onChanged: (text) =>
+                      context.read<AthletesPageCubit>().searchAthlete(text),
                   prefix: const Icon(FeatherIcons.search),
                   hintText: 'Search',
                 ),
@@ -76,22 +76,25 @@ class _AthletesPageScreenState extends State<AthletesView> {
                               children: [
                                 Text(
                                   'New Athlete',
-                                  style: Theme.of(context).textTheme.headlineMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
                                   textAlign: TextAlign.center,
                                 ),
-                                const Divider(endIndent: 0, indent: 0, height: 25),
+                                const Divider(
+                                    endIndent: 0, indent: 0, height: 25),
                                 Padding(
                                   padding: const EdgeInsets.all(AppSpacing.sm),
                                   child: Text(
                                     'To add a new athlete please go in the team page where you would like to add your athlete',
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
                               ],
                             ),
-                          )
-                      );
+                          ));
                     },
                   )
                 else
@@ -106,9 +109,11 @@ class _AthletesPageScreenState extends State<AthletesView> {
                         padding: EdgeInsets.only(right: AppSpacing.md),
                         child: Icon(FeatherIcons.chevronRight),
                       ),
-                      onTap: () => Navigator.of(context).push(AthletePage.route(athleteId: bloc.state.athletes[index].id)),
+                      onTap: () => Navigator.of(context).push(AthletePage.route(
+                          athleteId: bloc.state.athletes[index].id)),
                     ),
-                    separatorBuilder: (_, index) => const Divider(height: 0, indent: 20),
+                    separatorBuilder: (_, index) =>
+                        const Divider(height: 0, indent: 20),
                   ),
                 const Divider(indent: 70, height: 0),
                 const SizedBox(height: 100),
@@ -121,10 +126,10 @@ class _AthletesPageScreenState extends State<AthletesView> {
   }
 
   void _scrollListener() {
-    if (_controller.position.extentAfter < MediaQuery.of(context).size.height - 100) {
+    if (_controller.position.extentAfter <
+        MediaQuery.of(context).size.height - 100) {
       context.read<AthletesPageCubit>().getAthletes(offset: _loadedAthletes);
       _loadedAthletes += 20;
     }
   }
-
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:form_inputs/form_inputs.dart';
-import 'package:sdeng/edit_medical/cubit/edit_medical_cubit.dart';
 import 'package:sdeng/rename_team/cubit/rename_team_cubit.dart';
 
 class RenameTeamForm extends StatelessWidget {
@@ -45,10 +44,11 @@ class RenameTeamForm extends StatelessWidget {
           PrimaryButton(
             onPressed: () async {
               formKey.currentState!.validate()
-                ? await context.read<RenameTeamCubit>().rename(
-                    name: nameController.text
-                  ).then((_) => Navigator.of(context).pop())
-                : null;
+                  ? await context
+                      .read<RenameTeamCubit>()
+                      .rename(name: nameController.text)
+                      .then((_) => Navigator.of(context).pop())
+                  : null;
             },
             child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(

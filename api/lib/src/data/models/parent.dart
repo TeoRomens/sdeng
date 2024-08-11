@@ -1,5 +1,4 @@
 class Parent {
-
   Parent({
     required this.athleteId,
     this.fullName,
@@ -15,8 +14,7 @@ class Parent {
         taxCode = map['tax_code'] as String?,
         email = map['email'] as String?,
         phone = map['phone'] as String?,
-        fullAddress = map['full_address'] as String?
-  ;
+        fullAddress = map['full_address'] as String?;
 
   final String athleteId;
   final String? fullName;

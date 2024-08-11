@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_repository/notes_repository.dart';
 import 'package:sdeng/notes/cubit/notes_cubit.dart';
-import 'package:teams_repository/teams_repository.dart';
-import 'package:sdeng/teams/teams.dart';
 
 import 'add_note_form.dart';
 

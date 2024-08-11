@@ -78,7 +78,6 @@ class UserRepository {
     }
   }
 
-
   /// Starts the Sign In with Google Flow.
   ///
   /// Throws a [LogInWithGoogleCanceled] if the flow is canceled by the user.
@@ -129,7 +128,8 @@ class UserRepository {
     } on SignUpWithCredentialsFailure {
       rethrow;
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(SignUpWithCredentialsFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          SignUpWithCredentialsFailure(error), stackTrace);
     }
   }
 
@@ -192,5 +192,4 @@ class UserRepository {
       'notes': results[4],
     };
   }
-
 }

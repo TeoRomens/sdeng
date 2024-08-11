@@ -7,7 +7,7 @@ import 'package:sdeng/payments/view/payments_view_desktop.dart';
 
 class PaymentsPage extends StatelessWidget {
   const PaymentsPage({super.key});
-  
+
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const PaymentsPage(),
@@ -37,10 +37,10 @@ class PaymentsPage extends StatelessWidget {
           ),
           body: OrientationBuilder(
               builder: (BuildContext context, Orientation orientation) {
-                return orientation == Orientation.portrait ?
-                    const PaymentsView() : const PaymentsViewDesktop();
-              }
-          ),
+            return orientation == Orientation.portrait
+                ? const PaymentsView()
+                : const PaymentsViewDesktop();
+          }),
         ),
       ),
     );

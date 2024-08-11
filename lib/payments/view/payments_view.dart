@@ -18,46 +18,46 @@ class PaymentsView extends StatelessWidget {
     final bloc = context.watch<PaymentsCubit>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const TextBox(
-            title: 'Payments',
-            content: 'Here you can find all your transactions.'
-          ),
-          bloc.state.status != PaymentsStatus.loading && bloc.state.payments.isEmpty
-            ? EmptyState(
-                actionText: 'Add payment',
-                onPressed: () => showAppModal(
-                  context: context,
-                  content: const AddPaymentModal(),
-                ),
-              )
-            : ListView.separated(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: bloc.state.payments.length,
-              itemBuilder: (context, index) => PaymentTile(
-                  payment: bloc.state.payments[index],
-                  onTap: () => Navigator.of(context).push(
-                      PaymentDetailsPage.route(bloc.state.payments[index]
-                  )),
-              ),
-              separatorBuilder: (BuildContext context, int index)
-                  => const Divider(height: 0, indent: 60, endIndent: 20,)
-            ),
+              title: 'Payments',
+              content: 'Here you can find all your transactions.'),
+          bloc.state.status != PaymentsStatus.loading &&
+                  bloc.state.payments.isEmpty
+              ? EmptyState(
+                  actionText: 'Add payment',
+                  onPressed: () => showAppModal(
+                    context: context,
+                    content: const AddPaymentModal(),
+                  ),
+                )
+              : ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: bloc.state.payments.length,
+                  itemBuilder: (context, index) => PaymentTile(
+                        payment: bloc.state.payments[index],
+                        onTap: () => Navigator.of(context).push(
+                            PaymentDetailsPage.route(
+                                bloc.state.payments[index])),
+                      ),
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                        height: 0,
+                        indent: 60,
+                        endIndent: 20,
+                      )),
           AppTextButton(
-            text: 'Add payment',
-            onPressed: () => showAppModal(
-              context: context,
-              content: const AddPaymentModal(),
-            )
-          )
+              text: 'Add payment',
+              onPressed: () => showAppModal(
+                    context: context,
+                    content: const AddPaymentModal(),
+                  ))
         ],
       ),
     );

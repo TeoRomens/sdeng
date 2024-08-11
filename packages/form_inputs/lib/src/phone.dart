@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 enum PhoneNumberValidationError {
   /// Phone number is invalid (generic validation error)
   invalid,
+
   /// Phone number is empty
   empty
 }

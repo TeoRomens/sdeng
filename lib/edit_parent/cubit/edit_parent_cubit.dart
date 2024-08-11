@@ -25,20 +25,16 @@ class EditParentCubit extends Cubit<EditParentState> {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
       final updatedParent = state.parent.copyWith(
-        fullName: '$name $surname',
-        email: email,
-        phone: phone,
-        fullAddress: address
-      );
+          fullName: '$name $surname',
+          email: email,
+          phone: phone,
+          fullAddress: address);
       await _athletesRepository.updateParent(parent: updatedParent);
       emit(state.copyWith(
-          status: FormzSubmissionStatus.success,
-          parent: updatedParent
-      ));
+          status: FormzSubmissionStatus.success, parent: updatedParent));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       addError(error, stackTrace);
     }
   }
-
 }

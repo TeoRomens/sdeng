@@ -11,8 +11,10 @@ class NetworkError extends StatelessWidget {
   /// An optional callback which is invoked when the retry button is pressed.
   final VoidCallback? onRetry;
 
-  static Page<void> page({VoidCallback? onRetry})
-    => MaterialPage<void>(child: NetworkError(onRetry: onRetry,));
+  static Page<void> page({VoidCallback? onRetry}) => MaterialPage<void>(
+          child: NetworkError(
+        onRetry: onRetry,
+      ));
 
   /// Route constructor to display the widget inside a [Scaffold].
   static Route<void> route({VoidCallback? onRetry}) {
@@ -24,6 +26,7 @@ class NetworkError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Column(
@@ -39,9 +42,7 @@ class NetworkError extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
           Text(
             'Connection error',
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: AppColors.white
-            ),
+            style: theme.textTheme.titleLarge?.copyWith(color: AppColors.white),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -54,7 +55,8 @@ class NetworkError extends StatelessWidget {
                 children: [
                   Flexible(
                     flex: 0,
-                    child: Icon(Icons.refresh, size: UITextStyle.bodyLarge.fontSize),
+                    child: Icon(Icons.refresh,
+                        size: UITextStyle.bodyLarge.fontSize),
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Flexible(

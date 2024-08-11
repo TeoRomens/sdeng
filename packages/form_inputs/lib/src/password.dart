@@ -4,8 +4,10 @@ import 'package:formz/formz.dart';
 enum PasswordValidationError {
   /// Password is too short
   tooShort,
+
   /// Password is too weak
   weak,
+
   /// Password is empty
   empty
 }

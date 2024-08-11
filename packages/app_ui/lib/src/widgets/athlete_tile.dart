@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_sdeng_api/client.dart';
 
-
-class AthleteTile extends StatelessWidget{
-  const AthleteTile({super.key,
+class AthleteTile extends StatelessWidget {
+  const AthleteTile({
+    super.key,
     required this.athlete,
     this.onTap,
     this.trailing,
@@ -24,19 +24,17 @@ class AthleteTile extends StatelessWidget{
       contentPadding: const EdgeInsets.symmetric(
         vertical: AppSpacing.xs,
       ),
-      leading: ClipOval(
-          child: Assets.images.logo3.svg(height: 40)
-      ),
+      leading: ClipOval(child: Assets.images.logo3.svg(height: 40)),
       title: Text(athlete.fullName),
-      titleTextStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
-        fontSize: 19
-      ),
+      titleTextStyle:
+          Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 19),
       subtitle: Text(athlete.taxCode),
       subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
-      trailing: trailing ?? const Padding(
-        padding: EdgeInsets.only(right: 10),
-        child: Icon(FeatherIcons.chevronRight),
-      ),
+      trailing: trailing ??
+          const Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Icon(FeatherIcons.chevronRight),
+          ),
       onTap: onTap,
     );
   }

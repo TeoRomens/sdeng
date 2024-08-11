@@ -25,7 +25,8 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
   }
 
   Future<void> fetchFormulas() async {
-    _paymentFormulas = await context.read<PaymentsRepository>().getPaymentFormulas();
+    _paymentFormulas =
+        await context.read<PaymentsRepository>().getPaymentFormulas();
     setState(() {
       _loading = false;
     });
@@ -93,9 +94,10 @@ class FormulasPopulated extends StatelessWidget {
                     vertical: AppSpacing.xs,
                   ),
                   title: Text('None'),
-                  titleTextStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontSize: 19
-                  ),
+                  titleTextStyle: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontSize: 19),
                   subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                   trailing: const Padding(
                     padding: EdgeInsets.only(right: 10),
@@ -111,11 +113,12 @@ class FormulasPopulated extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return PaymentFormulaTile(
                       paymentFormula: paymentFormulas[index],
-                      onTap: () => Navigator.of(context).pop(paymentFormulas[index].id),
+                      onTap: () =>
+                          Navigator.of(context).pop(paymentFormulas[index].id),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(height: 0, indent: 70, endIndent: 20),
+                      const Divider(height: 0, indent: 70, endIndent: 20),
                 ),
               ],
             ),

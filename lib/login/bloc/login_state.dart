@@ -23,10 +23,9 @@ class LoginState extends Equatable {
     String? error,
   }) {
     return LoginState(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      status: status ?? this.status,
-      error: error ?? this.error
-    );
+        email: email ?? this.email,
+        password: password ?? this.password,
+        status: status ?? this.status,
+        error: error ?? this.error);
   }
 }

@@ -7,9 +7,7 @@ import 'package:sdeng/teams/view/add_team_modal.dart';
 import 'package:sdeng/teams/widgets/team_card.dart';
 
 class TeamsViewDesktop extends StatelessWidget {
-  const TeamsViewDesktop({
-    super.key
-  });
+  const TeamsViewDesktop({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,55 +33,58 @@ class TeamsViewDesktop extends StatelessWidget {
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xlg
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xlg),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const TextBox(
                     title: 'Teams',
-                    content: 'Below you find all your team you have created. Go inside to find the players belonging to a specific team.',
+                    content:
+                        'Below you find all your team you have created. Go inside to find the players belonging to a specific team.',
                   ),
                   bloc.state.status == TeamsStatus.loading
                       ? const LoadingBox()
                       : bloc.state.teams.isEmpty
-                      ? EmptyState(
-                    actionText: 'New team',
-                    onPressed: () async => await showAppModal(
-                      context: context,
-                      content: const AddTeamModal(),
-                    ).then((_) => bloc.getTeams()),
-                  )
-                      : GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 16.0,
-                      mainAxisSpacing: 16.0,
-                      childAspectRatio: 1.6,
-                    ),
-                    padding: EdgeInsets.zero,
-                    itemCount: bloc.state.teams.length,
-                    itemBuilder: (_, index) => TeamCard(
-                      title: bloc.state.teams[index].name,
-                      content: Text(
-                        bloc.state.teams[index].numAthletes.toString(),
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      image: Assets.images.logo1.svg(height: 87),
-                      action: SecondaryButton(
-                        text: 'View',
-                        onPressed: () => Navigator.of(context).push(AthletesPage.route(team: bloc.state.teams[index])),
-                      ),
-                    ),
-                  ),
+                          ? EmptyState(
+                              actionText: 'New team',
+                              onPressed: () async => await showAppModal(
+                                context: context,
+                                content: const AddTeamModal(),
+                              ).then((_) => bloc.getTeams()),
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                crossAxisSpacing: 16.0,
+                                mainAxisSpacing: 16.0,
+                                childAspectRatio: 1.6,
+                              ),
+                              padding: EdgeInsets.zero,
+                              itemCount: bloc.state.teams.length,
+                              itemBuilder: (_, index) => TeamCard(
+                                title: bloc.state.teams[index].name,
+                                content: Text(
+                                  bloc.state.teams[index].numAthletes
+                                      .toString(),
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                                image: Assets.images.logo1.svg(height: 87),
+                                action: SecondaryButton(
+                                  text: 'View',
+                                  onPressed: () => Navigator.of(context).push(
+                                      AthletesPage.route(
+                                          team: bloc.state.teams[index])),
+                                ),
+                              ),
+                            ),
                   AppTextButton(
                     text: 'Add team',
                     onPressed: () async => await showAppSideModal(

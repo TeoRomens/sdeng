@@ -15,25 +15,22 @@ class RegisterForm extends StatelessWidget {
         return Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: constraints.maxHeight * .95,
-              maxWidth: 400
-            ),
+                maxHeight: constraints.maxHeight * .95, maxWidth: 400),
             child: ListView(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.xxlg,
               ),
               children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: AppLogo.light()
-                ),
+                Align(alignment: Alignment.centerLeft, child: AppLogo.light()),
                 const SizedBox(height: AppSpacing.xlg),
                 const _RegisterTitle(),
                 const SizedBox(height: AppSpacing.sm),
                 const _RegisterSubtitle(),
                 const SizedBox(height: AppSpacing.xlg),
                 _GoogleRegisterButton(),
-                const Divider(height: AppSpacing.xxlg,),
+                const Divider(
+                  height: AppSpacing.xxlg,
+                ),
                 _RegisterWithCredentials(),
               ],
             ),
@@ -119,64 +116,60 @@ class _RegisterWithCredentials extends StatelessWidget {
             hintText: 'Confirm password',
             obscure: true,
             prefix: const Icon(FeatherIcons.lock),
-            validator: (value) => value == state.password.value
-                ? null : 'Passwords don\'t match',
+            validator: (value) =>
+                value == state.password.value ? null : 'Passwords don\'t match',
           ),
           const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
               Checkbox(
-                visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity
-                ),
-                activeColor: Colors.deepPurpleAccent,
-                side: const BorderSide(
-                    color: Color(0xFFD0D5DD),
-                    width: 0.5
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                value: true,
-                onChanged: (value) {
-
-                }
-              ),
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity),
+                  activeColor: Colors.deepPurpleAccent,
+                  side: const BorderSide(color: Color(0xFFD0D5DD), width: 0.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  value: true,
+                  onChanged: (value) {}),
               const SizedBox(width: 4),
-              Text('Accept Term of Service', style: Theme.of(context).textTheme.labelMedium,)
+              Text(
+                'Accept Term of Service',
+                style: Theme.of(context).textTheme.labelMedium,
+              )
             ],
           ),
           const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
-            child: state.status.isInProgress
-                ? const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox.square(
-                        dimension: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
-                          color: AppColors.white,
-                          strokeCap: StrokeCap.round,
+              child: state.status.isInProgress
+                  ? const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox.square(
+                          dimension: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: AppColors.white,
+                            strokeCap: StrokeCap.round,
+                          ),
                         ),
-                      ),
-                    ],
-                )
-                : const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Register'),
-                    ],
-                  ),
-            onPressed: () => {
-              formKey.currentState?.validate() ?? false
-                ? null
-                : context.read<RegisterBloc>().signupWithCredentials(
-                  email: Email.dirty(_emailController.text),
-                  password: Password.dirty(_passwordController.text),
-                )
-            }
-          )
+                      ],
+                    )
+                  : const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Register'),
+                      ],
+                    ),
+              onPressed: () => {
+                    formKey.currentState?.validate() ?? false
+                        ? null
+                        : context.read<RegisterBloc>().signupWithCredentials(
+                              email: Email.dirty(_emailController.text),
+                              password:
+                                  Password.dirty(_passwordController.text),
+                            )
+                  })
         ],
       ),
     );

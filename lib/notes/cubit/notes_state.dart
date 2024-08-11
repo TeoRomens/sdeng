@@ -14,9 +14,10 @@ class NotesState extends Equatable {
     this.error = '',
   });
 
-  const NotesState.initial() : this(
-    status: NotesStatus.initial,
-  );
+  const NotesState.initial()
+      : this(
+          status: NotesStatus.initial,
+        );
 
   final NotesStatus status;
   final List<Note> notes;
@@ -24,10 +25,10 @@ class NotesState extends Equatable {
 
   @override
   List<Object> get props => [
-    status,
-    notes,
-    error,
-  ];
+        status,
+        notes,
+        error,
+      ];
 
   NotesState copyWith({
     NotesStatus? status,

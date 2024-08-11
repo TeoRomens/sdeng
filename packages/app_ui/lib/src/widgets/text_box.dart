@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 
 /// A customizable info card.
 class TextBox extends StatelessWidget {
-
   /// {@macro info_card}
   const TextBox({
-    required this.title, required this.content, super.key,
+    required this.title,
+    required this.content,
+    super.key,
   });
 
   /// The title text
   final String title;
+
   /// The content text
   final String? content;
 
@@ -33,8 +35,9 @@ class TextBox extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 2),
-          if(content != null)
-            Text(content!,
+          if (content != null)
+            Text(
+              content!,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,

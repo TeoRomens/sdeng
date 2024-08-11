@@ -55,8 +55,10 @@ class HomeViewDesktop extends StatelessWidget {
             itemBuilder: (context, index) {
               if (index == 0) {
                 return InfoCard(
-                  title: 'Welcome, ${bloc.state.sdengUser?.societyName ?? 'null'}',
-                  content: 'Here\'s a simple dashboard where you can easily reach all services',
+                  title:
+                      'Welcome, ${bloc.state.sdengUser?.societyName ?? 'null'}',
+                  content:
+                      'Here\'s a simple dashboard where you can easily reach all services',
                 );
               } else {
                 final cards = [
@@ -73,7 +75,8 @@ class HomeViewDesktop extends StatelessWidget {
                     image: Assets.images.logo1.svg(height: 87),
                     action: SecondaryButton(
                       text: 'View all',
-                      onPressed: () => Navigator.of(context).push(TeamsPage.route()),
+                      onPressed: () =>
+                          Navigator.of(context).push(TeamsPage.route()),
                     ),
                   ),
                   HomeCard(
@@ -89,7 +92,8 @@ class HomeViewDesktop extends StatelessWidget {
                     image: Assets.images.logo3.svg(height: 87),
                     action: SecondaryButton(
                       text: 'View all',
-                      onPressed: () => Navigator.of(context).push(AthletesPage.route()),
+                      onPressed: () =>
+                          Navigator.of(context).push(AthletesPage.route()),
                     ),
                   ),
                   HomeCard(
@@ -105,7 +109,8 @@ class HomeViewDesktop extends StatelessWidget {
                     image: Assets.images.logo5.svg(height: 87),
                     action: SecondaryButton(
                       text: 'Fix',
-                      onPressed: () => Navigator.of(context).push(MedicalsPage.route()),
+                      onPressed: () =>
+                          Navigator.of(context).push(MedicalsPage.route()),
                     ),
                   ),
                   HomeCard(
@@ -121,7 +126,8 @@ class HomeViewDesktop extends StatelessWidget {
                     image: Assets.images.logo2.svg(height: 87),
                     action: SecondaryButton(
                       text: 'View all',
-                      onPressed: () => Navigator.of(context).push(PaymentsPage.route()),
+                      onPressed: () =>
+                          Navigator.of(context).push(PaymentsPage.route()),
                     ),
                   ),
                   HomeCard(
@@ -137,7 +143,8 @@ class HomeViewDesktop extends StatelessWidget {
                     image: Assets.images.logo4.svg(height: 87),
                     action: SecondaryButton(
                       text: 'View all',
-                      onPressed: () => Navigator.of(context).push(NotesPage.route()),
+                      onPressed: () =>
+                          Navigator.of(context).push(NotesPage.route()),
                     ),
                   ),
                 ];
@@ -150,4 +157,3 @@ class HomeViewDesktop extends StatelessWidget {
     );
   }
 }
-

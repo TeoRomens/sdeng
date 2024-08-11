@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 /// A customizable info card.
 class InfoCard extends StatelessWidget {
-
   /// {@macro info_card}
   const InfoCard({
-    required this.title, required this.content, super.key,
+    required this.title,
+    required this.content,
+    super.key,
   });
 
   /// The title text
   final String title;
+
   /// The content text
   final String content;
 

@@ -35,10 +35,10 @@ class PaymentFormulaView extends StatefulWidget {
 }
 
 class _PaymentFormulaViewState extends State<PaymentFormulaView> {
-
   @override
   Widget build(BuildContext context) {
-    final paymentsFormulas = context.select((PaymentFormulaCubit bloc) => bloc.state.paymentsFormulas);
+    final paymentsFormulas = context
+        .select((PaymentFormulaCubit bloc) => bloc.state.paymentsFormulas);
 
     return BlocListener<PaymentFormulaCubit, PaymentFormulaState>(
       listener: (context, state) {
@@ -74,51 +74,49 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                 alignment: Alignment.topCenter,
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: AppSpacing.lg
-                    ),
+                    padding: const EdgeInsets.only(left: AppSpacing.lg),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextBox(
-                          title: 'Payments Formulas',
-                          content: 'Here you can find all your payments formulas.'
-                        ),
+                            title: 'Payments Formulas',
+                            content:
+                                'Here you can find all your payments formulas.'),
                         BlocBuilder<PaymentFormulaCubit, PaymentFormulaState>(
-                          builder: (context, state) {
-                            if(state.status == PaymentFormulaStatus.loading){
-                              return const LoadingBox();
-                            }
-                            else {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                padding: EdgeInsets.zero,
-                                itemCount: paymentsFormulas.length,
-                                itemBuilder: (context, index) =>
+                            builder: (context, state) {
+                          if (state.status == PaymentFormulaStatus.loading) {
+                            return const LoadingBox();
+                          } else {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemCount: paymentsFormulas.length,
+                              itemBuilder: (context, index) =>
                                   PaymentFormulaItem(
-                                    title: paymentsFormulas[index].name,
-                                    trailing: IconButton(
-                                      onPressed: () => showAppModal(
-                                        context: context,
-                                        content: EditPaymentFormulaModal(
-                                          paymentFormula: paymentsFormulas[index],
+                                title: paymentsFormulas[index].name,
+                                trailing: IconButton(
+                                    onPressed: () => showAppModal(
+                                          context: context,
+                                          content: EditPaymentFormulaModal(
+                                            paymentFormula:
+                                                paymentsFormulas[index],
+                                          ),
                                         ),
-                                      ),
-                                      icon: const Icon(FeatherIcons.edit2)
-                                    ),
-                                  ),
-                              );
-                            }
+                                    icon: const Icon(FeatherIcons.edit2)),
+                              ),
+                            );
                           }
-                        ),
+                        }),
                         AppTextButton(
                           text: 'Payment Formula',
                           onPressed: () async => await showAppModal(
                             context: context,
                             content: const AddPaymentFormulaModal(),
-                          ).then((_) => context.read<PaymentFormulaCubit>().getPaymentFormulas()),
+                          ).then((_) => context
+                              .read<PaymentFormulaCubit>()
+                              .getPaymentFormulas()),
                         )
                       ],
                     ),
@@ -141,7 +139,7 @@ class PaymentFormulaItem extends StatelessWidget {
     this.onTap,
     super.key,
   });
-  
+
   final String title;
   final Widget? trailing;
   final VoidCallback? onTap;
@@ -154,16 +152,9 @@ class PaymentFormulaItem extends StatelessWidget {
       elevation: 0.5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(
-              color: Color(0xFFE4E7EC),
-              width: 0.5
-          )
-      ),
+          side: const BorderSide(color: Color(0xFFE4E7EC), width: 0.5)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 5
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
         visualDensity: VisualDensity.compact,
         title: Text(title),
         trailing: trailing,
@@ -172,8 +163,7 @@ class PaymentFormulaItem extends StatelessWidget {
             fontWeight: FontWeight.w500,
             fontFamily: 'Inter',
             color: Colors.black,
-            height: 1.6
-        ),
+            height: 1.6),
         subtitleTextStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -185,6 +175,3 @@ class PaymentFormulaItem extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -6,14 +6,15 @@ import 'package:sdeng/payment_formula/bloc/payment_formula_cubit.dart';
 import 'package:sdeng/edit_payment_formula/view/edit_payment_formula_form.dart';
 
 class EditPaymentFormulaModal extends StatelessWidget {
-  const EditPaymentFormulaModal({super.key,
+  const EditPaymentFormulaModal({
+    super.key,
     required this.paymentFormula,
   });
 
   static Route<void> route(PaymentFormula paymentFormula) =>
-      MaterialPageRoute<void>(builder: (_) => EditPaymentFormulaModal(
-        paymentFormula: paymentFormula
-      ));
+      MaterialPageRoute<void>(
+          builder: (_) =>
+              EditPaymentFormulaModal(paymentFormula: paymentFormula));
 
   static const String name = '/editPaymentFormulaModal';
 

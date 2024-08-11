@@ -39,12 +39,12 @@ class LoginBloc extends Cubit<LoginState> {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
       await _userRepository.logInWithCredentials(
-          email: email.value,
-          password: password.value
-      );
+          email: email.value, password: password.value);
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: FormzSubmissionStatus.failure, error: 'Authentication error'));
+      emit(state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          error: 'Authentication error'));
       addError(error, stackTrace);
     }
   }

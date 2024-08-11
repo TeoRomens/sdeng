@@ -1,14 +1,6 @@
+enum PaymentType { income, expense }
 
-enum PaymentType{
-  income,
-  expense
-}
-
-enum PaymentMethod{
-  cash,
-  transfer,
-  other
-}
+enum PaymentMethod { cash, transfer, other }
 
 class Payment {
   Payment({
@@ -29,13 +21,12 @@ class Payment {
   final PaymentType type;
   final DateTime createdAt;
 
-  static Map<String, dynamic> create({
-    String? athleteId,
-    required String cause,
-    required double amount,
-    required PaymentType type,
-    required PaymentMethod method
-  }) {
+  static Map<String, dynamic> create(
+      {String? athleteId,
+      required String cause,
+      required double amount,
+      required PaymentType type,
+      required PaymentMethod method}) {
     return {
       'athlete_id': athleteId,
       'amount': amount,
@@ -54,12 +45,13 @@ class Payment {
         athleteId = map['athlete_id'] as String?,
         amount = map['amount'] as double,
         cause = map['cause'] as String,
-        method = PaymentMethod.values.firstWhere((element)
-          => element.name == map['method'] as String,),
-        type = PaymentType.values.firstWhere((element)
-          => element.name == map['type'] as String,),
-        createdAt = DateTime.parse(map['created_at'] as String)
-  ;
+        method = PaymentMethod.values.firstWhere(
+          (element) => element.name == map['method'] as String,
+        ),
+        type = PaymentType.values.firstWhere(
+          (element) => element.name == map['type'] as String,
+        ),
+        createdAt = DateTime.parse(map['created_at'] as String);
 
   Payment copyWith({
     String? id,
@@ -72,13 +64,12 @@ class Payment {
     DateTime? createdAt,
   }) {
     return Payment(
-      id: id ?? this.id,
-      athleteId: athleteId ?? this.athleteId,
-      amount: amount ?? this.amount,
-      cause: cause ?? this.cause,
-      method: method ?? this.method,
-      type: type ?? this.type,
-      createdAt: createdAt ?? this.createdAt
-    );
+        id: id ?? this.id,
+        athleteId: athleteId ?? this.athleteId,
+        amount: amount ?? this.amount,
+        cause: cause ?? this.cause,
+        method: method ?? this.method,
+        type: type ?? this.type,
+        createdAt: createdAt ?? this.createdAt);
   }
 }

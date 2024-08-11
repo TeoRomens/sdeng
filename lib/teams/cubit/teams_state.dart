@@ -15,9 +15,10 @@ class TeamsState extends Equatable {
     this.error = '',
   });
 
-  const TeamsState.initial() : this(
-    status: TeamsStatus.initial,
-  );
+  const TeamsState.initial()
+      : this(
+          status: TeamsStatus.initial,
+        );
 
   final TeamsStatus status;
   final List<Team> teams;
@@ -26,10 +27,10 @@ class TeamsState extends Equatable {
 
   @override
   List<Object> get props => [
-    status,
-    teams,
-    error,
-  ];
+        status,
+        teams,
+        error,
+      ];
 
   TeamsState copyWith({
     TeamsStatus? status,

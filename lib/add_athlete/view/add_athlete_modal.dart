@@ -12,10 +12,10 @@ class AddAthleteModal extends StatelessWidget {
 
   final String _teamId;
 
-  static Route<void> route(String teamId) =>
-      MaterialPageRoute<void>(builder: (_) => AddAthleteModal(
-        teamId: teamId,
-      ));
+  static Route<void> route(String teamId) => MaterialPageRoute<void>(
+      builder: (_) => AddAthleteModal(
+            teamId: teamId,
+          ));
 
   static const String name = '/addAthleteModal';
 

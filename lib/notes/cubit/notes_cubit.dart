@@ -8,10 +8,9 @@ import 'package:notes_repository/notes_repository.dart';
 part 'notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  NotesCubit({
-    required NotesRepository notesRepository
-  }) : _notesRepository = notesRepository,
-       super(const NotesState.initial());
+  NotesCubit({required NotesRepository notesRepository})
+      : _notesRepository = notesRepository,
+        super(const NotesState.initial());
 
   final NotesRepository _notesRepository;
 
@@ -19,10 +18,7 @@ class NotesCubit extends Cubit<NotesState> {
     emit(state.copyWith(status: NotesStatus.loading));
     try {
       final notes = await _notesRepository.getNotes();
-      emit(state.copyWith(
-          status: NotesStatus.populated,
-          notes: notes
-      ));
+      emit(state.copyWith(status: NotesStatus.populated, notes: notes));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: NotesStatus.failure));
       addError(error, stackTrace);

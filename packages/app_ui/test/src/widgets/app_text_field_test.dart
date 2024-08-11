@@ -22,7 +22,8 @@ void main() {
         AppTextFormField(),
       );
 
-      final field = tester.widget<AppTextFormField>(find.byType(AppTextFormField));
+      final field =
+          tester.widget<AppTextFormField>(find.byType(AppTextFormField));
       expect(field.autocorrect, true);
     });
 

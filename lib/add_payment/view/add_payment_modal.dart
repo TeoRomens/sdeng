@@ -6,16 +6,14 @@ import 'package:sdeng/add_payment/cubit/add_payment_cubit.dart';
 import 'package:sdeng/add_payment/view/add_payment_form.dart';
 
 class AddPaymentModal extends StatelessWidget {
-  const AddPaymentModal({super.key,
-    this.athlete,
-    this.formula
-  });
+  const AddPaymentModal({super.key, this.athlete, this.formula});
 
   static Route<void> route(Athlete? athlete, PaymentFormula? formula) =>
-      MaterialPageRoute<void>(builder: (_) => AddPaymentModal(
-        athlete: athlete,
-        formula: formula,
-      ));
+      MaterialPageRoute<void>(
+          builder: (_) => AddPaymentModal(
+                athlete: athlete,
+                formula: formula,
+              ));
 
   static const String name = '/addPaymentModal';
 

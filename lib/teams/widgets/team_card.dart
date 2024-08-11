@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class TeamCard extends StatelessWidget {
-
   const TeamCard({
     super.key,
     required this.title,
@@ -18,9 +17,7 @@ class TeamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(
-        vertical: 8
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       color: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0.5,

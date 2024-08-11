@@ -12,10 +12,10 @@ class RenameTeamModal extends StatelessWidget {
 
   final Team _team;
 
-  static Route<void> route(Team team) =>
-      MaterialPageRoute<void>(builder: (_) => RenameTeamModal(
-        team: team,
-  ));
+  static Route<void> route(Team team) => MaterialPageRoute<void>(
+      builder: (_) => RenameTeamModal(
+            team: team,
+          ));
 
   static const String name = '/renameTeamModal';
 
@@ -26,8 +26,7 @@ class RenameTeamModal extends StatelessWidget {
         teamsRepository: context.read<TeamsRepository>(),
         team: _team,
       ),
-      child: RenameTeamForm(
-        team: _team),
+      child: RenameTeamForm(team: _team),
     );
   }
 }

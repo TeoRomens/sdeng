@@ -12,13 +12,15 @@ class AthleteViewDesktop extends StatefulWidget {
   AthleteDetailsDesktopState createState() => AthleteDetailsDesktopState();
 }
 
-class AthleteDetailsDesktopState extends State<AthleteViewDesktop> with TickerProviderStateMixin {
+class AthleteDetailsDesktopState extends State<AthleteViewDesktop>
+    with TickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this); // Note: 3 tabs for the right column
+    _tabController = TabController(
+        length: 3, vsync: this); // Note: 3 tabs for the right column
   }
 
   @override
@@ -27,9 +29,7 @@ class AthleteDetailsDesktopState extends State<AthleteViewDesktop> with TickerPr
     final athlete = bloc.state.athlete;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
           Expanded(

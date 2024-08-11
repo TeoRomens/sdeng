@@ -2,11 +2,8 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sdeng_api/client.dart';
 
-class PaymentTile extends StatelessWidget{
-  const PaymentTile({super.key,
-    required this.payment,
-    this.onTap
-  });
+class PaymentTile extends StatelessWidget {
+  const PaymentTile({super.key, required this.payment, this.onTap});
 
   final Payment payment;
   final VoidCallback? onTap;
@@ -15,16 +12,15 @@ class PaymentTile extends StatelessWidget{
   Widget build(BuildContext context) {
     return ListTile(
       horizontalTitleGap: 16,
-      contentPadding: const EdgeInsets.only(
-          right: 10
-      ),
+      contentPadding: const EdgeInsets.only(right: 10),
       visualDensity: VisualDensity.compact,
       leading: SizedBox(
         height: 34,
         child: payment.method == PaymentMethod.transfer
             ? Assets.images.paymentSepa.svg()
             : payment.method == PaymentMethod.cash
-            ? Assets.images.paymentCash.svg() : Assets.images.paymentMastercard.svg(),
+                ? Assets.images.paymentCash.svg()
+                : Assets.images.paymentMastercard.svg(),
       ),
       title: Text(payment.cause),
       subtitle: Text(payment.createdAt.dMY),
@@ -36,8 +32,7 @@ class PaymentTile extends StatelessWidget{
           fontWeight: FontWeight.w500,
           fontFamily: 'Inter',
           color: Colors.black,
-          height: 1.6
-      ),
+          height: 1.6),
       subtitleTextStyle: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w400,

@@ -5,10 +5,7 @@ import 'package:flutter_sdeng_api/client.dart';
 
 @visibleForTesting
 class PaymentDetailsView extends StatelessWidget {
-  const PaymentDetailsView({
-    super.key,
-    required this.payment
-  });
+  const PaymentDetailsView({super.key, required this.payment});
 
   final Payment payment;
 
@@ -31,40 +28,32 @@ class PaymentDetailsView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Payment Details',
+              Text(
+                'Payment Details',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 20),
+              CustomContainer(icon: FeatherIcons.lock, text: payment.id),
               CustomContainer(
-                  icon: FeatherIcons.lock,
-                  text: payment.id
-              ),
-              CustomContainer(
-                  icon: FeatherIcons.alignLeft,
-                  text: payment.cause
-              ),
+                  icon: FeatherIcons.alignLeft, text: payment.cause),
               CustomContainer(
                   icon: FeatherIcons.dollarSign,
                   text: payment.type == PaymentType.income
-                      ? '+ ${payment.amount.toStringAsFixed(2)}' : '- ${payment.amount.toStringAsFixed(2)}'
-              ),
+                      ? '+ ${payment.amount.toStringAsFixed(2)}'
+                      : '- ${payment.amount.toStringAsFixed(2)}'),
               CustomContainer(
                   icon: FeatherIcons.calendar,
-                  text: '${payment.createdAt.dMY}  ${payment.createdAt.hour}:${payment.createdAt.minute}:${payment.createdAt.second}'
-              ),
+                  text:
+                      '${payment.createdAt.dMY}  ${payment.createdAt.hour}:${payment.createdAt.minute}:${payment.createdAt.second}'),
               CustomContainer(
                   icon: payment.type == PaymentType.income
-                    ? FeatherIcons.arrowDown : FeatherIcons.arrowUp,
-                  text: payment.type.name
-              ),
+                      ? FeatherIcons.arrowDown
+                      : FeatherIcons.arrowUp,
+                  text: payment.type.name),
               CustomContainer(
-                  icon: FeatherIcons.creditCard,
-                  text: payment.method.name
-              ),
+                  icon: FeatherIcons.creditCard, text: payment.method.name),
               CustomContainer(
-                  icon: FeatherIcons.user,
-                  text: payment.athleteId ?? 'null'
-              ),
+                  icon: FeatherIcons.user, text: payment.athleteId ?? 'null'),
             ],
           ),
         ),

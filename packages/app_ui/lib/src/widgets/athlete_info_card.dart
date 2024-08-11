@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class AthleteInfoCard extends StatelessWidget {
-
   const AthleteInfoCard({
     super.key,
     required this.name,
@@ -27,8 +26,8 @@ class AthleteInfoCard extends StatelessWidget {
         color: const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-            color: const Color(0xFFEAECF0),
-            width: 0.8,
+          color: const Color(0xFFEAECF0),
+          width: 0.8,
         ),
       ),
       child: Row(
@@ -37,15 +36,19 @@ class AthleteInfoCard extends StatelessWidget {
             width: 90,
             height: 90,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xFFEAECF0),
-              ),
-              color: AppColors.white
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFFEAECF0),
+                ),
+                color: AppColors.white),
+            child: const Icon(
+              FeatherIcons.user,
+              size: 40,
             ),
-            child: const Icon(FeatherIcons.user, size: 40,),
           ),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,8 +60,7 @@ class AthleteInfoCard extends StatelessWidget {
                       color: Color(0xFF101828),
                       fontWeight: FontWeight.w600,
                       letterSpacing: -0.2,
-                      height: 0
-                  ),
+                      height: 0),
                   maxLines: 2,
                 ),
                 Text(

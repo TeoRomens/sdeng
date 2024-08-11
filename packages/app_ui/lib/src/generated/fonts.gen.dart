@@ -15,5 +15,4 @@ class FontFamily {
 
   /// Font family: Inter
   static const String inter = 'Inter';
-
 }

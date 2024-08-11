@@ -68,5 +68,4 @@ class NotesRepository {
       Error.throwWithStackTrace(AddNoteFailure(error), stackTrace);
     }
   }
-
 }

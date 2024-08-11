@@ -26,15 +26,15 @@ class EditMedicalCubit extends Cubit<EditParentState> {
         expirationDate: expire,
         type: medType,
       );
-      await _medicalsRepository.updateMedical(
-          medical: updatedMedical
-      );
-      emit(state.copyWith(status: FormzSubmissionStatus.success, medical: updatedMedical));
+      await _medicalsRepository.updateMedical(medical: updatedMedical);
+      emit(state.copyWith(
+          status: FormzSubmissionStatus.success, medical: updatedMedical));
     } catch (error, stackTrace) {
       print(error);
-      emit(state.copyWith(status: FormzSubmissionStatus.failure, error: 'Error updating medical visit'));
+      emit(state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          error: 'Error updating medical visit'));
       addError(error, stackTrace);
     }
   }
-
 }
