@@ -66,7 +66,14 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
         AppSpacing.xlg,
       ),
       children: [
-        const _ModalTitle(),
+        Padding(
+          padding: const EdgeInsets.only(right: AppSpacing.sm),
+          child: Text(
+            'New Athlete',
+            style: Theme.of(context).textTheme.headlineMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
         const Divider(endIndent: 0, indent: 0, height: 25),
         AppTextFormField(
           label: 'Name',
@@ -114,8 +121,14 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
           AppSpacing.xlg,
         ),
         children: [
-          const _ModalTitle(),
-          const Divider(endIndent: 0, indent: 0, height: 25),
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.sm),
+            child: Text(
+              'New Athlete',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),          const Divider(endIndent: 0, indent: 0, height: 25),
           AppTextFormField(
             label: 'Birthdate',
             controller: _birthController,
@@ -188,22 +201,6 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],
-      ),
-    );
-  }
-}
-
-class _ModalTitle extends StatelessWidget {
-  const _ModalTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: Text(
-        'New Athlete',
-        style: Theme.of(context).textTheme.headlineMedium,
-        textAlign: TextAlign.center,
       ),
     );
   }

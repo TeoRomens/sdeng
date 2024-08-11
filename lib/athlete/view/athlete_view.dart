@@ -29,7 +29,7 @@ class AthleteDetailsMobileState extends State<AthleteView> with TickerProviderSt
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverToBoxAdapter(
-          child: AthleteCard(
+          child: AthleteInfoCard(
             name: athlete?.fullName ?? 'Loading...',
             taxCode: athlete?.taxCode ?? 'Loading...',
           ),

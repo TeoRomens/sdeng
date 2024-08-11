@@ -1,4 +1,4 @@
-import 'package:app_ui/app_ui.dart' hide AthleteCard;
+import 'package:app_ui/app_ui.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +11,10 @@ class AthletesViewDesktop extends StatefulWidget {
   });
 
   @override
-  State<AthletesViewDesktop> createState() => _AthletesViewDesktopState();
+  State<AthletesViewDesktop> createState() => AthletesViewDesktopState();
 }
 
-class _AthletesViewDesktopState extends State<AthletesViewDesktop> {
+class AthletesViewDesktopState extends State<AthletesViewDesktop> {
   late final ScrollController _controller;
   int _loadedAthletes = 20;
 

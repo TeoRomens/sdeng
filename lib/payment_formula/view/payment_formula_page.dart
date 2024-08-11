@@ -1,12 +1,12 @@
-import 'package:app_ui/app_ui.dart' show AppBackButton, AppColors, AppFontWeight, AppLogo, AppSpacing, AppSwitch, AppTextButton, LoadingBox, showAppModal;
+import 'package:app_ui/app_ui.dart' show AppSpacing, AppTextButton, LoadingBox, showAppModal;
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payments_repository/payments_repository.dart';
 import 'package:sdeng/payment_formula/bloc/payment_formula_cubit.dart';
 import 'package:sdeng/payment_formula/payment_formula.dart';
-import 'package:sdeng/payment_formula/view/add_payment_formula_modal.dart';
-import 'package:sdeng/payment_formula/view/edit_payment_formula_modal.dart';
+import 'package:sdeng/add_payment_formula/view/add_payment_formula_modal.dart';
+import 'package:sdeng/edit_payment_formula/view/edit_payment_formula_modal.dart';
 
 class PaymentFormulaPage extends StatelessWidget {
   const PaymentFormulaPage({super.key});

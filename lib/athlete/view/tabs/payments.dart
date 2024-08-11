@@ -7,6 +7,7 @@ import 'package:sdeng/add_payment/view/add_payment_modal.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/payment_details/view/payment_details_page.dart';
 import 'package:sdeng/payment_formula/payment_formula.dart';
+import 'package:sdeng/payment_formulas_list/payment_formulas_list.dart';
 
 class PaymentInfo extends StatelessWidget {
   const PaymentInfo({
@@ -81,7 +82,12 @@ class PaymentInfo extends StatelessWidget {
                     icon: FeatherIcons.plus,
                     text: 'Assign',
                     onPressed: () async {
-                       final formula = await Navigator.of(context).push(PaymentFormulaPage.route());
+                       final String? formulaId = await showAppModal(
+                         context: context,
+                         content: const PaymentFormulaListView(),
+                       );
+                       await bloc.updatePaymentFormula(formulaId: formulaId)
+                        .whenComplete(() => bloc.reloadAthlete());
                     },
                   ),
                 const SizedBox(height: AppSpacing.xlg,),

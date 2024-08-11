@@ -1,8 +1,6 @@
-import 'package:app_ui/app_ui.dart';
 import 'package:athletes_repository/athletes_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_sdeng_api/client.dart';
 import 'package:form_inputs/form_inputs.dart';
 
 part 'edit_athlete_state.dart';

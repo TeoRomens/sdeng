@@ -1,7 +1,9 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medicals_repository/medicals_repository.dart';
 import 'package:sdeng/medical/cubit/medical_cubit.dart';
+import 'package:sdeng/medical/view/medical_view_desktop.dart';
 import 'package:sdeng/medical/view/view.dart';
 
 class MedicalsPage extends StatelessWidget {
@@ -21,11 +23,31 @@ class MedicalsPage extends StatelessWidget {
       ) ..getExpiredMedicals()
         ..getExpiringMedicals()
         ..getUnknownMedicals(),
-      child: OrientationBuilder(
-          builder: (BuildContext context, Orientation orientation) {
-            return orientation == Orientation.portrait ?
-                const MedicalView() : const MedicalView();
+      child: BlocListener<MedicalCubit, MedicalState>(
+        listener: (context, state) {
+          if (state.status == MedicalStatus.failure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  backgroundColor: AppColors.red,
+                  content: Text('Error getting medical visits.')
+                ),
+              );
           }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: AppLogo.light(),
+            centerTitle: true,
+          ),
+          body: OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              return orientation == Orientation.portrait ?
+                const MedicalView() : const MedicalViewDesktop();
+            }
+          ),
+        ),
       ),
     );
   }

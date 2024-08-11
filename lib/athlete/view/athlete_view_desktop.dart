@@ -36,7 +36,7 @@ class AthleteDetailsDesktopState extends State<AthleteViewDesktop> with TickerPr
             flex: 1,
             child: Column(
               children: [
-                AthleteCard(
+                AthleteInfoCard(
                   name: athlete?.fullName ?? 'Loading...',
                   taxCode: athlete?.taxCode ?? 'Loading...',
                 ),

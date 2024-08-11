@@ -9,6 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_feather_icons: ^2.0.0+1
+  flutter_sdeng_api:
+    path: ../../api
   flutter_svg: ^2.0.5
   intl: ^0.19.0
   mockingjay: ^0.4.0

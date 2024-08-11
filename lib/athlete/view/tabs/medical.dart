@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
-import 'package:sdeng/athlete/view/add_medical_modal.dart';
+import 'package:sdeng/add_medical/view/add_medical_modal.dart';
 import 'package:sdeng/edit_medical/view/edit_medical_modal.dart';
 
 class MedicalInfo extends StatelessWidget {

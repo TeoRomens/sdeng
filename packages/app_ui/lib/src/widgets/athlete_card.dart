@@ -1,78 +1,74 @@
-import 'package:app_ui/app_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class AthleteCard extends StatelessWidget {
-
   const AthleteCard({
     super.key,
-    required this.name,
-    required this.taxCode,
+    required this.title,
+    required this.content,
+    this.image,
+    this.action,
   });
 
-  final String taxCode;
-  final String name;
+  final String title;
+  final Widget content;
+  final Widget? image;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 16,
+        vertical: 8
       ),
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
+      elevation: 0.5,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-            color: const Color(0xFFEAECF0),
-            width: 0.8,
+        side: const BorderSide(
+          color: Color(0xFFE4E7EC),
+          width: 0.5,
         ),
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 90,
-            height: 90,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xFFEAECF0),
-              ),
-              color: AppColors.white
-            ),
-            child: const Icon(FeatherIcons.user, size: 40,),
-          ),
-          const SizedBox(width: 16,),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
               children: [
                 Text(
-                  name,
+                  title,
                   style: const TextStyle(
-                      fontSize: 24,
-                      color: Color(0xFF101828),
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -0.2,
-                      height: 0
-                  ),
-                  maxLines: 2,
-                ),
-                Text(
-                  taxCode,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF475467),
-                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.02,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Inter',
                   ),
                 ),
               ],
             ),
-          )
-        ],
+            const SizedBox(height: 6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    content,
+                    const SizedBox(height: 6),
+                    action ?? const SizedBox.shrink(),
+                  ],
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: image ?? const SizedBox(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -182,4 +182,18 @@ class AthleteCubit extends Cubit<AthleteState> {
       addError(error, stackTrace);
     }
   }
+
+  Future<void> updatePaymentFormula({
+    required String? formulaId,
+  }) async {
+    try {
+      final updatedAthlete = state.athlete!.copyWith(
+          paymentFormulaId: formulaId
+      );
+      await _athletesRepository.updateAthlete(athlete: updatedAthlete);
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: AthleteStatus.failure, error: 'Error selecting this payment formula.'));
+      addError(error, stackTrace);
+    }
+  }
 }

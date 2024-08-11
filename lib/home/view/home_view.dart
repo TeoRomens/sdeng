@@ -7,8 +7,8 @@ import 'package:sdeng/medical/view/medicals_page.dart';
 import 'package:sdeng/notes/view/notes_page.dart';
 import 'package:sdeng/payments/view/payments_page.dart';
 import 'package:sdeng/profile_modal/view/profile_modal.dart';
+import 'package:sdeng/settings/view/settings_page.dart';
 import 'package:sdeng/teams/view/teams_page.dart';
-import 'package:sdeng/settings/widgets/user_profile_button.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -36,7 +36,10 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           title: AppLogo.light(),
           centerTitle: false,
-          actions: const [UserProfileButton()],
+          actions: [
+            UserProfileButton(
+              onPressed: () => Navigator.of(context).push(SettingsPage.route())
+          )],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -49,7 +52,7 @@ class HomeView extends StatelessWidget {
                   title: 'Welcome, ${bloc.state.sdengUser?.societyName ?? 'null'}',
                   content: 'Here\'s a simple dashboard where you can easly reach all services'
                 ),
-                AppCard(
+                HomeCard(
                   title: 'Teams',
                   content: Text(bloc.state.homeValues?['teams'].toString() ?? 'null', style: const TextStyle(
                     fontSize: 30,
@@ -62,7 +65,7 @@ class HomeView extends StatelessWidget {
                     onPressed: () => Navigator.of(context).push(TeamsPage.route()),
                   ),
                 ),
-                AppCard(
+                HomeCard(
                     title: 'Athletes',
                     content: Text(bloc.state.homeValues?['athletes'].toString() ?? 'null', style: const TextStyle(
                       fontSize: 30,
@@ -75,7 +78,7 @@ class HomeView extends StatelessWidget {
                       onPressed: () => Navigator.of(context).push(AthletesPage.route()),
                     )
                 ),
-                AppCard(
+                HomeCard(
                     title: 'Medical Visits',
                     content: Text('${bloc.state.homeValues?['expired_medicals'].toString() ?? 'null'} Expired', style: const TextStyle(
                       fontSize: 30,
@@ -88,7 +91,7 @@ class HomeView extends StatelessWidget {
                       onPressed: () => Navigator.of(context).push(MedicalsPage.route()),
                     )
                 ),
-                AppCard(
+                HomeCard(
                   title: 'Payments',
                   content: Text(bloc.state.homeValues?['payments'].toString() ?? 'null', style: const TextStyle(
                     fontSize: 30,
@@ -101,7 +104,7 @@ class HomeView extends StatelessWidget {
                     onPressed: () => Navigator.of(context).push(PaymentsPage.route()),
                   )
                 ),
-                AppCard(
+                HomeCard(
                     title: 'Notes',
                     content: Text(bloc.state.homeValues?['notes'].toString() ?? 'null', style: const TextStyle(
                       fontSize: 30,

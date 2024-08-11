@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medicals_repository/medicals_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
-import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
-import 'package:sdeng/athlete/view/athlete_view_desktop.dart';
-import 'package:sdeng/athletes_team/athletes.dart';
+import 'package:sdeng/athlete/athlete.dart';
 import 'package:user_repository/user_repository.dart';
 
 class AthletePage extends StatelessWidget {
@@ -88,7 +86,7 @@ class AthletePage extends StatelessWidget {
             child: OrientationBuilder(
                 builder: (BuildContext context, Orientation orientation) {
                   return orientation == Orientation.portrait ?
-                  const AthletesView() : const AthleteViewDesktop();
+                  const AthleteView() : const AthleteViewDesktop();
                 }
             ),
           ),
