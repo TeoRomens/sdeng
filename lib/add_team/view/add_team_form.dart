@@ -47,7 +47,7 @@ class AddTeamForm extends StatelessWidget {
             onPressed: () async {
               _formKey.currentState!.validate()
                   ? await BlocProvider.of<TeamsCubit>(context)
-                      .addTeam(_nameController.text)
+                      .addTeam(name: _nameController.text)
                       .then((_) => Navigator.of(context).pop())
                   : null;
             },

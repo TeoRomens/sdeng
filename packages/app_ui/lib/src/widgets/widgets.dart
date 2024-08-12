@@ -21,5 +21,7 @@ export 'show_app_modal.dart';
 export 'show_app_side_modal.dart';
 export 'text_box.dart';
 export 'text_form_field.dart';
+export 'team_card.dart';
+export 'team_tile.dart';
 export 'setting_tile.dart';
 export 'user_profile_button.dart';
