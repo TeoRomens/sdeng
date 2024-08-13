@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/app/bloc/app_bloc.dart';
-import 'package:sdeng/home/view/home_page.dart';
 import 'package:sdeng/login/view/login_page.dart';
 import 'package:sdeng/register/register.dart';
+import 'package:sdeng/splash/splash.dart';
 
+/// A view that provides the user interface for the registration process.
+///
+/// This view listens to both [AppBloc] and [RegisterBloc] to handle authentication
+/// state changes and display error messages if registration fails.
 class RegisterView extends StatelessWidget {
+  /// Creates a [RegisterView] instance.
   const RegisterView({super.key});
 
   @override
@@ -18,7 +23,7 @@ class RegisterView extends StatelessWidget {
           // Pop all routes on top of login page
           Navigator.of(context)
               .popUntil((route) => route.settings.name == LoginPage.name);
-          Navigator.of(context).pushReplacement(HomePage.route());
+          Navigator.of(context).pushReplacement(SplashScreen.route());
         }
       },
       child: BlocListener<RegisterBloc, RegisterState>(
@@ -28,7 +33,9 @@ class RegisterView extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                    backgroundColor: AppColors.red, content: Text(state.error)),
+                  backgroundColor: AppColors.red,
+                  content: Text(state.error),
+                ),
               );
           }
         },
@@ -36,7 +43,7 @@ class RegisterView extends StatelessWidget {
           appBar: AppBar(
             leading: const AppBackButton(),
           ),
-          body: const RegisterForm(),
+          body: RegisterForm(),
         ),
       ),
     );

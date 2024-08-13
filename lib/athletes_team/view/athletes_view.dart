@@ -6,6 +6,8 @@ import 'package:sdeng/athlete/view/athlete_page.dart';
 import 'package:sdeng/athletes_team/athletes.dart';
 import 'package:sdeng/add_athlete/view/add_athlete_modal.dart';
 
+/// A [StatelessWidget] that represents the main view for displaying the athletes in a team.
+/// It provides options to view athlete details and add new athletes to the team.
 class AthletesView extends StatelessWidget {
   const AthletesView({
     super.key,
@@ -24,64 +26,59 @@ class AthletesView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextBox(
-                title: '${bloc.state.team?.name}',
-                content:
-                    'Below you find all the athletes you have added to team ${bloc.state.team?.name}. Tap on a player to see the details.'),
-            bloc.state.status == AthletesStatus.loading
-                ? const LoadingBox()
-                : bloc.state.athletes.isEmpty
-                    ? EmptyState(
-                        actionText: 'New athlete',
-                        onPressed: () async => await showAppModal(
-                              context: context,
-                              content: AddAthleteModal(
-                                teamId: bloc.state.team!.id,
-                              ),
-                            ).then((_) =>
-                                bloc.getAthletesFromTeam(bloc.state.team!.id)))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.zero,
-                            itemCount: bloc.state.athletes.length,
-                            itemBuilder: (_, index) => AthleteTile(
-                              athlete: bloc.state.athletes[index],
-                              trailing: const Padding(
-                                padding: EdgeInsets.only(right: AppSpacing.md),
-                                child: Icon(FeatherIcons.chevronRight),
-                              ),
-                              onTap: () => Navigator.of(context).push(
-                                  AthletePage.route(
-                                      athleteId:
-                                          bloc.state.athletes[index].id)),
-                            ),
-                            separatorBuilder: (_, index) => const Divider(
-                              height: 0,
-                              indent: 20,
-                            ),
-                          ),
-                          const Divider(indent: 70, height: 0),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: AppSpacing.sm, left: AppSpacing.xlg),
-                            child: AppTextButton(
-                                text: 'Add athlete',
-                                onPressed: () async => await showAppModal(
-                                      context: context,
-                                      content: AddAthleteModal(
-                                        teamId: bloc.state.team!.id,
-                                      ),
-                                    ).then((_) => bloc.getAthletesFromTeam(
-                                        bloc.state.team!.id))),
-                          ),
-                        ],
+            title: bloc.state.team?.name ?? '',
+              content:
+              'Below you find all the athletes you have added to team ${bloc.state.team?.name}. Tap on a player to see the details.',
+            ),
+            if (bloc.state.status == AthletesStatus.loading)
+               const LoadingBox(),
+            if (bloc.state.athletes.isEmpty)
+              EmptyState(
+                actionText: 'New athlete',
+                onPressed: () async {
+                  await showAppModal(
+                    context: context,
+                    content: AddAthleteModal(teamId: bloc.state.team!.id),
+                  ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id));
+                },
+              ),
+            if (bloc.state.status == AthletesStatus.populated)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    itemCount: bloc.state.athletes.length,
+                    itemBuilder: (_, index) => AthleteTile(
+                      athlete: bloc.state.athletes[index],
+                      trailing: const Padding(
+                        padding: EdgeInsets.only(right: AppSpacing.md),
+                        child: Icon(FeatherIcons.chevronRight),
                       ),
-            const SizedBox(
-              height: 100,
-            )
+                      onTap: () => Navigator.of(context).push(
+                        AthletePage.route(athleteId: bloc.state.athletes[index].id),
+                      ),
+                    ),
+                    separatorBuilder: (_, index) => const Divider(height: 0, indent: 20),
+                  ),
+                  const Divider(indent: 70, height: 0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.sm, left: AppSpacing.xlg),
+                    child: AppTextButton(
+                      text: 'Add athlete',
+                      onPressed: () async {
+                        await showAppModal(
+                          context: context,
+                          content: AddAthleteModal(teamId: bloc.state.team!.id),
+                        ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 100),
           ],
         ),
       ),

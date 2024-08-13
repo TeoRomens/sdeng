@@ -5,9 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/profile_modal/cubit/profile_cubit.dart';
 
+/// A widget that provides a form for updating the user's profile.
+///
+/// This form allows the user to update their profile details including their full name,
+/// society name, PIVA, address, email, and phone number. It uses the [ProfileCubit] to
+/// manage the state and handle profile updates.
 class ProfileForm extends StatefulWidget {
+  /// Creates a [ProfileForm] widget.
+  ///
+  /// [sdengUser] is an optional parameter that provides the initial values for the form
+  /// fields. If not provided, the fields will be initialized with empty values.
   const ProfileForm({super.key, this.sdengUser});
 
+  /// The user whose profile is being edited.
   final SdengUser? sdengUser;
 
   @override
@@ -74,69 +84,68 @@ class _ProfileFormState extends State<ProfileForm> {
             label: 'President Full Name',
             controller: _presNameController,
             validator: (value) =>
-                bloc.state.fullName.validator(value ?? '')?.text,
+            bloc.state.fullName.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Name',
             controller: _societyNameController,
             validator: (value) =>
-                bloc.state.societyName.validator(value ?? '')?.text,
+            bloc.state.societyName.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society PIVA',
             controller: _societyPivaController,
             validator: (value) =>
-                bloc.state.societyPiva.validator(value ?? '')?.text,
+            bloc.state.societyPiva.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Address',
             controller: _societyAddressController,
             validator: (value) =>
-                bloc.state.societyAddress.validator(value ?? '')?.text,
+            bloc.state.societyAddress.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Email',
             controller: _societyEmailController,
             validator: (value) =>
-                bloc.state.societyEmail.validator(value ?? '')?.text,
+            bloc.state.societyEmail.validator(value ?? '')?.text,
           ),
           AppTextFormField(
             label: 'Society Phone',
             controller: _societyPhoneController,
             validator: (value) =>
-                bloc.state.societyPhone.validator(value ?? '')?.text,
+            bloc.state.societyPhone.validator(value ?? '')?.text,
           ),
           const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
             onPressed: () async {
-              _formKey.currentState?.validate() ?? false
-                  ? await bloc
-                      .updateProfile(
-                          fullName: _presNameController.text,
-                          societyName: _societyNameController.text,
-                          societyPiva: _societyPivaController.text,
-                          societyAddress: _societyAddressController.text,
-                          societyEmail: _societyEmailController.text,
-                          societyPhone: _societyPhoneController.text)
-                      .then((_) => Navigator.of(context).pop())
-                  : null;
+              if (_formKey.currentState?.validate() ?? false) {
+                await bloc.updateProfile(
+                  fullName: _presNameController.text,
+                  societyName: _societyNameController.text,
+                  societyPiva: _societyPivaController.text,
+                  societyAddress: _societyAddressController.text,
+                  societyEmail: _societyEmailController.text,
+                  societyPhone: _societyPhoneController.text,
+                ).then((_) => Navigator.of(context).pop());
+              }
             },
             child: bloc.state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      color: AppColors.white,
-                      strokeCap: StrokeCap.round,
-                    ),
-                  )
+              dimension: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                color: AppColors.white,
+                strokeCap: StrokeCap.round,
+              ),
+            )
                 : Text(
-                    'Save',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(color: AppColors.white),
-                  ),
+              'Save',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: AppColors.white),
+            ),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],
@@ -145,6 +154,10 @@ class _ProfileFormState extends State<ProfileForm> {
   }
 }
 
+/// A widget that displays the title for the profile form modal.
+///
+/// The title is displayed at the top of the form and provides context to the user
+/// about the purpose of the form.
 class _ModalTitle extends StatelessWidget {
   const _ModalTitle();
 

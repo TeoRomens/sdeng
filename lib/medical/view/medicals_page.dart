@@ -6,9 +6,12 @@ import 'package:sdeng/medical/cubit/medical_cubit.dart';
 import 'package:sdeng/medical/view/medical_view_desktop.dart';
 import 'package:sdeng/medical/view/view.dart';
 
+/// A page that displays medical records, adapting to both portrait and landscape orientations.
 class MedicalsPage extends StatelessWidget {
+  /// Creates an instance of [MedicalsPage].
   const MedicalsPage({super.key});
 
+  /// Returns a [MaterialPageRoute] to navigate to the [MedicalsPage].
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const MedicalsPage(),
@@ -31,8 +34,9 @@ class MedicalsPage extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 const SnackBar(
-                    backgroundColor: AppColors.red,
-                    content: Text('Error getting medical visits.')),
+                  backgroundColor: AppColors.red,
+                  content: Text('Error getting medical visits.'),
+                ),
               );
           }
         },
@@ -42,11 +46,12 @@ class MedicalsPage extends StatelessWidget {
             centerTitle: true,
           ),
           body: OrientationBuilder(
-              builder: (BuildContext context, Orientation orientation) {
-            return orientation == Orientation.portrait
-                ? const MedicalView()
-                : const MedicalViewDesktop();
-          }),
+            builder: (context, orientation) {
+              return orientation == Orientation.portrait
+                  ? const MedicalView()
+                  : const MedicalViewDesktop();
+            },
+          ),
         ),
       ),
     );

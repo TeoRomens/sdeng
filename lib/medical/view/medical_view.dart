@@ -2,12 +2,13 @@ import 'package:app_ui/app_ui.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/medical/cubit/medical_cubit.dart';
 import 'package:sdeng/medicals_list/view/medicals_list_view.dart';
 
-/// Main view of Medicals.
+/// The main view for displaying and managing medical records.
 class MedicalView extends StatelessWidget {
-  /// Main view of Medicals.
+  /// Creates an instance of [MedicalView].
   const MedicalView({super.key});
 
   @override
@@ -16,10 +17,13 @@ class MedicalView extends StatelessWidget {
 
     return RefreshIndicator.adaptive(
       onRefresh: () async {
-        bloc.getExpiredMedicals();
-        bloc.getUnknownMedicals();
-        bloc.getGoodMedicals();
-        bloc.getUnknownMedicals();
+        // Refreshes the lists of medical records.
+        await Future.wait([
+          bloc.getExpiredMedicals(),
+          bloc.getExpiringMedicals(),
+          bloc.getGoodMedicals(),
+          bloc.getUnknownMedicals(),
+        ]);
       },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -30,67 +34,71 @@ class MedicalView extends StatelessWidget {
             const TextBox(
               title: 'Medical Visits',
               content:
-                  'Below you find all your medical visits you have registered. First of all there are the expired ones.',
+              'Below you find all your medical visits you have registered. First of all, there are the expired ones.',
             ),
             if (bloc.state.status == MedicalStatus.loading)
               const LoadingBox()
             else ...[
-              MedicalTile(
+              // Display the tiles for different medical categories
+              _buildMedicalTile(
                 title: 'Expired',
-                num: bloc.state.expiredMedicals.length,
-                leading: const CircleAvatar(
-                  radius: 16,
-                  backgroundColor: AppColors.red,
-                  child: Icon(FeatherIcons.x, color: AppColors.white),
-                ),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MedicalsListView.route(bloc.state.expiredMedicals));
-                },
+                count: bloc.state.expiredMedicals.length,
+                color: AppColors.red,
+                icon: FeatherIcons.x,
+                context: context,
+                medicals: bloc.state.expiredMedicals,
               ),
-              MedicalTile(
+              _buildMedicalTile(
                 title: 'Expiring',
-                num: bloc.state.expiringMedicals.length,
-                leading: const CircleAvatar(
-                  radius: 16,
-                  backgroundColor: AppColors.orange,
-                  child: Icon(FeatherIcons.clock, color: AppColors.white),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                      MedicalsListView.route(bloc.state.expiringMedicals));
-                },
+                count: bloc.state.expiringMedicals.length,
+                color: AppColors.orange,
+                icon: FeatherIcons.clock,
+                context: context,
+                medicals: bloc.state.expiringMedicals,
               ),
-              MedicalTile(
+              _buildMedicalTile(
                 title: 'Good',
-                num: bloc.state.goodMedicals.length,
-                leading: const CircleAvatar(
-                  radius: 16,
-                  backgroundColor: AppColors.green,
-                  child: Icon(FeatherIcons.check, color: AppColors.white),
-                ),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MedicalsListView.route(bloc.state.goodMedicals));
-                },
+                count: bloc.state.goodMedicals.length,
+                color: AppColors.green,
+                icon: FeatherIcons.check,
+                context: context,
+                medicals: bloc.state.goodMedicals,
               ),
-              MedicalTile(
+              _buildMedicalTile(
                 title: 'Unknown',
-                num: bloc.state.unknownMedicals.length,
-                leading: const CircleAvatar(
-                  radius: 16,
-                  backgroundColor: AppColors.grey,
-                  child: Icon(FeatherIcons.helpCircle, color: AppColors.white),
-                ),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MedicalsListView.route(bloc.state.unknownMedicals));
-                },
+                count: bloc.state.unknownMedicals.length,
+                color: AppColors.grey,
+                icon: FeatherIcons.helpCircle,
+                context: context,
+                medicals: bloc.state.unknownMedicals,
               ),
             ],
           ],
         ),
       ),
+    );
+  }
+
+  /// Builds a [MedicalTile] for the given medical category.
+  Widget _buildMedicalTile({
+    required String title,
+    required int count,
+    required Color color,
+    required IconData icon,
+    required BuildContext context,
+    required List<Medical> medicals,
+  }) {
+    return MedicalTile(
+      title: title,
+      num: count,
+      leading: CircleAvatar(
+        radius: 16,
+        backgroundColor: color,
+        child: Icon(icon, color: AppColors.white),
+      ),
+      onTap: () {
+        Navigator.of(context).push(MedicalsListView.route(medicals));
+      },
     );
   }
 }

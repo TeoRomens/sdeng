@@ -10,7 +10,12 @@ import 'package:sdeng/profile_modal/view/profile_modal.dart';
 import 'package:sdeng/settings/view/settings_page.dart';
 import 'package:sdeng/teams/view/teams_page.dart';
 
+/// A view that displays the home screen with various sections like Teams, Athletes, Medical Visits, Payments, and Notes.
+///
+/// This widget uses [BlocListener] to listen for changes in the [AppBloc] state to show the profile modal when needed.
+/// It also displays a series of [HomeCard] widgets for different sections, each with a title, content, and action button.
 class HomeView extends StatelessWidget {
+  /// Creates a [HomeView] widget.
   const HomeView({super.key});
 
   @override
@@ -18,126 +23,127 @@ class HomeView extends StatelessWidget {
     final bloc = context.read<AppBloc>();
 
     return MultiBlocListener(
-        listeners: [
-          BlocListener<AppBloc, AppState>(
-            listener: (context, state) {
-              if (state.showProfileOverlay) {
-                showAppModal(
-                    isDismissible: false,
-                    enableDrag: false,
-                    context: context,
-                    content: ProfileModal(userId: state.sdengUser!.id));
-              }
-            },
-          )
-        ],
-        child: Scaffold(
-          appBar: AppBar(
-            title: AppLogo.light(),
-            centerTitle: false,
-            actions: [
-              UserProfileButton(
-                  onPressed: () =>
-                      Navigator.of(context).push(SettingsPage.route()))
-            ],
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InfoCard(
-                      title:
-                          'Welcome, ${bloc.state.sdengUser?.societyName ?? 'null'}',
-                      content:
-                          'Here\'s a simple dashboard where you can easly reach all services'),
-                  HomeCard(
-                    title: 'Teams',
-                    content: Text(
-                      bloc.state.homeValues?['teams'].toString() ?? 'null',
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                    image: Assets.images.logo1.svg(height: 87),
-                    action: SecondaryButton(
-                      text: 'View all',
-                      onPressed: () =>
-                          Navigator.of(context).push(TeamsPage.route()),
+      listeners: [
+        BlocListener<AppBloc, AppState>(
+          listener: (context, state) {
+            if (state.showProfileOverlay) {
+              showAppModal(
+                isDismissible: false,
+                enableDrag: false,
+                context: context,
+                content: ProfileModal(userId: state.sdengUser!.id),
+              );
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: AppLogo.light(),
+          centerTitle: false,
+          actions: [
+            UserProfileButton(
+              onPressed: () =>
+                  Navigator.of(context).push(SettingsPage.route()),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InfoCard(
+                  title: 'Welcome, ${bloc.state.sdengUser?.societyName ?? 'null'}',
+                  content: 'Here\'s a simple dashboard where you can easily reach all services',
+                ),
+                HomeCard(
+                  title: 'Teams',
+                  content: Text(
+                    bloc.state.homeValues?['teams'].toString() ?? 'null',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
                     ),
                   ),
-                  HomeCard(
-                      title: 'Athletes',
-                      content: Text(
-                        bloc.state.homeValues?['athletes'].toString() ?? 'null',
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      image: Assets.images.logo3.svg(height: 87),
-                      action: SecondaryButton(
-                        text: 'View all',
-                        onPressed: () =>
-                            Navigator.of(context).push(AthletesPage.route()),
-                      )),
-                  HomeCard(
-                      title: 'Medical Visits',
-                      content: Text(
-                        '${bloc.state.homeValues?['expired_medicals'].toString() ?? 'null'} Expired',
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      image: Assets.images.logo5.svg(height: 87),
-                      action: SecondaryButton(
-                        text: 'Fix',
-                        onPressed: () =>
-                            Navigator.of(context).push(MedicalsPage.route()),
-                      )),
-                  HomeCard(
-                      title: 'Payments',
-                      content: Text(
-                        bloc.state.homeValues?['payments'].toString() ?? 'null',
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      image: Assets.images.logo2.svg(height: 87),
-                      action: SecondaryButton(
-                        text: 'View all',
-                        onPressed: () =>
-                            Navigator.of(context).push(PaymentsPage.route()),
-                      )),
-                  HomeCard(
-                      title: 'Notes',
-                      content: Text(
-                        bloc.state.homeValues?['notes'].toString() ?? 'null',
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      image: Assets.images.logo4.svg(height: 87),
-                      action: SecondaryButton(
-                        text: 'View all',
-                        onPressed: () =>
-                            Navigator.of(context).push(NotesPage.route()),
-                      ))
-                ],
-              ),
+                  image: Assets.images.logo1.svg(height: 87),
+                  action: SecondaryButton(
+                    text: 'View all',
+                    onPressed: () => Navigator.of(context).push(TeamsPage.route()),
+                  ),
+                ),
+                HomeCard(
+                  title: 'Athletes',
+                  content: Text(
+                    bloc.state.homeValues?['athletes'].toString() ?? 'null',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  image: Assets.images.logo3.svg(height: 87),
+                  action: SecondaryButton(
+                    text: 'View all',
+                    onPressed: () => Navigator.of(context).push(AthletesPage.route()),
+                  ),
+                ),
+                HomeCard(
+                  title: 'Medical Visits',
+                  content: Text(
+                    '${bloc.state.homeValues?['expired_medicals'].toString() ?? 'null'} Expired',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  image: Assets.images.logo5.svg(height: 87),
+                  action: SecondaryButton(
+                    text: 'Fix',
+                    onPressed: () => Navigator.of(context).push(MedicalsPage.route()),
+                  ),
+                ),
+                HomeCard(
+                  title: 'Payments',
+                  content: Text(
+                    bloc.state.homeValues?['payments'].toString() ?? 'null',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  image: Assets.images.logo2.svg(height: 87),
+                  action: SecondaryButton(
+                    text: 'View all',
+                    onPressed: () => Navigator.of(context).push(PaymentsPage.route()),
+                  ),
+                ),
+                HomeCard(
+                  title: 'Notes',
+                  content: Text(
+                    bloc.state.homeValues?['notes'].toString() ?? 'null',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  image: Assets.images.logo4.svg(height: 87),
+                  action: SecondaryButton(
+                    text: 'View all',
+                    onPressed: () => Navigator.of(context).push(NotesPage.route()),
+                  ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
