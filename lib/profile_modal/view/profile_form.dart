@@ -21,10 +21,10 @@ class ProfileForm extends StatefulWidget {
   final SdengUser? sdengUser;
 
   @override
-  _ProfileFormState createState() => _ProfileFormState();
+  ProfileFormState createState() => ProfileFormState();
 }
 
-class _ProfileFormState extends State<ProfileForm> {
+class ProfileFormState extends State<ProfileForm> {
   late final TextEditingController _presNameController;
   late final TextEditingController _societyPivaController;
   late final TextEditingController _societyAddressController;

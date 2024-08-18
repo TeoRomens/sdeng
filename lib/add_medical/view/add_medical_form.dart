@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/add_medical/cubit/add_medical_cubit.dart';
-import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 
 class AddMedicalForm extends StatefulWidget {
   const AddMedicalForm({super.key});

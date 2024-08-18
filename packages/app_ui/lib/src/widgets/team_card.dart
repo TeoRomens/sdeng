@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class TeamCard extends StatelessWidget {
   const TeamCard({
-    super.key,
     required this.title,
     required this.content,
     this.image,
     this.action,
+    super.key,
   });
 
   final String title;

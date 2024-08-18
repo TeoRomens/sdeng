@@ -2,18 +2,23 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// {@template authentication_exception}
-/// Exceptions from the authentication client.
+/// Base class for exceptions thrown by the `AuthenticationClient`.
+///
+/// This class holds an error object that provides details about what went wrong.
 /// {@endtemplate}
 abstract class AuthenticationException implements Exception {
   /// {@macro authentication_exception}
   const AuthenticationException(this.error);
 
-  /// The error which was caught.
+  /// The error that was caught.
   final Object error;
 }
 
 /// {@template log_in_with_google_failure}
-/// Thrown during the sign in with google process if a failure occurs.
+/// Exception thrown during the Google Sign-In process if an error occurs.
+///
+/// This can happen due to network issues, invalid credentials, or other errors
+/// during the Google authentication process.
 /// {@endtemplate}
 class LogInWithGoogleFailure extends AuthenticationException {
   /// {@macro log_in_with_google_failure}
@@ -21,7 +26,9 @@ class LogInWithGoogleFailure extends AuthenticationException {
 }
 
 /// {@template log_in_with_google_canceled}
-/// Thrown during the sign in with google process if it's canceled.
+/// Exception thrown when the Google Sign-In process is canceled by the user.
+///
+/// This occurs when the user exits the Google Sign-In flow without completing it.
 /// {@endtemplate}
 class LogInWithGoogleCanceled extends AuthenticationException {
   /// {@macro log_in_with_google_canceled}
@@ -29,7 +36,9 @@ class LogInWithGoogleCanceled extends AuthenticationException {
 }
 
 /// {@template log_in_with_credentials_failure}
-/// Thrown during the sign in with credentials process if a failure occurs.
+/// Exception thrown during the sign-in process with email and password if a failure occurs.
+///
+/// This can happen due to incorrect credentials, network issues, or other authentication errors.
 /// {@endtemplate}
 class LogInWithCredentialsFailure extends AuthenticationException {
   /// {@macro log_in_with_credentials_failure}
@@ -37,7 +46,9 @@ class LogInWithCredentialsFailure extends AuthenticationException {
 }
 
 /// {@template sign_up_with_credentials_failure}
-/// Thrown during the sign up with credentials process if a failure occurs.
+/// Exception thrown during the sign-up process with email and password if a failure occurs.
+///
+/// This can happen due to invalid input, network issues, or other errors during the sign-up process.
 /// {@endtemplate}
 class SignUpWithCredentialsFailure extends AuthenticationException {
   /// {@macro sign_up_with_credentials_failure}
@@ -45,7 +56,9 @@ class SignUpWithCredentialsFailure extends AuthenticationException {
 }
 
 /// {@template log_out_failure}
-/// Thrown during the logout process if a failure occurs.
+/// Exception thrown during the logout process if a failure occurs.
+///
+/// This can happen due to network issues or other errors during the sign-out process.
 /// {@endtemplate}
 class LogOutFailure extends AuthenticationException {
   /// {@macro log_out_failure}
@@ -53,7 +66,9 @@ class LogOutFailure extends AuthenticationException {
 }
 
 /// {@template delete_account_failure}
-/// Thrown during the delete account process if a failure occurs.
+/// Exception thrown during the account deletion process if a failure occurs.
+///
+/// This can happen if the user is not authenticated or due to other errors during account deletion.
 /// {@endtemplate}
 class DeleteAccountFailure extends AuthenticationException {
   /// {@macro delete_account_failure}
@@ -61,15 +76,26 @@ class DeleteAccountFailure extends AuthenticationException {
 }
 
 /// {@template forgot_password_failure}
-/// Thrown during the delete account process if a failure occurs.
+/// Exception thrown during the password reset process if a failure occurs.
+///
+/// This can happen due to network issues, incorrect email, or other errors during the password reset process.
 /// {@endtemplate}
 class ForgotPasswordFailure extends AuthenticationException {
   /// {@macro forgot_password_failure}
   const ForgotPasswordFailure(super.error);
 }
 
+/// The `AuthenticationClient` class handles user authentication tasks such as
+/// signing in with Google, signing in or signing up with email and password,
+/// logging out, and resetting passwords.
+///
+/// This class uses Supabase and Google Sign-In to manage authentication, and throws
+/// specific exceptions when errors occur during these processes.
 class AuthenticationClient {
-  /// {@macro supabase_authentication_client}
+  /// Creates an `AuthenticationClient` instance.
+  ///
+  /// The [supabaseClient] parameter is optional and defaults to `Supabase.instance.client`.
+  /// The [googleSignIn] parameter is optional and defaults to a preconfigured instance of `GoogleSignIn`.
   AuthenticationClient({
     SupabaseClient? supabaseClient,
     GoogleSignIn? googleSignIn,
@@ -77,24 +103,27 @@ class AuthenticationClient {
         _googleSignIn = googleSignIn ??
             GoogleSignIn(
               clientId:
-                  '424833225652-ehsmi8dg6fmu6j4tgssjkl8q5hnf33hj.apps.googleusercontent.com',
+              '424833225652-ehsmi8dg6fmu6j4tgssjkl8q5hnf33hj.apps.googleusercontent.com',
               serverClientId:
-                  '424833225652-s9n3jlj2q6fkdeo95234e8hjcp1iiv48.apps.googleusercontent.com',
+              '424833225652-s9n3jlj2q6fkdeo95234e8hjcp1iiv48.apps.googleusercontent.com',
             );
 
   final SupabaseClient _supabaseClient;
   final GoogleSignIn _googleSignIn;
 
+  /// A stream that emits the current authenticated user.
+  ///
+  /// The stream emits `null` if the user is not authenticated.
   Stream<User?> get user {
     return _supabaseClient.auth.onAuthStateChange.map((data) {
       return data.session?.user;
     });
   }
 
-  /// Starts the Sign In with Google Flow.
+  /// Initiates the Google Sign-In flow.
   ///
-  /// Throws a [LogInWithGoogleCanceled] if the flow is canceled by the user.
-  /// Throws a [LogInWithGoogleFailure] if an exception occurs.
+  /// If the sign-in process is canceled by the user, a [LogInWithGoogleCanceled] exception is thrown.
+  /// If any other error occurs during the process, a [LogInWithGoogleFailure] exception is thrown.
   Future<void> logInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
@@ -126,9 +155,9 @@ class AuthenticationClient {
     }
   }
 
-  /// Starts the Sign In Flow.
+  /// Signs in the user with their email and password.
   ///
-  /// Throws a [LogInWithCredentialsFailure] if an exception occurs.
+  /// Throws a [LogInWithCredentialsFailure] if the sign-in fails.
   Future<void> logInWithCredentials({
     required String email,
     required String password,
@@ -143,9 +172,9 @@ class AuthenticationClient {
     }
   }
 
-  /// Starts the Sign Up Flow.
+  /// Signs up a new user with their email and password.
   ///
-  /// Throws a [SignUpWithCredentialsFailure] if an exception occurs.
+  /// Throws a [SignUpWithCredentialsFailure] if the sign-up process fails.
   Future<void> signUpWithCredentials({
     required String email,
     required String password,
@@ -158,15 +187,14 @@ class AuthenticationClient {
       );
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
-          SignUpWithCredentialsFailure(error), stackTrace);
+          SignUpWithCredentialsFailure(error), stackTrace,);
     }
   }
 
-  /// Signs out the current user which will emit
-  /// [AuthUser.anonymous] from the [user] Stream.
+  /// Signs out the current user.
   ///
-  /// Throws a [LogOutFailure] if an exception occurs.
-  Future<void> logOut() async {
+  /// Throws a [LogOutFailure] if the logout process fails.
+  Future<void> logout() async {
     try {
       await Future.wait([
         _supabaseClient.auth.signOut(),
@@ -177,22 +205,9 @@ class AuthenticationClient {
     }
   }
 
-  /// Deletes and signs out the user.
-  Future<void> deleteAccount() async {
-    try {
-      final user = _supabaseClient.auth.currentUser;
-      if (user == null) {
-        throw DeleteAccountFailure(
-          Exception('User is not authenticated'),
-        );
-      }
-
-      // TODO: Implement deletion
-    } catch (error, stackTrace) {
-      Error.throwWithStackTrace(DeleteAccountFailure(error), stackTrace);
-    }
-  }
-
+  /// Sends a password reset email to the given email address.
+  ///
+  /// Throws a [ForgotPasswordFailure] if the password reset process fails.
   Future<void> forgotPassword({required String email}) async {
     try {
       await _supabaseClient.auth.resetPasswordForEmail(

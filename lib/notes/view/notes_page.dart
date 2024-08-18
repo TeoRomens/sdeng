@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_repository/notes_repository.dart';
 import 'package:sdeng/notes/notes.dart';
-import 'package:sdeng/notes/view/notes_view_desktop.dart';
 
 /// A widget that displays the Notes page.
 ///

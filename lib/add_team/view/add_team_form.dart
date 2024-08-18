@@ -46,8 +46,8 @@ class AddTeamForm extends StatelessWidget {
           PrimaryButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                await context.read<TeamsCubit>().addTeam(name: _nameController.text);
-                Navigator.of(context).pop();
+                await context.read<TeamsCubit>().addTeam(name: _nameController.text)
+                    .then((_) => Navigator.of(context).pop());
               }
             },
             child: state.status == TeamsStatus.loading

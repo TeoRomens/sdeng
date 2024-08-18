@@ -26,7 +26,7 @@ class LoadingBox extends StatelessWidget {
                 strokeWidth: 2,
               ),
             )
-          ],
+          ,],
         ),
       ),
     );

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class MedicalCard extends StatelessWidget {
   const MedicalCard({
-    super.key,
     required this.title,
     required this.num,
     required this.image,
     this.action,
+    super.key,
   });
 
   final String title;

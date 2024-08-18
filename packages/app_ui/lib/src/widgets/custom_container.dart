@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 
+/// A custom container widget that displays an icon, text, and an optional button.
 class CustomContainer extends StatelessWidget {
+  /// Default constructor.
+  ///
+  /// The [icon] parameter is required and represents the icon to be displayed in the
+  /// container. The [text] parameter is also required and represents the main text
+  /// displayed alongside the icon. The [onPressed] callback is optional and will be
+  /// used for the button action if provided. The [buttonText] parameter is optional
+  /// and specifies the text to be displayed on the button. The default value is 'Button'.
   const CustomContainer({
-    super.key,
     required this.icon,
     required this.text,
     this.onPressed,
     this.buttonText = 'Button',
+    super.key,
   });
 
+  /// The icon to be displayed in the container.
   final IconData icon;
+
+  /// The text to be displayed in the container.
   final String text;
+
+  /// The callback function that is triggered when the button is pressed.
+  /// If null, the button is not displayed.
   final VoidCallback? onPressed;
+
+  /// The text to be displayed on the button.
+  /// Defaults to 'Button' if not provided.
   final String buttonText;
 
   @override
@@ -19,7 +36,7 @@ class CustomContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: EdgeInsets.symmetric(
-          vertical: onPressed != null ? 5 : 12, horizontal: 14),
+          vertical: onPressed != null ? 5 : 12, horizontal: 14,),
       decoration: BoxDecoration(
         color: const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(8),
@@ -47,8 +64,7 @@ class CustomContainer extends StatelessWidget {
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
                 elevation: 0.2,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 backgroundColor: Colors.white,
                 surfaceTintColor: Colors.white,
                 visualDensity: VisualDensity.compact,

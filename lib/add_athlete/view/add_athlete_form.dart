@@ -167,8 +167,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                   name: _nameController.text,
                   surname: _surnameController.text,
                   taxId: _taxcodeController.text,
-                );
-                Navigator.of(context).pop();
+                ).then((_) => Navigator.of(context).pop());
               }
             },
             child: const Text('Skip'),
@@ -184,8 +183,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                   address: _addressController.text,
                   email: _emailController.text,
                   phone: _phoneController.text,
-                );
-                Navigator.of(context).pop();
+                ).then((_) => Navigator.of(context).pop());
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress

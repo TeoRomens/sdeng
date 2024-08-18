@@ -1,13 +1,8 @@
 import 'package:athletes_repository/athletes_repository.dart';
-import 'package:documents_repository/documents_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medicals_repository/medicals_repository.dart';
-import 'package:payments_repository/payments_repository.dart';
 import 'package:sdeng/add_medical/add_medical.dart';
-import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
-import 'package:sdeng/add_medical/view/add_medical_form.dart';
-import 'package:user_repository/user_repository.dart';
 
 /// A modal for adding a medical record to an athlete's profile.
 class AddMedicalModal extends StatelessWidget {

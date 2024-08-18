@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class HomeCard extends StatelessWidget {
   /// {@macro app_card}
   const HomeCard({
-    super.key,
     required this.title,
     required this.content,
     this.image,
     this.action,
+    super.key,
   });
 
   final String title;

@@ -108,7 +108,7 @@ class FormulasPopulated extends StatelessWidget {
                     horizontal: AppSpacing.lg,
                     vertical: AppSpacing.xs,
                   ),
-                  title: Text('None'),
+                  title: const Text('None'),
                   titleTextStyle: Theme.of(context)
                       .textTheme
                       .headlineSmall

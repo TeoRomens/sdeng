@@ -101,11 +101,11 @@ class PaymentsRepository {
   /// Supported parameters:
   /// * [athleteId] - The name of the team.
   Future<Payment> addPayment({
-    String? athleteId,
     required String cause,
     required double amount,
     required PaymentType type,
     required PaymentMethod method,
+    String? athleteId,
   }) async {
     try {
       return await _apiClient.addPayment(
@@ -187,7 +187,7 @@ class PaymentsRepository {
       );
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
-          UpdatePaymentFormulaFailure(error), stackTrace);
+          UpdatePaymentFormulaFailure(error), stackTrace,);
     }
   }
 
@@ -196,14 +196,14 @@ class PaymentsRepository {
   /// Supported parameters:
   /// [athleteId] - The athlete id to get payments.
   Future<PaymentFormula?> getPaymentFormulaFromAthleteId(
-      String athleteId) async {
+      String athleteId,) async {
     try {
       return await _apiClient.getPaymentFormulaFromAthleteId(
         athleteId: athleteId,
       );
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
-          GetPaymentFormulaFromAthleteIdFailure(error), stackTrace);
+          GetPaymentFormulaFromAthleteIdFailure(error), stackTrace,);
     }
   }
 

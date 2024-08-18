@@ -93,13 +93,13 @@ class LoginView extends StatelessWidget {
                     // Email and password fields
                     BlocBuilder<LoginBloc, LoginState>(
                       builder: (context, state) {
-                        final _emailController = TextEditingController();
-                        final _passwordController = TextEditingController();
+                        final emailController = TextEditingController();
+                        final passwordController = TextEditingController();
 
                         return Column(
                           children: [
                             AppTextFormField(
-                              controller: _emailController,
+                              controller: emailController,
                               label: 'Email',
                               hintText: 'Your email address',
                               readOnly: state.status.isInProgress,
@@ -108,7 +108,7 @@ class LoginView extends StatelessWidget {
                             ),
                             const SizedBox(height: AppSpacing.sm),
                             AppTextFormField(
-                              controller: _passwordController,
+                              controller: passwordController,
                               label: 'Password',
                               hintText: 'Your password',
                               obscure: true,
@@ -146,8 +146,8 @@ class LoginView extends StatelessWidget {
                                 ],
                               ),
                               onPressed: () => context.read<LoginBloc>().loginWithCredentials(
-                                  email: Email.dirty(_emailController.text),
-                                  password: Password.dirty(_passwordController.text)),
+                                  email: Email.dirty(emailController.text),
+                                  password: Password.dirty(passwordController.text)),
                             ),
                           ],
                         );

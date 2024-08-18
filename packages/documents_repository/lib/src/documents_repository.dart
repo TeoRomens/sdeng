@@ -130,14 +130,14 @@ class DocumentsRepository {
                   child: pw.Text(
                       "RICHIESTA DI VISITA MEDICO-SPORTIVA PER L'IDONEITA' ALLA PRATICA AGONISTICA",
                       style: boldStyle,
-                      textAlign: pw.TextAlign.center),
+                      textAlign: pw.TextAlign.center,),
                 ),
                 pw.SizedBox(height: 8),
                 pw.Center(
                   child: pw.Text(
                       '(DM del 24/04/2013 - Decreto Balduzzi e del Decreto del Fare, convertito in legge 98, art. 42.bis, pubblicato nella GU il 20 agosto 2013)',
                       style: const pw.TextStyle(fontSize: 10),
-                      textAlign: pw.TextAlign.center),
+                      textAlign: pw.TextAlign.center,),
                 ),
                 pw.SizedBox(height: 8),
                 pw.Align(
@@ -192,7 +192,7 @@ class DocumentsRepository {
                   children: [
                     checkBox,
                     pw.Text(
-                        "  Rinnovo (allegare ultimo certificato in originale in possesso dell'atleta)"),
+                        "  Rinnovo (allegare ultimo certificato in originale in possesso dell'atleta)",),
                   ],
                 ),
                 pw.SizedBox(height: 30),

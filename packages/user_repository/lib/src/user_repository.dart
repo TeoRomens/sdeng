@@ -5,27 +5,44 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// A base failure for the user repository failures.
+/// A base class for user-related failures in the repository.
+///
+/// This class represents generic failures that occur within the user repository
+/// and provides a way to handle exceptions uniformly.
 abstract class UserFailure with EquatableMixin implements Exception {
-  /// {@macro user_failure}
+  /// Creates a [UserFailure] with the provided error.
+  ///
+  /// The [error] parameter represents the underlying exception or error that
+  /// caused the failure.
   const UserFailure(this.error);
 
-  /// The error which was caught.
+  /// The error that caused the failure.
   final Object error;
 
   @override
   List<Object> get props => [error];
 }
 
-/// Thrown when adding a team fails.
+/// Thrown when updating user data fails.
+///
+/// This exception is thrown if there is an error while trying to update user
+/// information in the repository.
 class UpdateUserDataFailure extends UserFailure {
-  /// {@macro update_user_data}
+  /// Creates an [UpdateUserDataFailure] with the provided error.
   const UpdateUserDataFailure(super.error);
 }
 
-/// Repository which manages the user domain.
+/// A repository class that manages user-related operations.
+///
+/// This class handles authentication, user data retrieval, and updates. It
+/// integrates with both the authentication client and the API client to
+/// provide a comprehensive user management solution.
 class UserRepository {
-  /// {@macro user_repository}
+  /// Creates a [UserRepository] instance with the given clients.
+  ///
+  /// The [authenticationClient] parameter is used for authentication-related
+  /// operations, while the [apiClient] is used for interacting with the API
+  /// to fetch and update user data.
   UserRepository({
     required AuthenticationClient authenticationClient,
     required FlutterSdengApiClient apiClient,
@@ -35,24 +52,30 @@ class UserRepository {
   final AuthenticationClient _authenticationClient;
   final FlutterSdengApiClient _apiClient;
 
-  /// Stream of [User] which will emit the current user when
-  /// the authentication state changes.
+  /// A stream of [User] that emits the current user when the authentication
+  /// state changes.
+  ///
+  /// This stream allows listening to changes in the user's authentication
+  /// state, such as sign-in or sign-out events.
   Stream<User?> get user => _authenticationClient.user;
 
-  SdengUser? _sdengUser;
+  /// The additional user data fetched from the API.
+  SdengUser? sdengUser;
 
-  SdengUser? get sdengUser => _sdengUser;
-
-  set sdengUser(SdengUser? value) {
-    _sdengUser = value;
-  }
-
-  /// Fetch additional user data from the `users` table.
+  /// Fetches additional user data from the `users` table.
+  ///
+  /// This method retrieves detailed information about a user from the API.
+  /// Throws a [UserFailure] if the operation fails.
   Future<SdengUser> getUserData(String userId) async {
     sdengUser = await _apiClient.getUserData(userId: userId);
     return sdengUser!;
   }
 
+  /// Updates user data in the API.
+  ///
+  /// This method updates various fields of user data, such as full name and
+  /// society information. Throws an [UpdateUserDataFailure] if the update
+  /// fails.
   Future<SdengUser> updateUserData({
     required String userId,
     required String fullName,
@@ -78,10 +101,12 @@ class UserRepository {
     }
   }
 
-  /// Starts the Sign In with Google Flow.
+  /// Starts the sign-in flow with Google.
   ///
-  /// Throws a [LogInWithGoogleCanceled] if the flow is canceled by the user.
-  /// Throws a [LogInWithGoogleFailure] if an exception occurs.
+  /// This method initiates the Google sign-in process using the authentication
+  /// client. Throws a [LogInWithGoogleCanceled] if the sign-in is canceled
+  /// by the user, or a [LogInWithGoogleFailure] if an error occurs during
+  /// the process.
   Future<void> logInWithGoogle() async {
     try {
       await _authenticationClient.logInWithGoogle();
@@ -94,9 +119,11 @@ class UserRepository {
     }
   }
 
-  /// Starts the Sign In Flow.
+  /// Starts the sign-in flow with email and password.
   ///
-  /// Throws a [LogInWithCredentialsFailure] if an exception occurs.
+  /// This method handles user authentication using email and password. Throws
+  /// a [LogInWithCredentialsFailure] if an error occurs during the sign-in
+  /// process.
   Future<void> logInWithCredentials({
     required String email,
     required String password,
@@ -113,9 +140,11 @@ class UserRepository {
     }
   }
 
-  /// Starts the Sign Up Flow.
+  /// Starts the sign-up flow with email and password.
   ///
-  /// Throws a [SignUpWithCredentialsFailure] if an exception occurs.
+  /// This method handles user registration using email and password. Throws
+  /// a [SignUpWithCredentialsFailure] if an error occurs during the sign-up
+  /// process.
   Future<void> signUpWithCredentials({
     required String email,
     required String password,
@@ -133,12 +162,13 @@ class UserRepository {
     }
   }
 
-  /// Signs out the current user
+  /// Signs out the current user.
   ///
-  /// Throws a [LogOutFailure] if an exception occurs.
+  /// This method signs out the user and clears the authentication state. Throws
+  /// a [LogOutFailure] if an error occurs during the sign-out process.
   Future<void> logOut() async {
     try {
-      await _authenticationClient.logOut();
+      await _authenticationClient.logout();
     } on LogOutFailure {
       rethrow;
     } catch (error, stackTrace) {
@@ -146,9 +176,10 @@ class UserRepository {
     }
   }
 
-  /// Starts the Forgot Password Flow.
+  /// Starts the forgot password flow.
   ///
-  /// Throws a [ForgotPasswordFailure] if an exception occurs.
+  /// This method initiates the password reset process for the provided email.
+  /// Throws a [ForgotPasswordFailure] if an error occurs during the process.
   Future<void> forgotPassword({
     required String email,
   }) async {
@@ -159,22 +190,14 @@ class UserRepository {
     } on ForgotPasswordFailure {
       rethrow;
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(LogInWithCredentialsFailure(error), stackTrace);
+      Error.throwWithStackTrace(ForgotPasswordFailure(error), stackTrace);
     }
   }
 
-  /// Deletes the current user account.
-  Future<void> deleteAccount() async {
-    try {
-      await _authenticationClient.deleteAccount();
-    } on DeleteAccountFailure {
-      rethrow;
-    } catch (error, stackTrace) {
-      Error.throwWithStackTrace(DeleteAccountFailure(error), stackTrace);
-    }
-  }
-
-  /// Fetch additional user data from the `users` table.
+  /// Fetches various home values related to the user.
+  ///
+  /// This method retrieves counts for different data types related to the user,
+  /// such as teams, athletes, expired medicals, payments, and notes.
   Future<Map<String, dynamic>> getHomeValues(String userId) async {
     final results = await Future.wait([
       _apiClient.countTeams(userId: userId),

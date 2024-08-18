@@ -1,9 +1,6 @@
-import 'package:athletes_repository/athletes_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_sdeng_api/client.dart';
 import 'package:form_inputs/form_inputs.dart';
-import 'package:medicals_repository/medicals_repository.dart';
 import 'package:teams_repository/teams_repository.dart';
 
 part 'rename_team_state.dart';
@@ -25,7 +22,6 @@ class RenameTeamCubit extends Cubit<RenameTeamState> {
       emit(state.copyWith(
           status: FormzSubmissionStatus.success, team: updatedTeam));
     } catch (error, stackTrace) {
-      print(error);
       emit(state.copyWith(
           status: FormzSubmissionStatus.failure,
           error: 'Error updating medical visit'));

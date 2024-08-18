@@ -27,7 +27,7 @@ class SettingTile extends StatelessWidget {
       elevation: 0.5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: Color(0xFFE4E7EC), width: 0.5)),
+          side: const BorderSide(color: Color(0xFFE4E7EC), width: 0.5),),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
         visualDensity: VisualDensity.compact,
@@ -44,7 +44,7 @@ class SettingTile extends StatelessWidget {
             fontWeight: FontWeight.w500,
             fontFamily: 'Inter',
             color: Colors.black,
-            height: 1.6),
+            height: 1.6,),
         subtitleTextStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,

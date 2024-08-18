@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/teams/teams.dart';
-import 'package:sdeng/teams/view/teams_view_desktop.dart';
 import 'package:teams_repository/teams_repository.dart';
 
 /// A stateless widget that represents the page for displaying teams.

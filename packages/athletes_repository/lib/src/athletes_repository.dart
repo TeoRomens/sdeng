@@ -98,11 +98,9 @@ class AthletesRepository {
   const AthletesRepository({
     required FlutterSdengApiClient apiClient,
     required AthletesStorage storage,
-  })  : _apiClient = apiClient,
-        _storage = storage;
+  })  : _apiClient = apiClient;
 
   final FlutterSdengApiClient _apiClient;
-  final AthletesStorage _storage;
 
   /// Requests an athlete.
   ///
@@ -187,7 +185,7 @@ class AthletesRepository {
       return await _apiClient.getParentFromAthleteId(athleteId);
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
-          GetParentFromAthleteIdFailure(error), stackTrace);
+          GetParentFromAthleteIdFailure(error), stackTrace,);
     }
   }
 
@@ -203,7 +201,7 @@ class AthletesRepository {
           email: athlete.email,
           paymentFormulaId: athlete.paymentFormulaId,
           teamId: athlete.teamId,
-          archived: athlete.archived);
+          archived: athlete.archived,);
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(UpdateAthleteFailure(error), stackTrace);
     }

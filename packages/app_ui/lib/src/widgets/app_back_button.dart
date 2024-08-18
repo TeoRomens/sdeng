@@ -41,11 +41,12 @@ class AppBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onPressed ?? () => Navigator.of(context).pop(),
-        icon: Icon(
-          FeatherIcons.chevronLeft,
-          size: 26,
-          color: isLight ? AppColors.white : AppColors.highEmphasisSurface,
-        ));
+      onPressed: onPressed ?? () => Navigator.of(context).pop(),
+      icon: Icon(
+        FeatherIcons.chevronLeft,
+        size: 26,
+        color: isLight ? AppColors.white : AppColors.highEmphasisSurface,
+      ),
+    );
   }
 }

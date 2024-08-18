@@ -43,7 +43,7 @@ class EmptyState extends StatelessWidget {
                 fontSize: 18,
                 letterSpacing: -0.2,
                 color: Color(0xFF101828),
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w600,),
           ),
           const SizedBox(height: 8),
           const Text(
@@ -52,7 +52,7 @@ class EmptyState extends StatelessWidget {
                 fontSize: 15,
                 fontFamily: 'Inter',
                 color: Color(0xFF475467),
-                fontWeight: FontWeight.w400),
+                fontWeight: FontWeight.w400,),
           ),
           const SizedBox(height: 20),
           Row(
@@ -63,7 +63,7 @@ class EmptyState extends StatelessWidget {
                 text: actionText,
                 icon: FeatherIcons.plus,
               )
-            ],
+            ,],
           ),
         ],
       ),

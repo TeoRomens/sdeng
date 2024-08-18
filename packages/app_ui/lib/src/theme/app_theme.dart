@@ -35,6 +35,8 @@ class AppTheme {
       bottomNavigationBarTheme: _bottomAppBarTheme,
       chipTheme: _chipTheme,
       checkboxTheme: _checkboxTheme,
+      cardTheme: _cardTheme,
+      elevatedButtonTheme: _elevatedButtonTheme,
       datePickerTheme: _datePickerTheme,
       dialogTheme: _dialogTheme,
       dropdownMenuTheme: _dropdownTheme,
@@ -61,17 +63,18 @@ class AppTheme {
 
   SnackBarThemeData get _snackBarTheme {
     return SnackBarThemeData(
-        contentTextStyle: UITextStyle.bodyLarge.copyWith(
-          color: AppColors.white,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        actionTextColor: AppColors.white,
-        backgroundColor: AppColors.primaryDark,
-        elevation: 3,
-        behavior: SnackBarBehavior.floating,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 10));
+      contentTextStyle: UITextStyle.bodyLarge.copyWith(
+        color: AppColors.white,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      actionTextColor: AppColors.white,
+      backgroundColor: AppColors.primaryDark,
+      elevation: 3,
+      behavior: SnackBarBehavior.floating,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 10),
+    );
   }
 
   Color get _backgroundColor => AppColors.white;
@@ -109,8 +112,8 @@ class AppTheme {
   DropdownMenuThemeData get _dropdownTheme {
     return const DropdownMenuThemeData(
       menuStyle: MenuStyle(
-        backgroundColor: MaterialStatePropertyAll<Color>(AppColors.white),
-        surfaceTintColor: MaterialStatePropertyAll<Color>(AppColors.white),
+        backgroundColor: WidgetStatePropertyAll<Color>(AppColors.white),
+        surfaceTintColor: WidgetStatePropertyAll<Color>(AppColors.white),
       ),
       inputDecorationTheme: InputDecorationTheme(
         constraints: BoxConstraints(maxHeight: 48),
@@ -146,8 +149,8 @@ class AppTheme {
   IconButtonThemeData get _iconButtonTheme {
     return IconButtonThemeData(
       style: ButtonStyle(
-        elevation: MaterialStateProperty.resolveWith((states) => 0),
-        shape: MaterialStateProperty.resolveWith(
+        elevation: WidgetStateProperty.resolveWith((states) => 0),
+        shape: WidgetStateProperty.resolveWith(
           (states) => const CircleBorder(),
         ),
       ),
@@ -184,7 +187,7 @@ class AppTheme {
       ),
       cancelButtonStyle: const ButtonStyle(
         enableFeedback: true,
-        textStyle: MaterialStatePropertyAll<TextStyle>(
+        textStyle: WidgetStatePropertyAll<TextStyle>(
           TextStyle(
             fontFamily: FontFamily.plusJakartaSans,
           ),
@@ -192,7 +195,7 @@ class AppTheme {
       ),
       confirmButtonStyle: const ButtonStyle(
         enableFeedback: true,
-        textStyle: MaterialStatePropertyAll<TextStyle>(
+        textStyle: WidgetStatePropertyAll<TextStyle>(
           TextStyle(
             fontWeight: FontWeight.w600,
             fontFamily: FontFamily.plusJakartaSans,
@@ -260,15 +263,15 @@ class AppTheme {
 
   SearchBarThemeData get _searchBarTheme {
     return SearchBarThemeData(
-      elevation: MaterialStateProperty.resolveWith((states) => 0.5),
+      elevation: WidgetStateProperty.resolveWith((states) => 0.5),
       surfaceTintColor:
-          MaterialStateColor.resolveWith((states) => Colors.white),
-      side: MaterialStateBorderSide.resolveWith(
+          WidgetStateColor.resolveWith((states) => Colors.white),
+      side: WidgetStateBorderSide.resolveWith(
         (states) => const BorderSide(
           color: AppColors.pastelGrey,
         ),
       ),
-      shape: MaterialStateProperty.resolveWith(
+      shape: WidgetStateProperty.resolveWith(
         (states) => const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           side: BorderSide(color: Color(0xffe0e0e0), width: 0.8),
@@ -348,7 +351,7 @@ class AppTheme {
         tileColor: AppColors.white,
         iconColor: AppColors.lightBlack,
         contentPadding: const EdgeInsets.fromLTRB(
-            AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.sm),
+            AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.sm,),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -359,21 +362,21 @@ class AppTheme {
           fontWeight: AppFontWeight.medium,
           fontFamily: FontFamily.plusJakartaSans,
         ),
-        enableFeedback: true);
+        enableFeedback: true,);
   }
 
   SwitchThemeData get _switchTheme {
     return SwitchThemeData(
       thumbColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.selected)) {
           return AppColors.darkAqua;
         }
         return AppColors.eerieBlack;
       }),
       trackColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.selected)) {
           return AppColors.primaryContainer;
         }
         return AppColors.paleSky;
@@ -402,7 +405,7 @@ class AppTheme {
           color: AppColors.primary,
         ),
         indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0);
+        dividerHeight: 0,);
   }
 
   DialogTheme get _dialogTheme {
@@ -481,7 +484,7 @@ class AppDarkTheme extends AppTheme {
     return const ColorScheme.dark().copyWith(
       primary: AppColors.white,
       secondary: AppColors.secondary,
-      background: AppColors.grey.shade900,
+      surface: AppColors.grey.shade900,
     );
   }
 
