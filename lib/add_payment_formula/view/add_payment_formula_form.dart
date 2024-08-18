@@ -2,23 +2,28 @@ import 'package:app_ui/app_ui.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sdeng/payment_formula/bloc/payment_formula_cubit.dart';
+import 'package:sdeng/add_payment_formula/cubit/add_formula_cubit.dart';
 
+/// A form widget for adding a new payment formula.
+///
+/// This form allows users to enter details for a payment formula, including
+/// the name, quotas, and dates for payment. It uses a switch to toggle between
+/// single-rate and two-rate payment formulas.
 class AddPaymentFormulaForm extends StatefulWidget {
   const AddPaymentFormulaForm({super.key});
 
   @override
-  State<AddPaymentFormulaForm> createState() => _AddPaymentFormState();
+  State<AddPaymentFormulaForm> createState() => _AddPaymentFormulaFormState();
 }
 
-class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
+class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _amount1Controller = TextEditingController();
   final _amount2Controller = TextEditingController();
   final _date1Controller = TextEditingController();
   final _date2Controller = TextEditingController();
-  bool full = true;
+  bool full = true; // Indicates if the formula is single-rate or two-rate
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +39,15 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
           AppSpacing.xlg,
         ),
         children: [
-          const _ModalTitle(),
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.sm),
+            child: Text(
+              'New payment formula',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
           const Divider(
-            endIndent: 0,
-            indent: 0,
             height: 25,
           ),
           AppTextFormField(
@@ -48,9 +58,7 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
               return null;
             },
           ),
-          const SizedBox(
-            height: AppSpacing.sm,
-          ),
+          const SizedBox(height: AppSpacing.sm),
           AppTextFormField(
             label: 'Quota 1',
             controller: _amount1Controller,
@@ -65,9 +73,7 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
               return null;
             },
           ),
-          const SizedBox(
-            height: AppSpacing.sm,
-          ),
+          const SizedBox(height: AppSpacing.sm),
           AppTextFormField(
             label: 'To be paid before',
             prefix: const Icon(FeatherIcons.calendar),
@@ -85,119 +91,76 @@ class _AddPaymentFormState extends State<AddPaymentFormulaForm> {
               }
             },
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Required';
-              }
+              if (value == null || value.isEmpty) return 'Required';
               return null;
             },
           ),
-          const SizedBox(
-            height: AppSpacing.sm,
-          ),
+          const SizedBox(height: AppSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Single rata',
-                style: UITextStyle.bodyLarge,
-              ),
+              Text('Single rate', style: UITextStyle.bodyLarge),
               Switch.adaptive(
-                  value: full,
-                  onChanged: (value) {
-                    setState(() {
-                      full = value;
-                    });
-                  }),
+                value: full,
+                onChanged: (value) {
+                  setState(() {
+                    full = value;
+                  });
+                },
+              ),
             ],
           ),
-          const SizedBox(
-            height: AppSpacing.sm,
-          ),
-          full
-              ? const SizedBox.shrink()
-              : AppTextFormField(
-                  label: 'Quota 2',
-                  controller: _amount2Controller,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return 'Required';
-                    try {
-                      num.parse(value);
-                    } catch (err) {
-                      return 'Only digits are accepted';
-                    }
-                    return null;
-                  },
-                ),
-          full
-              ? const SizedBox.shrink()
-              : const SizedBox(
-                  height: AppSpacing.sm,
-                ),
-          full
-              ? const SizedBox.shrink()
-              : AppTextFormField(
-                  label: 'To be paid before',
-                  prefix: const Icon(FeatherIcons.calendar),
-                  controller: _date2Controller,
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime? selectedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2100));
-                    if (selectedDate != null) {
-                      _date2Controller.text = selectedDate.dMY;
-                    }
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Required';
-                    }
-                    return null;
-                  },
-                ),
-          const SizedBox(
-            height: AppSpacing.lg,
-          ),
+          const SizedBox(height: AppSpacing.sm),
+          if (!full) ...[
+            AppTextFormField(
+              label: 'Quota 2',
+              controller: _amount2Controller,
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.isEmpty) return 'Required';
+                try {
+                  num.parse(value);
+                } catch (err) {
+                  return 'Only digits are accepted';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            AppTextFormField(
+              label: 'To be paid before',
+              prefix: const Icon(FeatherIcons.calendar),
+              controller: _date2Controller,
+              readOnly: true,
+              onTap: () async {
+                DateTime? selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime(2100),
+                );
+                if (selectedDate != null) {
+                  _date2Controller.text = selectedDate.dMY;
+                }
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) return 'Required';
+                return null;
+              },
+            ),
+          ],
+          const SizedBox(height: AppSpacing.lg),
           PrimaryButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                await BlocProvider.of<PaymentFormulaCubit>(context)
-                    .addPaymentFormula(
-                      name: _nameController.text,
-                      full: full,
-                      amount1: num.parse(_amount1Controller.text),
-                      date1: _date1Controller.text.toDateTime!,
-                      amount2: full ? null : num.parse(_amount2Controller.text),
-                      date2: full ? null : _date2Controller.text.toDateTime!,
-                    )
-                    .then((_) => Navigator.of(context).pop());
+                await BlocProvider.of<AddFormulaCubit>(context)
+                    .addPaymentFormula().then((_) => Navigator.of(context).pop());
               }
             },
             child: const Text('Add'),
           ),
-          const SizedBox(
-            height: AppSpacing.xlg,
-          ),
+          const SizedBox(height: AppSpacing.xlg),
         ],
-      ),
-    );
-  }
-}
-
-class _ModalTitle extends StatelessWidget {
-  const _ModalTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: Text(
-        'New payment formula',
-        style: Theme.of(context).textTheme.headlineMedium,
-        textAlign: TextAlign.center,
       ),
     );
   }

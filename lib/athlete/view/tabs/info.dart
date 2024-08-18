@@ -8,6 +8,11 @@ import 'package:sdeng/edit_athlete/view/edit_athlete_modal.dart';
 import 'package:sdeng/edit_parent/view/edit_parent_modal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// A widget that displays detailed information about an athlete, including
+/// personal data and parent information.
+///
+/// The information is retrieved from the [AthleteCubit] and presented in a
+/// list format with options to copy, email, or call relevant contact details.
 class AthleteInfo extends StatelessWidget {
   const AthleteInfo({
     super.key,

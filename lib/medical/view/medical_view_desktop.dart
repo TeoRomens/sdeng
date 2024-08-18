@@ -7,6 +7,10 @@ import 'package:sdeng/medical/medicals.dart';
 import 'package:sdeng/medicals_list/view/medicals_list_view_desktop.dart';
 
 /// A desktop-specific view for displaying and managing medical records.
+///
+/// This view is optimized for desktop screens and presents medical records
+/// in a grid layout. It supports refreshing the data and displays medical
+/// categories: expired, expiring, good, and unknown.
 class MedicalViewDesktop extends StatelessWidget {
   /// Creates an instance of [MedicalViewDesktop].
   const MedicalViewDesktop({super.key});
@@ -36,7 +40,7 @@ class MedicalViewDesktop extends StatelessWidget {
               const TextBox(
                 title: 'Medical Visits',
                 content:
-                    'Below you find all your medical visits you have registered. First of all, there are the expired ones.',
+                'Below you find all your medical visits you have registered. First of all, there are the expired ones.',
               ),
               if (bloc.state.status == MedicalStatus.loading)
                 const LoadingBox()
@@ -50,17 +54,22 @@ class MedicalViewDesktop extends StatelessWidget {
   }
 
   /// Builds a grid of medical cards categorized by their status.
+  ///
+  /// Uses a [GridView.builder] to create a responsive grid layout. Each grid item
+  /// represents a category of medical records: Expired, Expiring, Good, and Unknown.
+  ///
+  /// The number of columns and spacing are adjusted to suit a desktop layout.
   Widget _buildMedicalGrid(MedicalCubit bloc, BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4, // Adjust columns based on screen width
+        crossAxisCount: 4, // Number of columns in the grid
         crossAxisSpacing: 16.0,
         mainAxisSpacing: 16.0,
         childAspectRatio: 1.6,
       ),
-      itemCount: 4, // We have 4 categories: Expired, Expiring, Good, Unknown
+      itemCount: 4, // Number of categories
       itemBuilder: (context, index) {
         switch (index) {
           case 0:
@@ -107,6 +116,9 @@ class MedicalViewDesktop extends StatelessWidget {
   }
 
   /// Builds an individual [MedicalCard] widget with the given parameters.
+  ///
+  /// This method creates a card for each medical category with a title, count, color,
+  /// and icon. It also provides a button to view more details.
   Widget _buildMedicalCard({
     required String title,
     required int count,

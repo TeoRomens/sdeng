@@ -32,33 +32,6 @@ class PaymentFormulaCubit extends Cubit<PaymentFormulaState> {
     }
   }
 
-  Future<void> addPaymentFormula({
-    required String name,
-    required bool full,
-    required num amount1,
-    required DateTime date1,
-    num? amount2,
-    DateTime? date2,
-  }) async {
-    emit(state.copyWith(status: PaymentFormulaStatus.loading));
-    try {
-      final paymentFormula = await _paymentsRepository.addPaymentFormula(
-          name: name,
-          full: full,
-          amount1: amount1,
-          date1: date1,
-          amount2: amount2,
-          date2: date2);
-      state.paymentsFormulas.add(paymentFormula);
-      emit(state.copyWith(
-          status: PaymentFormulaStatus.loaded,
-          paymentsFormulas: state.paymentsFormulas));
-    } catch (error, stackTrace) {
-      emit(state.copyWith(status: PaymentFormulaStatus.failure));
-      addError(error, stackTrace);
-    }
-  }
-
   Future<void> updatePaymentFormula({
     required String id,
     required String name,

@@ -3,25 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/athlete/view/athlete_page.dart';
 
+/// A widget that displays a list of medical records.
+///
+/// If the list is empty, it shows a message indicating that no records are available.
+/// Each medical record is represented as a tile, and tapping on a tile navigates to the
+/// [AthletePage] for the associated athlete.
 class MedicalsListView extends StatelessWidget {
+  /// Creates an instance of [MedicalsListView].
+  ///
+  /// The [medicals] parameter is required and represents the list of medical records
+  /// to be displayed.
   const MedicalsListView({
     super.key,
     required this.medicals,
   });
 
-  static Route<Athlete> route(List<Medical> medicals) {
-    return MaterialPageRoute<Athlete>(
+  /// Creates a route to navigate to the [MedicalsListView].
+  ///
+  /// This method is used to create a [MaterialPageRoute] with the given [medicals].
+  static Route<List<Medical>> route(List<Medical> medicals) {
+    return MaterialPageRoute<List<Medical>>(
       builder: (_) => MedicalsListView(medicals: medicals),
     );
   }
 
+  /// The list of medical records to be displayed.
   final List<Medical> medicals;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Medicals list'),
+        title: const Text('Medicals List'),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -48,7 +61,7 @@ class MedicalsListView extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(height: 0, indent: 70, endIndent: 20),
+                const Divider(height: 0, indent: 70, endIndent: 20),
               ),
           ],
         ),

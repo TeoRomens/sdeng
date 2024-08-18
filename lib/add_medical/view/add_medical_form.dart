@@ -2,6 +2,8 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:sdeng/add_medical/cubit/add_medical_cubit.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 
 class AddMedicalForm extends StatefulWidget {
@@ -18,7 +20,7 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AthleteCubit>().state;
+    final state = context.watch<AddMedicalCubit>().state;
 
     return Form(
       key: _formKey,
@@ -32,7 +34,14 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
           AppSpacing.xlg,
         ),
         children: [
-          const _ModalTitle(),
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.sm),
+            child: Text(
+              'New medical visit',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
           const Divider(
             endIndent: 0,
             indent: 0,
@@ -115,7 +124,7 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
             onPressed: () async {
               _formKey.currentState!.validate()
                   ? await context
-                      .read<AthleteCubit>()
+                      .read<AddMedicalCubit>()
                       .addMedical(
                         type: currentOption ?? MedType.agonistic,
                         expire: _expireController.text.toDateTime!,
@@ -123,7 +132,7 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
                       .then((_) => Navigator.of(context).pop())
                   : null;
             },
-            child: state.status == AthleteStatus.loading
+            child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(
                     dimension: 20,
                     child: CircularProgressIndicator(
@@ -138,22 +147,6 @@ class _AddMedicalFormState extends State<AddMedicalForm> {
             height: AppSpacing.xlg,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ModalTitle extends StatelessWidget {
-  const _ModalTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: Text(
-        'New medical visit',
-        style: Theme.of(context).textTheme.headlineMedium,
-        textAlign: TextAlign.center,
       ),
     );
   }

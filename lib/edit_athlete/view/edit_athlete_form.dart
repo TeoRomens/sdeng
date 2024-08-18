@@ -16,11 +16,11 @@ class EditAthleteForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.read<EditAthleteCubit>().state;
-
+    // Initialization of text controllers for form fields
     final nameController =
-        TextEditingController(text: athlete.fullName.split(' ').first);
+    TextEditingController(text: athlete.fullName.split(' ').first);
     final surnameController =
-        TextEditingController(text: athlete.fullName.split(' ').last);
+    TextEditingController(text: athlete.fullName.split(' ').last);
     final taxcodeController = TextEditingController(text: athlete.taxCode);
     final birthController = TextEditingController(text: athlete.birthdate?.dMY);
     final emailController = TextEditingController(text: athlete.email);
@@ -41,23 +41,34 @@ class EditAthleteForm extends StatelessWidget {
           AppSpacing.xlg,
         ),
         children: [
-          const _ModalTitle(),
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.sm),
+            child: Text(
+              'Edit Athlete',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
           const Divider(endIndent: 0, indent: 0, height: 25),
+          // Name input field
           AppTextFormField(
             label: 'Name',
             controller: nameController,
             validator: (value) => state.name.validator(value ?? '')?.text,
           ),
+          // Surname input field
           AppTextFormField(
             label: 'Surname',
             controller: surnameController,
             validator: (value) => state.surname.validator(value ?? '')?.text,
           ),
+          // Tax ID input field
           AppTextFormField(
             label: 'Tax ID',
             controller: taxcodeController,
             validator: (value) => state.taxCode.validator(value ?? '')?.text,
           ),
+          // Birthdate input field with date picker
           AppTextFormField(
             label: 'Birthdate',
             controller: birthController,
@@ -74,67 +85,55 @@ class EditAthleteForm extends StatelessWidget {
               }
             },
           ),
+          // Address input field
           AppTextFormField(
             label: 'Address',
             controller: addressController,
           ),
+          // Email input field
           AppTextFormField(
             label: 'Email',
             controller: emailController,
             validator: (value) => state.email.validator(value ?? '')?.text,
           ),
+          // Phone input field
           AppTextFormField(
             label: 'Phone',
             controller: phoneController,
             validator: (value) => state.phone.validator(value ?? '')?.text,
           ),
           const SizedBox(height: AppSpacing.xlg),
+          // Save button with loading indicator
           PrimaryButton(
             onPressed: () async {
-              formKey.currentState!.validate()
-                  ? await context
-                      .read<EditAthleteCubit>()
-                      .updateAthlete(
-                        name: nameController.text,
-                        surname: surnameController.text,
-                        taxCode: taxcodeController.text,
-                        birthdate: birthController.text.toDateTime,
-                        address: addressController.text,
-                        email: emailController.text,
-                        phone: phoneController.text,
-                      )
-                      .then((_) => Navigator.of(context).pop(true))
-                  : null;
+              if (formKey.currentState!.validate()) {
+                await context
+                    .read<EditAthleteCubit>()
+                    .updateAthlete(
+                  name: nameController.text,
+                  surname: surnameController.text,
+                  taxCode: taxcodeController.text,
+                  birthdate: birthController.text.toDateTime,
+                  address: addressController.text,
+                  email: emailController.text,
+                  phone: phoneController.text,
+                )
+                    .then((_) => Navigator.of(context).pop(true));
+              }
             },
             child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      color: AppColors.white,
-                      strokeCap: StrokeCap.round,
-                    ),
-                  )
+              dimension: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                color: AppColors.white,
+                strokeCap: StrokeCap.round,
+              ),
+            )
                 : const Text('Save'),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],
-      ),
-    );
-  }
-}
-
-class _ModalTitle extends StatelessWidget {
-  const _ModalTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: Text(
-        'Edit Athlete',
-        style: Theme.of(context).textTheme.headlineMedium,
-        textAlign: TextAlign.center,
       ),
     );
   }

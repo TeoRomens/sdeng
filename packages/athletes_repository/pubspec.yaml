@@ -1,5 +1,5 @@
 name: athletes_repository
-description: A repository that manages article data.
+description: A repository that manages athletes data.
 version: 1.0.0+1
 publish_to: none
 

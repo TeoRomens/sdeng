@@ -4,36 +4,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medicals_repository/medicals_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
+import 'package:sdeng/add_medical/add_medical.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/add_medical/view/add_medical_form.dart';
 import 'package:user_repository/user_repository.dart';
 
+/// A modal for adding a medical record to an athlete's profile.
 class AddMedicalModal extends StatelessWidget {
+  /// Creates an instance of [AddMedicalModal].
+  ///
+  /// The [athlete] parameter is required and represents the athlete to whom
+  /// the medical record will be added.
   const AddMedicalModal({
     super.key,
     required this.athlete,
   });
 
+  /// Route for navigating to the [AddMedicalModal].
+  ///
+  /// This static method creates a [MaterialPageRoute] with the given [athlete]
+  /// to pass to the modal.
   static Route<void> route(Athlete athlete) => MaterialPageRoute<void>(
-      builder: (_) => AddMedicalModal(
-            athlete: athlete,
-          ));
+    builder: (_) => AddMedicalModal(athlete: athlete),
+  );
 
+  /// The route name for [AddMedicalModal].
   static const String name = '/addMedicalModal';
 
+  /// The athlete for whom the medical record is being added.
   final Athlete athlete;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AthleteCubit(
-        athletesRepository: context.read<AthletesRepository>(),
+      create: (_) => AddMedicalCubit(
         medicalsRepository: context.read<MedicalsRepository>(),
-        paymentsRepository: context.read<PaymentsRepository>(),
-        documentsRepository: context.read<DocumentsRepository>(),
-        userRepository: context.read<UserRepository>(),
         athleteId: athlete.id,
-        athlete: athlete,
       ),
       child: const AddMedicalForm(),
     );

@@ -6,7 +6,11 @@ import 'package:flutter_sdeng_api/client.dart';
 import 'package:sdeng/medical/cubit/medical_cubit.dart';
 import 'package:sdeng/medicals_list/view/medicals_list_view.dart';
 
-/// The main view for displaying and managing medical records.
+/// A view that displays and manages medical records.
+///
+/// It shows a list of medical records categorized by their status:
+/// expired, expiring, good, and unknown. The view supports pull-to-refresh
+/// functionality to update the medical records.
 class MedicalView extends StatelessWidget {
   /// Creates an instance of [MedicalView].
   const MedicalView({super.key});
@@ -80,6 +84,11 @@ class MedicalView extends StatelessWidget {
   }
 
   /// Builds a [MedicalTile] for the given medical category.
+  ///
+  /// This helper method creates a [MedicalTile] with the provided
+  /// [title], [count], [color], [icon], and [medicals]. It also handles
+  /// the navigation to a detailed view of the medical records when the
+  /// tile is tapped.
   Widget _buildMedicalTile({
     required String title,
     required int count,

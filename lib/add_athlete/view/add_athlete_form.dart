@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/add_athlete/cubit/add_athlete_cubit.dart';
 
+/// A form widget for adding a new athlete.
+/// It includes two pages for collecting athlete details.
 class AddAthleteForm extends StatefulWidget {
-  const AddAthleteForm({
-    super.key,
-  });
+  /// Creates an instance of [AddAthleteForm].
+  const AddAthleteForm({super.key});
 
   @override
   State<AddAthleteForm> createState() => _AddAthleteFormState();
@@ -15,24 +16,17 @@ class AddAthleteForm extends StatefulWidget {
 
 class _AddAthleteFormState extends State<AddAthleteForm> {
   final _nameController = TextEditingController();
-
   final _surnameController = TextEditingController();
-
   final _taxcodeController = TextEditingController();
-
   final _birthController = TextEditingController();
-
   final _emailController = TextEditingController();
-
   final _phoneController = TextEditingController();
-
   final _addressController = TextEditingController();
 
   final _formKey0 = GlobalKey<FormState>();
-
   final _formKey1 = GlobalKey<FormState>();
 
-  int currentPageIndex = 0;
+  int _currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +37,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
         children: [
           Stack(
             children: [
-              currentPageIndex == 0 ? _firstPage(context) : const SizedBox(),
-              currentPageIndex == 1 ? _secondPage(context) : const SizedBox(),
+              if (_currentPageIndex == 0) _buildFirstPage(context),
+              if (_currentPageIndex == 1) _buildSecondPage(context),
             ],
           ),
         ],
@@ -52,7 +46,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
     );
   }
 
-  Widget _firstPage(BuildContext context) {
+  /// Builds the first page of the form for basic athlete details.
+  Widget _buildFirstPage(BuildContext context) {
     final state = context.watch<AddAthleteCubit>().state;
 
     return ListView(
@@ -91,10 +86,10 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
         ),
         const SizedBox(height: AppSpacing.xlg),
         PrimaryButton(
-          onPressed: () async {
-            _formKey0.currentState!.validate()
-                ? setState(() => currentPageIndex = 1)
-                : null;
+          onPressed: () {
+            if (_formKey0.currentState!.validate()) {
+              setState(() => _currentPageIndex = 1);
+            }
           },
           child: Text(
             'Next',
@@ -109,7 +104,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
     );
   }
 
-  Widget _secondPage(BuildContext context) {
+  /// Builds the second page of the form for additional athlete details.
+  Widget _buildSecondPage(BuildContext context) {
     final state = context.watch<AddAthleteCubit>().state;
 
     return Form(
@@ -138,11 +134,12 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
             controller: _birthController,
             validator: (value) => state.birthdate.validator(value ?? '')?.text,
             onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime.now());
+              final pickedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1900),
+                lastDate: DateTime.now(),
+              );
               if (pickedDate != null) {
                 _birthController.text = pickedDate.dMY;
               }
@@ -164,50 +161,49 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
           ),
           const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
-              onPressed: () async {
-                if (_formKey1.currentState!.validate()) {
-                  await BlocProvider.of<AddAthleteCubit>(context)
-                      .addAthlete(
-                        name: _nameController.text,
-                        surname: _surnameController.text,
-                        taxId: _taxcodeController.text,
-                      )
-                      .then((_) => Navigator.of(context).pop());
-                }
-              },
-              child: const Text('Skip')),
+            onPressed: () async {
+              if (_formKey1.currentState!.validate()) {
+                await BlocProvider.of<AddAthleteCubit>(context).addAthlete(
+                  name: _nameController.text,
+                  surname: _surnameController.text,
+                  taxId: _taxcodeController.text,
+                );
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text('Skip'),
+          ),
           PrimaryButton(
             onPressed: () async {
               if (_formKey1.currentState!.validate()) {
-                await BlocProvider.of<AddAthleteCubit>(context)
-                    .addAthlete(
-                      name: _nameController.text,
-                      surname: _surnameController.text,
-                      taxId: _taxcodeController.text.toUpperCase(),
-                      birthdate: _birthController.text.toDateTime,
-                      address: _addressController.text,
-                      email: _emailController.text,
-                      phone: _phoneController.text,
-                    )
-                    .then((_) => Navigator.of(context).pop());
+                await BlocProvider.of<AddAthleteCubit>(context).addAthlete(
+                  name: _nameController.text,
+                  surname: _surnameController.text,
+                  taxId: _taxcodeController.text.toUpperCase(),
+                  birthdate: _birthController.text.toDateTime,
+                  address: _addressController.text,
+                  email: _emailController.text,
+                  phone: _phoneController.text,
+                );
+                Navigator.of(context).pop();
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress
-                ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      color: AppColors.white,
-                      strokeCap: StrokeCap.round,
-                    ),
-                  )
-                : Text(
-                    'Done',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(color: AppColors.white),
+              ? const SizedBox.square(
+                  dimension: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppColors.white,
+                    strokeCap: StrokeCap.round,
                   ),
+                )
+              : Text(
+                  'Done',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: AppColors.white),
+                ),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],
@@ -215,3 +211,4 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
     );
   }
 }
+

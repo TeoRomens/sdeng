@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medicals_repository/medicals_repository.dart';
 import 'package:sdeng/medical/cubit/medical_cubit.dart';
-import 'package:sdeng/medical/view/medical_view_desktop.dart';
 import 'package:sdeng/medical/view/view.dart';
 
 /// A page that displays medical records, adapting to both portrait and landscape orientations.
+///
+/// This page uses [MedicalCubit] to manage the state and fetch medical records from the repository.
+/// It switches between two views based on the device orientation: a portrait view and a desktop view.
 class MedicalsPage extends StatelessWidget {
   /// Creates an instance of [MedicalsPage].
   const MedicalsPage({super.key});
@@ -47,6 +49,7 @@ class MedicalsPage extends StatelessWidget {
           ),
           body: OrientationBuilder(
             builder: (context, orientation) {
+              // Display different views based on orientation.
               return orientation == Orientation.portrait
                   ? const MedicalView()
                   : const MedicalViewDesktop();

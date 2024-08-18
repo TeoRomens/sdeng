@@ -6,6 +6,10 @@ import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/add_medical/view/add_medical_modal.dart';
 import 'package:sdeng/edit_medical/view/edit_medical_modal.dart';
 
+
+/// A widget that displays the medical information of an athlete.
+/// If medical data exists, it allows editing;
+/// otherwise, it provides an option to add new data.
 class MedicalInfo extends StatelessWidget {
   const MedicalInfo({
     super.key,

@@ -5,10 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
 import 'package:payments_repository/payments_repository.dart';
 
+/// A view for selecting a payment formula from a list.
+///
+/// This widget displays a list of payment formulas retrieved from the repository.
+/// It shows a loading indicator while fetching data and provides options to select a formula or close the view.
 class PaymentFormulaListView extends StatefulWidget {
-  const PaymentFormulaListView({
-    super.key,
-  });
+  /// Creates an instance of [PaymentFormulaListView].
+  const PaymentFormulaListView({super.key});
 
   @override
   State<PaymentFormulaListView> createState() => _PaymentFormulaListViewState();
@@ -24,12 +27,20 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
     fetchFormulas();
   }
 
+  /// Fetches the list of payment formulas from the repository.
   Future<void> fetchFormulas() async {
-    _paymentFormulas =
-        await context.read<PaymentsRepository>().getPaymentFormulas();
-    setState(() {
-      _loading = false;
-    });
+    try {
+      final formulas = await context.read<PaymentsRepository>().getPaymentFormulas();
+      setState(() {
+        _paymentFormulas = formulas;
+        _loading = false;
+      });
+    } catch (e) {
+      // Handle error, e.g., show a Snackbar or other error UI
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -39,7 +50,7 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            title: const Text('Select formula'),
+            title: const Text('Select Formula'),
             automaticallyImplyLeading: false,
             actions: [
               IconButton(
@@ -59,14 +70,21 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
   }
 }
 
-/// Main view of Payment Formulas.
+/// Displays a list of payment formulas.
+///
+/// This widget is shown when the list of payment formulas is successfully fetched.
+/// It provides options to select a formula or view an empty state message.
 @visibleForTesting
 class FormulasPopulated extends StatelessWidget {
+  /// Creates an instance of [FormulasPopulated].
+  ///
+  /// [paymentFormulas] is the list of payment formulas to be displayed.
   const FormulasPopulated({
     super.key,
     required this.paymentFormulas,
   });
 
+  /// The list of payment formulas to be displayed.
   final List<PaymentFormula> paymentFormulas;
 
   @override
@@ -86,9 +104,6 @@ class FormulasPopulated extends StatelessWidget {
             Column(
               children: [
                 ListTile(
-                  visualDensity: const VisualDensity(
-                    vertical: VisualDensity.minimumDensity,
-                  ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                     vertical: AppSpacing.xs,
@@ -113,12 +128,11 @@ class FormulasPopulated extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return PaymentFormulaTile(
                       paymentFormula: paymentFormulas[index],
-                      onTap: () =>
-                          Navigator.of(context).pop(paymentFormulas[index].id),
+                      onTap: () => Navigator.of(context).pop(paymentFormulas[index].id),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(height: 0, indent: 70, endIndent: 20),
+                  const Divider(height: 0, indent: 70, endIndent: 20),
                 ),
               ],
             ),

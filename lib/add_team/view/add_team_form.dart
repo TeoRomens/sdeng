@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/teams/cubit/teams_cubit.dart';
 
+/// A form widget for adding a new team.
 class AddTeamForm extends StatelessWidget {
+  /// Creates an [AddTeamForm].
   AddTeamForm({super.key});
 
   final _nameController = TextEditingController();
@@ -25,63 +27,42 @@ class AddTeamForm extends StatelessWidget {
           AppSpacing.xlg,
         ),
         children: [
-          const _ModalTitle(),
-          const Divider(
-            endIndent: 0,
-            indent: 0,
-            height: 25,
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.sm),
+            child: Text(
+              'New team',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
           ),
+          const Divider(endIndent: 0, indent: 0, height: 25),
           AppTextFormField(
             label: 'Name',
-            bottomText: 'The name can\'t be empty',
+            bottomText: "The name can't be empty",
             controller: _nameController,
-            validator: (value) {
-              if (value == null || value.isEmpty) return 'Required';
-              return null;
-            },
+            validator: (value) => (value?.isEmpty ?? true) ? 'Required' : null,
           ),
-          const SizedBox(
-            height: AppSpacing.xlg,
-          ),
+          const SizedBox(height: AppSpacing.xlg),
           PrimaryButton(
             onPressed: () async {
-              _formKey.currentState!.validate()
-                  ? await BlocProvider.of<TeamsCubit>(context)
-                      .addTeam(name: _nameController.text)
-                      .then((_) => Navigator.of(context).pop())
-                  : null;
+              if (_formKey.currentState!.validate()) {
+                await context.read<TeamsCubit>().addTeam(name: _nameController.text);
+                Navigator.of(context).pop();
+              }
             },
             child: state.status == TeamsStatus.loading
-                ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      color: AppColors.white,
-                      strokeCap: StrokeCap.round,
-                    ),
-                  )
-                : const Text('Add'),
+              ? const SizedBox.square(
+                dimension: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.white,
+                  strokeCap: StrokeCap.round,
+                ),
+              )
+              : const Text('Add'),
           ),
-          const SizedBox(
-            height: AppSpacing.xlg,
-          ),
+          const SizedBox(height: AppSpacing.xlg),
         ],
-      ),
-    );
-  }
-}
-
-class _ModalTitle extends StatelessWidget {
-  const _ModalTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: Text(
-        'New team',
-        style: Theme.of(context).textTheme.headlineMedium,
-        textAlign: TextAlign.center,
       ),
     );
   }

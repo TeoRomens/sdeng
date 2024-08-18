@@ -15,6 +15,9 @@ import 'package:user_repository/user_repository.dart';
 
 part 'athlete_state.dart';
 
+/// The `AthleteCubit` manages the state and business logic for an athlete's data,
+/// including loading, updating, and deleting operations related to athletes,
+/// documents, payments, and medicals.
 class AthleteCubit extends Cubit<AthleteState> {
   AthleteCubit({
     required AthletesRepository athletesRepository,
@@ -37,6 +40,8 @@ class AthleteCubit extends Cubit<AthleteState> {
   final PaymentsRepository _paymentsRepository;
   final UserRepository _userRepository;
 
+  /// Initializes loading of athlete-related data, including athlete details, parent info,
+  /// medical records, payments, documents, and payment formulas.
   Future<void> initLoading() async {
     emit(state.copyWith(status: AthleteStatus.loading));
     try {
@@ -67,11 +72,12 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Reloads the athlete's details from the repository.
   Future<void> reloadAthlete() async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
       final result =
-          await _athletesRepository.getAthleteFromId(state.athleteId);
+      await _athletesRepository.getAthleteFromId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, athlete: result));
     } catch (error, stackTrace) {
       emit(state.copyWith(
@@ -82,11 +88,12 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Reloads the parent information associated with the athlete from the repository.
   Future<void> reloadParent() async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
       final result =
-          await _athletesRepository.getParentFromAthleteId(state.athleteId);
+      await _athletesRepository.getParentFromAthleteId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, parent: result));
     } catch (error, stackTrace) {
       emit(state.copyWith(
@@ -97,6 +104,7 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Deletes the athlete from the repository.
   Future<void> deleteAthlete() async {
     emit(state.copyWith(status: AthleteStatus.loading));
     try {
@@ -108,32 +116,15 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
-  Future<void> addMedical({
-    required MedType type,
-    required DateTime expire,
-  }) async {
-    emit(state.copyWith(status: AthleteStatus.loading));
-    try {
-      final medical = await _medicalsRepository.addMedical(
-          athleteId: state.athleteId, expire: expire, type: type);
-      emit(state.copyWith(status: AthleteStatus.loaded, medical: medical));
-    } catch (error, stackTrace) {
-      emit(state.copyWith(status: AthleteStatus.failure));
-      addError(error, stackTrace);
-    }
-  }
-
+  /// Opens a document by downloading it from the repository and then opening it using the default app.
   Future<void> openDocument({required String path}) async {
     try {
-      final bytes = await _documentsRepository.downloadFile(
-        path: path,
-      );
-
+      final bytes = await _documentsRepository.downloadFile(path: path);
       final tempDir = await getTemporaryDirectory();
-      // Unique file name
+
+      // Generate a unique file name based on the current time and file name.
       final filename =
           '${DateTime.now().millisecondsSinceEpoch}_${path.split('/').last}';
-      // Create a temporary file path
       final tempFilePath = '${tempDir.path}/$filename';
 
       final file = File(tempFilePath);
@@ -145,6 +136,7 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Uploads a file selected by the user and associates it with the athlete.
   Future<void> uploadFile() async {
     try {
       final filePickerResult = await FilePicker.platform.pickFiles();
@@ -164,6 +156,7 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Generates and opens a "Richiesta Visita Medica" PDF document for the athlete.
   Future<void> generateRichiestaVisitaMedica() async {
     try {
       if (state.athlete != null) {
@@ -179,6 +172,7 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Deletes a document associated with the athlete.
   Future<void> deleteDocument({required Document document}) async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
@@ -195,12 +189,13 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 
+  /// Updates the athlete's payment formula in the repository.
   Future<void> updatePaymentFormula({
     required String? formulaId,
   }) async {
     try {
       final updatedAthlete =
-          state.athlete!.copyWith(paymentFormulaId: formulaId);
+      state.athlete!.copyWith(paymentFormulaId: formulaId);
       await _athletesRepository.updateAthlete(athlete: updatedAthlete);
     } catch (error, stackTrace) {
       emit(state.copyWith(
@@ -210,3 +205,4 @@ class AthleteCubit extends Cubit<AthleteState> {
     }
   }
 }
+

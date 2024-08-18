@@ -9,12 +9,21 @@ import 'package:payments_repository/payments_repository.dart';
 import 'package:sdeng/athlete/athlete.dart';
 import 'package:user_repository/user_repository.dart';
 
+/// A page that displays details about a specific athlete.
+///
+/// This page is responsible for displaying the athlete's information and providing
+/// various actions related to the athlete, such as deleting the athlete.
 class AthletePage extends StatelessWidget {
+  /// Creates an [AthletePage] for the specified [athleteId].
   const AthletePage({
     super.key,
     required this.athleteId,
   });
 
+  /// The ID of the athlete whose details are to be displayed.
+  final String athleteId;
+
+  /// Returns a [Route] that navigates to the [AthletePage] for the given [athleteId].
   static Route<bool> route({
     required String athleteId,
   }) {
@@ -24,8 +33,6 @@ class AthletePage extends StatelessWidget {
       ),
     );
   }
-
-  final String athleteId;
 
   @override
   Widget build(BuildContext context) {
@@ -54,52 +61,52 @@ class AthletePage extends StatelessWidget {
             centerTitle: true,
             actions: [
               PopupMenuButton(
-                  padding: EdgeInsets.zero,
-                  shape: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Color(0xffcccccc), width: 0.5),
-                    borderRadius: BorderRadius.circular(7),
+                padding: EdgeInsets.zero,
+                shape: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Color(0xffcccccc), width: 0.5),
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                elevation: 0.5,
+                shadowColor: Colors.grey.shade200,
+                offset: Offset.fromDirection(20, 30),
+                surfaceTintColor: Colors.transparent,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    height: 36,
+                    onTap: () async {
+                      await context
+                          .read<AthleteCubit>()
+                          .deleteAthlete()
+                          .whenComplete(() => Navigator.of(context).pop());
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                          FeatherIcons.trash,
+                          color: Colors.red,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Delete',
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ],
+                    ),
                   ),
-                  elevation: 0.5,
-                  shadowColor: Colors.grey.shade200,
-                  offset: Offset.fromDirection(20, 30),
-                  surfaceTintColor: Colors.transparent,
-                  itemBuilder: (context) => [
-                        PopupMenuItem(
-                            height: 36,
-                            onTap: () async {
-                              await context
-                                  .read<AthleteCubit>()
-                                  .deleteAthlete()
-                                  .whenComplete(
-                                      () => Navigator.of(context).pop());
-                            },
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  FeatherIcons.trash,
-                                  color: Colors.red,
-                                  size: 20,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  'Delete',
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
-                              ],
-                            ))
-                      ]),
+                ],
+              ),
             ],
           ),
           body: SafeArea(
             child: OrientationBuilder(
-                builder: (BuildContext context, Orientation orientation) {
-              return orientation == Orientation.portrait
-                  ? const AthleteView()
-                  : const AthleteViewDesktop();
-            }),
+              builder: (BuildContext context, Orientation orientation) {
+                return orientation == Orientation.portrait
+                    ? const AthleteView()
+                    : const AthleteViewDesktop();
+              },
+            ),
           ),
         ),
       ),
