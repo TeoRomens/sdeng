@@ -49,6 +49,12 @@ class GetPaymentFormulaFromAthleteIdFailure extends PaymentsFailure {
   const GetPaymentFormulaFromAthleteIdFailure(super.error);
 }
 
+/// Thrown when deleting payment fails.
+class DeletePaymentFailure extends PaymentsFailure {
+  /// {@macro delete_payment_failure}
+  const DeletePaymentFailure(super.error);
+}
+
 /// A repository that manages teams data.
 class PaymentsRepository {
   /// {@macro teams_repository}
@@ -180,7 +186,8 @@ class PaymentsRepository {
         date2: date2,
       );
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(UpdatePaymentFormulaFailure(error), stackTrace);
+      Error.throwWithStackTrace(
+          UpdatePaymentFormulaFailure(error), stackTrace);
     }
   }
 
@@ -197,6 +204,16 @@ class PaymentsRepository {
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
           GetPaymentFormulaFromAthleteIdFailure(error), stackTrace);
+    }
+  }
+
+  Future<void> deletePayment(String paymentId) async {
+    try {
+      await _apiClient.deletePayment(
+        id: paymentId,
+      );
+    } catch (error, stackTrace) {
+      Error.throwWithStackTrace(DeletePaymentFailure(error), stackTrace);
     }
   }
 }

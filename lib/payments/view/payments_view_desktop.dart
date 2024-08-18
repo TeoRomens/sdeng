@@ -2,7 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/add_payment/view/add_payment_modal.dart';
-import 'package:sdeng/payment_details/view/payment_details_page.dart';
+import 'package:sdeng/payment/payment.dart';
 import 'package:sdeng/payments/payments.dart';
 
 /// A desktop view of payments, including an overview,
@@ -90,7 +90,7 @@ class PaymentsViewDesktop extends StatelessWidget {
                           itemBuilder: (context, index) => PaymentTile(
                             payment: bloc.state.payments[index],
                             onTap: () => Navigator.of(context).push(
-                              PaymentDetailsPage.route(bloc.state.payments[index]),
+                              PaymentDetailsView.route(bloc.state.payments[index]),
                             ),
                           ),
                           separatorBuilder: (BuildContext context, int index) => const Divider(
