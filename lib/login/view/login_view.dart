@@ -19,6 +19,9 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final formKey = GlobalKey<FormState>();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
@@ -68,15 +71,11 @@ class LoginView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
-
-                    // Login subtitle
                     Text(
                       'Log in to access all the features',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: AppSpacing.xlg),
-
-                    // Google login button
                     PrimaryButton(
                       key: const Key('loginForm_googleLogin_appButton'),
                       onPressed: () => context.read<LoginBloc>().googleSubmitted(),
@@ -89,109 +88,107 @@ class LoginView extends StatelessWidget {
                       ),
                     ),
                     const Divider(height: AppSpacing.xxlg),
-
-                    // Email and password fields
                     BlocBuilder<LoginBloc, LoginState>(
                       builder: (context, state) {
-                        final emailController = TextEditingController();
-                        final passwordController = TextEditingController();
-
-                        return Column(
-                          children: [
-                            AppTextFormField(
-                              controller: emailController,
-                              label: 'Email',
-                              hintText: 'Your email address',
-                              readOnly: state.status.isInProgress,
-                              prefix: const Icon(FeatherIcons.mail),
-                              validator: (value) => state.email.validator(value ?? '')?.text,
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            AppTextFormField(
-                              controller: passwordController,
-                              label: 'Password',
-                              hintText: 'Your password',
-                              obscure: true,
-                              prefix: const Icon(FeatherIcons.lock),
-                              validator: (value) => state.password.validator(value ?? '')?.text,
-                            ),
-                            const SizedBox(height: AppSpacing.xlg),
-
-                            // Login button
-                            PrimaryButton(
-                              child: state.status.isInProgress
-                                  ? const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox.square(
-                                    dimension: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 3,
-                                      color: AppColors.white,
-                                      strokeCap: StrokeCap.round,
-                                    ),
-                                  ),
-                                ],
-                              )
-                                  : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Login',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(color: AppColors.white),
-                                  ),
-                                ],
+                        return Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              AppTextFormField(
+                                controller: emailController,
+                                label: 'Email',
+                                hintText: 'Your email address',
+                                readOnly: state.status.isInProgress,
+                                prefix: const Icon(FeatherIcons.mail),
+                                validator: (value) => state.email.validator(value ?? '')?.text,
                               ),
-                              onPressed: () => context.read<LoginBloc>().loginWithCredentials(
-                                  email: Email.dirty(emailController.text),
-                                  password: Password.dirty(passwordController.text)),
-                            ),
-                          ],
+                              const SizedBox(height: AppSpacing.sm),
+                              AppTextFormField(
+                                controller: passwordController,
+                                label: 'Password',
+                                hintText: 'Your password',
+                                obscure: true,
+                                readOnly: state.status.isInProgress,
+                                prefix: const Icon(FeatherIcons.lock),
+                                validator: (value) => state.password.validator(value ?? '')?.text,
+                              ),
+                              const SizedBox(height: AppSpacing.xlg),
+                              PrimaryButton(
+                                child: state.status.isInProgress
+                                    ? const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox.square(
+                                      dimension: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 3,
+                                        color: AppColors.white,
+                                        strokeCap: StrokeCap.round,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                                : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Login',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(color: AppColors.white),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  if(formKey.currentState?.validate() ?? false) {
+                                    context.read<LoginBloc>().loginWithCredentials(
+                                    email: Email.dirty(emailController.text),
+                                    password: Password.dirty(passwordController.text));
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
                     const SizedBox(height: AppSpacing.xlg),
-
-                    // Register and Forgot Password links
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Row(
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('Don\'t have an account?  '),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(RegisterPage.route());
-                              },
-                              child: Text(
-                                'Register',
-                                style: UITextStyle.bodyMedium.copyWith(color: AppColors.primary),
-                              ),
-                            ),
-                          ],
+                        Expanded(
+                          child: Text(
+                            'Don\'t have an account?',
+                            style: theme.textTheme.bodyMedium,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
-                            MediaQuery.orientationOf(context) == Orientation.portrait
-                                ? showAppModal(
-                              context: context,
-                              content: const ForgotPasswordModal(),
-                            )
-                                : showAppSideModal(
-                              context: context,
-                              content: const ForgotPasswordModal(),
-                            );
+                            Navigator.of(context).push(RegisterPage.route());
                           },
                           child: Text(
-                            'Forgot password?',
-                            style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.primary),
+                            'Register',
+                            style: UITextStyle.bodyMedium.copyWith(color: AppColors.primary),
                           ),
                         ),
                       ],
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        MediaQuery.orientationOf(context) == Orientation.portrait
+                            ? showAppModal(
+                          context: context,
+                          content: const ForgotPasswordModal(),
+                        )
+                            : showAppSideModal(
+                          context: context,
+                          content: const ForgotPasswordModal(),
+                        );
+                      },
+                      child: Text(
+                        'Forgot password?',
+                        style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.primary),
+                      ),
                     ),
                   ],
                 ),

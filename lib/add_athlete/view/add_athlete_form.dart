@@ -146,6 +146,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
             },
           ),
           AppTextFormField(
+            key: const Key('addAthleteForm_address_appTextField'),
             label: 'Address',
             controller: _addressController,
           ),

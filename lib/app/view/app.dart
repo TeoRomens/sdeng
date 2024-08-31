@@ -71,7 +71,7 @@ class App extends StatelessWidget {
               user: _user,
             ),
           ),
-          BlocProvider(create: (_) => ThemeModeBloc()),
+          //BlocProvider(create: (_) => ThemeModeBloc()),
         ],
         child: const AppView(),
       ),

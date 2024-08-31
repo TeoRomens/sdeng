@@ -57,9 +57,6 @@ class LoginBloc extends Cubit<LoginState> {
     required Email email,
     required Password password,
   }) async {
-    if (!Formz.validate([email, password])) {
-      return;
-    }
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
       await _userRepository.logInWithCredentials(

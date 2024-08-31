@@ -44,11 +44,12 @@ class AppBloc extends Cubit<AppState> {
   Future<void> onUserChanged(User? user) async {
     if (user == null) {
       return emit(const AppState.unauthenticated());
-    } else {
+    }
+    else {
       emit(AppState.authenticated(user));
       final sdengUser = await _userRepository.getUserData(user.id);
       final homeValues = await _userRepository.getHomeValues(user.id);
-      emit(state.copyWith(
+      emit(AppState.authenticated(user).copyWith(
         sdengUser: sdengUser,
         homeValues: homeValues,
         status: AppStatus.ready,
