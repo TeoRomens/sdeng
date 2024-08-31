@@ -1,12 +1,14 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:athletes_repository/athletes_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sdeng_api/client.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payments_repository/payments_repository.dart';
 
 /// A view that displays detailed information about a payment.
 ///
 /// This screen presents various attributes of a payment in a read-only format.
 /// It also includes a button to delete the payment.
-class PaymentDetailsView extends StatelessWidget {
+class PaymentDetailsView extends StatefulWidget {
   /// Creates an instance of [PaymentDetailsView].
   ///
   /// [payment] is the payment object whose details are to be displayed.
@@ -25,6 +27,39 @@ class PaymentDetailsView extends StatelessWidget {
   final Payment payment;
 
   @override
+  State<PaymentDetailsView> createState() => _PaymentDetailsViewState();
+}
+
+class _PaymentDetailsViewState extends State<PaymentDetailsView> {
+  late final Athlete? _athlete;
+  bool _loading = true;
+
+  /// Fetches the athlete if the payment is related to an athlete.
+  Future<void> fetchAthlete() async {
+    try {
+      if (widget.payment.athleteId != null) {
+        final athlete = await context.read<AthletesRepository>().getAthleteFromId(widget.payment.athleteId!);
+        setState(() {
+          _athlete = athlete;
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.red,
+            content: Text('Error loading athlete'),
+          ),
+        );
+    } finally {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -37,29 +72,24 @@ class PaymentDetailsView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildPaymentDetailField('ID', payment.id, readOnly: true),
-            _buildPaymentDetailField('Cause', payment.cause),
-            _buildPaymentDetailField('Method', payment.method.name),
-            _buildPaymentDetailField('Type', payment.type.name),
+            _buildPaymentDetailField('ID', widget.payment.id, readOnly: true),
+            _buildPaymentDetailField('Cause', widget.payment.cause),
+            _buildPaymentDetailField('Method', widget.payment.method.name),
+            _buildPaymentDetailField('Type', widget.payment.type.name),
             _buildPaymentDetailField(
               'Amount',
-              payment.amount.toStringAsFixed(2),
+              widget.payment.amount.toStringAsFixed(2),
             ),
-            _buildPaymentDetailField('Created', payment.createdAt.dMY),
-            _buildPaymentDetailField('Athlete', payment.athleteId!),
+            _buildPaymentDetailField('Created', widget.payment.createdAt.dMY),
+            _buildPaymentDetailField('Athlete', widget.payment.athleteId),
             Padding(
               padding: const EdgeInsets.only(top: AppSpacing.xlg),
-              child: TextButton(
+              child: SecondaryButton(
                 onPressed: () {
-                  // Implement delete functionality here
+                  context.read<PaymentsRepository>().deletePayment(widget.payment.id)
+                    .whenComplete(() => Navigator.of(context).pop());
                 },
-                child: Text(
-                  'Delete',
-                  style: UITextStyle.bodyMedium.copyWith(
-                    color: AppColors.red,
-                    fontWeight: AppFontWeight.semiBold,
-                  ),
-                ),
+                text: 'Delete',
               ),
             ),
           ],
@@ -72,10 +102,10 @@ class PaymentDetailsView extends StatelessWidget {
   ///
   /// [label] is the field label, [initialValue] is the initial value to be displayed,
   /// and [readOnly] determines whether the field is read-only or editable.
-  Widget _buildPaymentDetailField(String label, String initialValue, {bool readOnly = false}) {
+  Widget _buildPaymentDetailField(String label, String? initialValue, {bool readOnly = false}) {
     return AppTextFormField(
       label: label,
-      initialValue: initialValue,
+      initialValue: initialValue ?? '',
       readOnly: readOnly,
     );
   }

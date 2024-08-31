@@ -43,9 +43,10 @@ class MedicalsListView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (medicals.isEmpty)
-              const Center(
-                heightFactor: 5,
-                child: Text('It seems empty here'),
+              EmptyState(
+                showAction: false,
+                actionText: '',
+                onPressed: () {}
               )
             else
               ListView.separated(

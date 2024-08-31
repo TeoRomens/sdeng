@@ -12,7 +12,6 @@ migrate_working_dir/
 *.env
 
 # IntelliJ related
-*.iml
 *.ipr
 *.iws
 .idea/

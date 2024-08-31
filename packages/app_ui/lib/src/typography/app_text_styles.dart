@@ -11,7 +11,7 @@ abstract class UITextStyle {
     fontFamily: FontFamily.plusJakartaSans,
     decoration: TextDecoration.none,
     textBaseline: TextBaseline.alphabetic,
-    color: Color(0xFF101828),
+    color: AppColors.black,
     letterSpacing: 0,
   );
 
@@ -74,7 +74,6 @@ abstract class UITextStyle {
   /// Body Text 1 Text Style
   static final TextStyle bodyLarge = _baseTextStyle.copyWith(
     fontSize: 16,
-    color: const Color(0xFF475467),
   );
 
   /// Body Text 2 Text Style (the default)
@@ -100,7 +99,7 @@ abstract class UITextStyle {
   static final TextStyle labelLarge = _baseTextStyle.copyWith(
     fontSize: 16,
     fontWeight: AppFontWeight.medium,
-    color: const Color(0xFF475467),
+    color: AppColors.white,
     letterSpacing: 0,
   );
 
@@ -112,7 +111,7 @@ abstract class UITextStyle {
   );
 
   /// Label Small Text Style
-  static final TextStyle label = _baseTextStyle.copyWith(
+  static final TextStyle labelMedium = _baseTextStyle.copyWith(
     fontSize: 14,
     fontWeight: AppFontWeight.medium,
     color: const Color(0xFF344054),

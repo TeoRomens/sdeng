@@ -37,13 +37,7 @@ class AddAthleteModal extends StatelessWidget {
         athletesRepository: context.read<AthletesRepository>(),
         teamId: _teamId,
       ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Add Athlete'),
-          centerTitle: true,
-        ),
-        body: const AddAthleteForm(),
-      ),
+      child: const AddAthleteForm(),
     );
   }
 }

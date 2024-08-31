@@ -1,5 +1,4 @@
-import 'package:app_ui/app_ui.dart'
-    show AppSpacing, AppTextButton, LoadingBox, showAppModal;
+import 'package:app_ui/app_ui.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +46,10 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(content: Text(state.error)),
+              SnackBar(
+                backgroundColor: AppColors.red,
+                content: Text(state.error)
+              ),
             );
         }
       },
@@ -69,7 +71,9 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                   builder: (context, state) {
                 if (state.status == PaymentFormulaStatus.loading) {
                   return const LoadingBox();
-                } else {
+                }
+                else if (state.status != PaymentFormulaStatus.loading
+                    && state.paymentsFormulas.isNotEmpty) {
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -86,6 +90,16 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                               ),
                           icon: const Icon(FeatherIcons.edit2)),
                     ),
+                  );
+                }
+                else {
+                  return EmptyState(
+                    actionText: 'Add Formula',
+                    onPressed: () async => await showAppModal(
+                      context: context,
+                      content: const AddPaymentFormulaModal(),
+                    ).then((_) =>
+                        context.read<PaymentFormulaCubit>().getPaymentFormulas()),
                   );
                 }
               }),
@@ -139,7 +153,7 @@ class PaymentFormulaItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 6),
       color: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0.5,

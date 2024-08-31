@@ -53,8 +53,7 @@ class RegisterForm extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.xlg),
                 PrimaryButton(
-                  // Uncomment to enable Google sign-in functionality
-                  // onPressed: () => context.read<RegisterBloc>().googleSubmitted(),
+                  onPressed: () => context.read<RegisterBloc>().googleSubmitted(),
                   child: Assets.icons.google.svg(),
                 ),
                 const Divider(height: AppSpacing.xxlg),
@@ -114,24 +113,25 @@ class RegisterForm extends StatelessWidget {
                       PrimaryButton(
                         child: state.status.isInProgress
                             ? const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox.square(
-                              dimension: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3,
-                                color: AppColors.white,
-                                strokeCap: StrokeCap.round,
-                              ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox.square(
+                                  dimension: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3,
+                                    color: AppColors.white,
+                                    strokeCap: StrokeCap.round,
+                                  ),
+                                ),
+                              ],
+                            )
+                            : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Register',
+                                  style: Theme.of(context).textTheme.labelLarge,),
+                              ],
                             ),
-                          ],
-                        )
-                            : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Register'),
-                          ],
-                        ),
                         onPressed: () {
                           if (formKey.currentState?.validate() ?? false) {
                             context.read<RegisterBloc>().signupWithCredentials(

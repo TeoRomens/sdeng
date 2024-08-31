@@ -221,12 +221,8 @@ class AppTheme {
     bodyMedium: UITextStyle.bodyMedium,
     bodySmall: UITextStyle.bodySmall,
     labelLarge: UITextStyle.labelLarge,
-    labelMedium: UITextStyle.label,
+    labelMedium: UITextStyle.labelMedium,
     labelSmall: UITextStyle.labelSmall,
-  ).apply(
-    bodyColor: AppColors.black,
-    displayColor: AppColors.black,
-    decorationColor: AppColors.black,
   );
 
   InputDecorationTheme get _inputDecorationTheme {
@@ -456,7 +452,7 @@ BottomNavigationBarThemeData get _bottomAppBarTheme {
 
 ChipThemeData get _chipTheme {
   return ChipThemeData(
-    labelStyle: UITextStyle.label.copyWith(
+    labelStyle: UITextStyle.labelMedium.copyWith(
       fontWeight: AppFontWeight.semiBold,
     ),
     surfaceTintColor: Colors.white,

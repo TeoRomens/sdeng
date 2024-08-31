@@ -58,7 +58,7 @@ void main() {
       });
 
       test('labelSmall returns TextStyle', () {
-        expect(UITextStyle.label, isA<TextStyle>());
+        expect(UITextStyle.labelMedium, isA<TextStyle>());
       });
     });
   });

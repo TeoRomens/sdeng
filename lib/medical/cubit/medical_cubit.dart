@@ -21,50 +21,67 @@ class MedicalCubit extends Cubit<MedicalState> {
   /// Fetches expired medical records, optionally limited by [limit].
   /// Emits a loading state, followed by either a populated state with data or a failure state.
   Future<void> getExpiredMedicals({int? limit}) async {
-    await _fetchMedicals(
-      fetchFunction: () => _medicalsRepository.getExpiredMedicals(limit: limit),
-    );
+    emit(state.copyWith(status: MedicalStatus.loading));
+    try {
+      final medicals = await _medicalsRepository.getExpiredMedicals(limit: limit);
+      emit(state.copyWith(expiredMedicals: medicals,));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: MedicalStatus.failure));
+      addError(error, stackTrace);
+    }
   }
 
   /// Fetches expiring medical records, optionally limited by [limit].
   /// Emits a loading state, followed by either a populated state with data or a failure state.
   Future<void> getExpiringMedicals({int? limit}) async {
-    await _fetchMedicals(
-      fetchFunction: () => _medicalsRepository.getExpiringMedicals(limit: limit),
-    );
+    emit(state.copyWith(status: MedicalStatus.loading));
+    try {
+      final medicals = await _medicalsRepository.getExpiringMedicals(limit: limit);
+      emit(state.copyWith(expiringMedicals: medicals,));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: MedicalStatus.failure));
+      addError(error, stackTrace);
+    }
   }
 
   /// Fetches good medical records, optionally limited by [limit].
   /// Emits a loading state, followed by either a populated state with data or a failure state.
   Future<void> getGoodMedicals({int? limit}) async {
-    await _fetchMedicals(
-      fetchFunction: () => _medicalsRepository.getGoodMedicals(limit: limit),
-    );
+    emit(state.copyWith(status: MedicalStatus.loading));
+    try {
+      final medicals = await _medicalsRepository.getGoodMedicals(limit: limit);
+      emit(state.copyWith(goodMedicals: medicals,));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: MedicalStatus.failure));
+      addError(error, stackTrace);
+    }
   }
 
   /// Fetches unknown medical records, optionally limited by [limit].
   /// Emits a loading state, followed by either a populated state with data or a failure state.
   Future<void> getUnknownMedicals({int? limit}) async {
-    await _fetchMedicals(
-      fetchFunction: () => _medicalsRepository.getUnknownMedicals(limit: limit),
-    );
+    emit(state.copyWith(status: MedicalStatus.loading));
+    try {
+      final medicals = await _medicalsRepository.getUnknownMedicals(limit: limit);
+      emit(state.copyWith(unknownMedicals: medicals,));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: MedicalStatus.failure));
+      addError(error, stackTrace);
+    }
   }
 
   /// A helper method to handle the fetching of medical records.
   /// It handles the common logic for fetching data, updating the state, and handling errors.
-  Future<void> _fetchMedicals({
-    required Future<List<Medical>> Function() fetchFunction,
-  }) async {
+  Future<void> fetchMedicals() async {
     emit(state.copyWith(status: MedicalStatus.loading));
     try {
-      final medicals = await fetchFunction();
-      emit(state.copyWith(
-        status: MedicalStatus.populated,
-        expiredMedicals: state.status == MedicalStatus.populated ? state.expiredMedicals : medicals,
-        expiringMedicals: state.status == MedicalStatus.populated ? state.expiringMedicals : medicals,
-        goodMedicals: state.status == MedicalStatus.populated ? state.goodMedicals : medicals,
-        unknownMedicals: state.status == MedicalStatus.populated ? state.unknownMedicals : medicals,
-      ));
+      Future.wait([
+        getExpiringMedicals(),
+        getGoodMedicals(),
+        getExpiredMedicals(),
+        getUnknownMedicals(),
+      ]);
+      emit(state.copyWith(status: MedicalStatus.populated,));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: MedicalStatus.failure));
       addError(error, stackTrace);

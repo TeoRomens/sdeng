@@ -8,11 +8,13 @@ class EmptyState extends StatelessWidget {
   const EmptyState({
     required this.actionText,
     required this.onPressed,
+    this.showAction = true,
     super.key,
   });
 
   final String actionText;
   final VoidCallback onPressed;
+  final bool showAction;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class EmptyState extends StatelessWidget {
                 fontWeight: FontWeight.w400,),
           ),
           const SizedBox(height: 20),
-          Row(
+          if (showAction) Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               PrimaryButton(

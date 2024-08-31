@@ -207,6 +207,10 @@ class PaymentsRepository {
     }
   }
 
+  /// Delete a payment.
+  ///
+  /// Supported parameters:
+  /// [paymentId] - The id of the payment to delete.
   Future<void> deletePayment(String paymentId) async {
     try {
       await _apiClient.deletePayment(

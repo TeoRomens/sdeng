@@ -31,7 +31,9 @@ class HomeViewDesktop extends StatelessWidget {
                 isDismissible: false,
                 enableDrag: false,
                 context: context,
-                content: ProfileModal(userId: state.sdengUser!.id),
+                content: ProfileModal(
+                  userId: state.sdengUser!.id
+                ),
               );
             }
           },

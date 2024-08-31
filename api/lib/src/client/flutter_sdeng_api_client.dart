@@ -765,7 +765,11 @@ class FlutterSdengApiClient {
   Future<void> deletePayment({
     required String id,
   }) async {
-    await _supabase.from('payments').delete().eq('id', id).catchError(
+    await _supabase
+        .from('payments')
+        .delete()
+        .eq('id', id)
+        .catchError(
           (Object err) =>
               throw FlutterSdengApiRequestFailure(message: err.toString()),
         );

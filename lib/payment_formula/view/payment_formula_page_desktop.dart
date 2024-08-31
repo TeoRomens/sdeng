@@ -87,7 +87,8 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                             builder: (context, state) {
                           if (state.status == PaymentFormulaStatus.loading) {
                             return const LoadingBox();
-                          } else {
+                          } else if (state.status != PaymentFormulaStatus.loading
+                              && state.paymentsFormulas.isNotEmpty) {
                             return ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
@@ -95,8 +96,8 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                               itemCount: paymentsFormulas.length,
                               itemBuilder: (context, index) =>
                                   PaymentFormulaItem(
-                                title: paymentsFormulas[index].name,
-                                trailing: IconButton(
+                                    title: paymentsFormulas[index].name,
+                                    trailing: IconButton(
                                     onPressed: () => showAppModal(
                                           context: context,
                                           content: EditPaymentFormulaModal(
@@ -107,7 +108,16 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                                     icon: const Icon(FeatherIcons.edit2)),
                               ),
                             );
-                          }
+                          } else {
+                            return EmptyState(
+                              actionText: 'Add Formula',
+                              onPressed: () async => await showAppModal(
+                                context: context,
+                                content: const AddPaymentFormulaModal(),
+                                ).then((_) =>
+                                  context.read<PaymentFormulaCubit>().getPaymentFormulas()),
+                              );
+                            }
                         }),
                         AppTextButton(
                           text: 'Payment Formula',
@@ -147,6 +157,7 @@ class PaymentFormulaItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.only(top: 10, right: 16),
       color: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0.5,

@@ -36,7 +36,15 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
         _loading = false;
       });
     } catch (e) {
-      // Handle error, e.g., show a Snackbar or other error UI
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.red,
+            content: Text('Error loading formulas.'),
+          ),
+        );
+    } finally {
       setState(() {
         _loading = false;
       });
@@ -61,81 +69,58 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
           ),
           Expanded(
             child: _loading
-                ? const LoadingBox()
-                : FormulasPopulated(paymentFormulas: _paymentFormulas),
+              ? const LoadingBox()
+              : SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (_paymentFormulas.isEmpty)
+                      EmptyState(
+                        showAction: false,
+                        actionText: '',
+                        onPressed: () {})
+                    else
+                      Column(
+                        children: [
+                          ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.lg,
+                              vertical: AppSpacing.xs,
+                            ),
+                            title: const Text('None'),
+                            titleTextStyle: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(fontSize: 19),
+                            subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
+                            trailing: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Icon(FeatherIcons.chevronRight),
+                            ),
+                            onTap: () => Navigator.of(context).pop(null),
+                          ),
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            itemCount: _paymentFormulas.length,
+                            itemBuilder: (context, index) {
+                              return PaymentFormulaTile(
+                                paymentFormula: _paymentFormulas[index],
+                                onTap: () => Navigator.of(context).pop(_paymentFormulas[index].id),
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(height: 0, indent: 70, endIndent: 20),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Displays a list of payment formulas.
-///
-/// This widget is shown when the list of payment formulas is successfully fetched.
-/// It provides options to select a formula or view an empty state message.
-@visibleForTesting
-class FormulasPopulated extends StatelessWidget {
-  /// Creates an instance of [FormulasPopulated].
-  ///
-  /// [paymentFormulas] is the list of payment formulas to be displayed.
-  const FormulasPopulated({
-    super.key,
-    required this.paymentFormulas,
-  });
-
-  /// The list of payment formulas to be displayed.
-  final List<PaymentFormula> paymentFormulas;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (paymentFormulas.isEmpty)
-            const Center(
-              heightFactor: 5,
-              child: Text('It seems empty here'),
-            )
-          else
-            Column(
-              children: [
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.xs,
-                  ),
-                  title: const Text('None'),
-                  titleTextStyle: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(fontSize: 19),
-                  subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
-                  trailing: const Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Icon(FeatherIcons.chevronRight),
-                  ),
-                  onTap: () => Navigator.of(context).pop(null),
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  itemCount: paymentFormulas.length,
-                  itemBuilder: (context, index) {
-                    return PaymentFormulaTile(
-                      paymentFormula: paymentFormulas[index],
-                      onTap: () => Navigator.of(context).pop(paymentFormulas[index].id),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(height: 0, indent: 70, endIndent: 20),
-                ),
-              ],
-            ),
         ],
       ),
     );

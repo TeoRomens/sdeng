@@ -128,9 +128,7 @@ class AppTextFormField extends StatelessWidget {
           readOnly: readOnly,
           autofillHints: autoFillHints,
           cursorColor: AppColors.primary,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Colors.black,
-              ),
+          style: Theme.of(context).textTheme.bodyLarge,
           onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(
             hintText: hintText,
@@ -164,7 +162,7 @@ class AppTextFormField extends StatelessWidget {
               top: AppSpacing.sm,
             ),
             child: Text(bottomText!,
-                style: Theme.of(context).textTheme.labelSmall),
+                style: Theme.of(context).textTheme.labelSmall,),
           ),
       ],
     );

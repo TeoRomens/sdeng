@@ -20,15 +20,7 @@ class MedicalViewDesktop extends StatelessWidget {
     final bloc = context.watch<MedicalCubit>();
 
     return RefreshIndicator.adaptive(
-      onRefresh: () async {
-        // Refreshes the lists of medical records.
-        await Future.wait([
-          bloc.getExpiredMedicals(),
-          bloc.getExpiringMedicals(),
-          bloc.getGoodMedicals(),
-          bloc.getUnknownMedicals(),
-        ]);
-      },
+      onRefresh: () async => await bloc.fetchMedicals(),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(

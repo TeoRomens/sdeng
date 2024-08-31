@@ -69,7 +69,7 @@ class EditMedicalForm extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             'Type',
-            style: UITextStyle.label,
+            style: UITextStyle.labelMedium,
           ),
           const SizedBox(height: AppSpacing.sm),
           SizedBox(

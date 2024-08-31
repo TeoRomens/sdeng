@@ -39,7 +39,7 @@ class MedicalTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 6),
       color: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0.5,
@@ -52,7 +52,8 @@ class MedicalTile extends StatelessWidget {
         horizontalTitleGap: 16,
         visualDensity: VisualDensity.compact,
         leading: leading,
-        title: Text(title),
+        title: Text(title, style: Theme.of(context).textTheme.bodyLarge?.
+          copyWith(fontWeight: FontWeight.w600),),
         subtitle: Text('$num Players'),
         titleTextStyle: const TextStyle(
           fontSize: 16,

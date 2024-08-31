@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:app_ui/app_ui.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:form_inputs/form_inputs.dart';
@@ -12,26 +15,33 @@ class AddFormulaCubit extends Cubit<AddFormulaState> {
   /// The [teamId] is required to associate the new athlete with a team.
   /// The [athletesRepository] is used to perform the actual addition of the athlete.
   AddFormulaCubit({
-    required String teamId,
     required PaymentsRepository paymentsRepository,
   })  : _paymentsRepository = paymentsRepository,
         super(const AddFormulaState());
 
   final PaymentsRepository _paymentsRepository;
 
-  Future<void> addPaymentFormula() async {
+  Future<void> addPaymentFormula({
+    required String name,
+    required String amount1,
+    required String date1,
+    required bool full,
+    String? amount2,
+    String? date2,
+  }) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
       await _paymentsRepository.addPaymentFormula(
-          name: state.name.value,
-          full: state.full,
-          amount1: int.parse(state.amount1.value),
-          date1: DateTime.parse(state.date1.value),
-          amount2: int.tryParse(state.amount2.value),
-          date2: DateTime.tryParse(state.date2.value)
+          name: name,
+          full: full,
+          amount1: num.parse(amount1),
+          date1: date1.toDateTime!,
+          amount2: num.tryParse(amount2 ?? ''),
+          date2: date2?.toDateTime
       );
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } catch (error, stackTrace) {
+      log(error.toString());
       emit(state.copyWith(status: FormzSubmissionStatus.failure, error: 'Error adding payment formula'));
       addError(error, stackTrace);
     }

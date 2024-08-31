@@ -32,6 +32,7 @@ Future<dynamic> showAppModal<T>({
     );
   } else {
     return SideSheet.right(
+      barrierDismissible: isDismissible,
       context: context,
       body: content,
       width: width ?? 500,

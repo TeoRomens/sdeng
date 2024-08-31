@@ -19,7 +19,7 @@ class TeamTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       visualDensity: VisualDensity.compact,
       leading: ClipOval(child: Assets.images.logo1.svg(height: 40)),
       title: Text(name ?? 'null'),

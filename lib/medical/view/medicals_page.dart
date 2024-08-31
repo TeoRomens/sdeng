@@ -25,10 +25,7 @@ class MedicalsPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => MedicalCubit(
         medicalsRepository: context.read<MedicalsRepository>(),
-      )
-        ..getExpiredMedicals()
-        ..getExpiringMedicals()
-        ..getUnknownMedicals(),
+      )..fetchMedicals(),
       child: BlocListener<MedicalCubit, MedicalState>(
         listener: (context, state) {
           if (state.status == MedicalStatus.failure) {

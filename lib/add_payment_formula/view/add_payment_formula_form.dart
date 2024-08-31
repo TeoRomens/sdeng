@@ -2,6 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_inputs/form_inputs.dart';
 import 'package:sdeng/add_payment_formula/cubit/add_formula_cubit.dart';
 
 /// A form widget for adding a new payment formula.
@@ -27,6 +28,8 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<AddFormulaCubit>().state;
+
     return Form(
       key: _formKey,
       child: ListView(
@@ -53,25 +56,14 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
           AppTextFormField(
             label: 'Name',
             controller: _nameController,
-            validator: (value) {
-              if (value == null || value.isEmpty) return 'Required';
-              return null;
-            },
+            validator: (value) => state.name.validator(value ?? '')?.text,
           ),
           const SizedBox(height: AppSpacing.sm),
           AppTextFormField(
             label: 'Quota 1',
             controller: _amount1Controller,
             keyboardType: TextInputType.number,
-            validator: (value) {
-              if (value == null || value.isEmpty) return 'Required';
-              try {
-                num.parse(value);
-              } catch (err) {
-                return 'Only digits are accepted';
-              }
-              return null;
-            },
+            validator: (value) => state.amount1.validator(value ?? '')?.text,
           ),
           const SizedBox(height: AppSpacing.sm),
           AppTextFormField(
@@ -91,8 +83,8 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
               }
             },
             validator: (value) {
-              if (value == null || value.isEmpty) return 'Required';
-              return null;
+              if (value == null || value.isEmpty) return 'This field cannot be empty';
+              return state.date1.validator(value)?.text;
             },
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -117,11 +109,10 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
               controller: _amount2Controller,
               keyboardType: TextInputType.number,
               validator: (value) {
-                if (value == null || value.isEmpty) return 'Required';
-                try {
-                  num.parse(value);
-                } catch (err) {
-                  return 'Only digits are accepted';
+                if(!full) {
+                  return state.amount2
+                      .validator(value ?? '')
+                    ?.text;
                 }
                 return null;
               },
@@ -144,7 +135,12 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
                 }
               },
               validator: (value) {
-                if (value == null || value.isEmpty) return 'Required';
+                if(!full) {
+                  if (value == null || value.isEmpty) return 'This field cannot be empty';
+                  return state.date2
+                      .validator(value ?? '')
+                      ?.text;
+                }
                 return null;
               },
             ),
@@ -154,7 +150,14 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 await BlocProvider.of<AddFormulaCubit>(context)
-                    .addPaymentFormula().then((_) => Navigator.of(context).pop());
+                    .addPaymentFormula(
+                      name: _nameController.text,
+                      full: full,
+                      amount1: _amount1Controller.text,
+                      date1: _date1Controller.text,
+                      amount2: _amount2Controller.text,
+                      date2: _date2Controller.text,
+                    ).then((_) => Navigator.of(context).pop());
               }
             },
             child: const Text('Add'),
