@@ -66,7 +66,7 @@ class TeamsScreen extends StatelessWidget {
                         onPressed: () async => await showAppModal(
                           context: context,
                           content: const AddTeamModal(),
-                        ).then((_) => bloc.getTeams()),
+                        ).whenComplete(() => bloc.getTeams()),
                       )
                     : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class TeamsScreen extends StatelessWidget {
                               AthletesPage.route(
                                 team: bloc.state.teams[index],
                               ),
-                            ),
+                            ).whenComplete(() => bloc.getTeams()),
                           ),
                           separatorBuilder: (_, index) => const Divider(
                             height: 0,
@@ -96,7 +96,7 @@ class TeamsScreen extends StatelessWidget {
                           onPressed: () async => await showAppModal(
                             context: context,
                             content: const AddTeamModal(),
-                          ).then((_) => bloc.getTeams()),
+                          ).whenComplete(() => bloc.getTeams()),
                         ),
                   ],
                 ),

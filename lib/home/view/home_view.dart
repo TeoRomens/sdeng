@@ -20,31 +20,27 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AppBloc>();
+    final bloc = context.watch<AppBloc>();
 
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AppBloc, AppState>(
-          listener: (context, state) {
-            if (state.showProfileOverlay) {
-              showAppModal(
-                isDismissible: false,
-                enableDrag: false,
-                context: context,
-                content: ProfileModal(userId: state.sdengUser!.id),
-              );
-            }
-          },
-        ),
-      ],
+    return BlocListener<AppBloc, AppState>(
+      listener: (context, state) {
+        if (state.showProfileOverlay) {
+          showAppModal(
+            isDismissible: false,
+            enableDrag: false,
+            context: context,
+            content: ProfileModal(userId: state.sdengUser!.id),
+          );
+        }
+      },
       child: Scaffold(
         appBar: AppBar(
           title: AppLogo.light(),
           centerTitle: false,
           actions: [
             UserProfileButton(
-              onPressed: () =>
-                  Navigator.of(context).push(SettingsPage.route()),
+              onPressed: () => Navigator.of(context).push(SettingsPage.route())
+                  .whenComplete(() => bloc.refreshUsername()),
             ),
           ],
         ),
@@ -72,7 +68,8 @@ class HomeView extends StatelessWidget {
                   image: Assets.images.logo1.svg(height: 87),
                   action: SecondaryButton(
                     text: 'View all',
-                    onPressed: () => Navigator.of(context).push(TeamsPage.route()),
+                    onPressed: () => Navigator.of(context).push(TeamsPage.route())
+                        .whenComplete(() => bloc.refreshHomeStats()),
                   ),
                 ),
                 HomeCard(
@@ -88,7 +85,8 @@ class HomeView extends StatelessWidget {
                   image: Assets.images.logo3.svg(height: 87),
                   action: SecondaryButton(
                     text: 'View all',
-                    onPressed: () => Navigator.of(context).push(AthletesPage.route()),
+                    onPressed: () => Navigator.of(context).push(AthletesPage.route())
+                        .whenComplete(() => bloc.refreshHomeStats()),
                   ),
                 ),
                 HomeCard(
@@ -104,7 +102,8 @@ class HomeView extends StatelessWidget {
                   image: Assets.images.logo5.svg(height: 87),
                   action: SecondaryButton(
                     text: 'Fix',
-                    onPressed: () => Navigator.of(context).push(MedicalsPage.route()),
+                    onPressed: () => Navigator.of(context).push(MedicalsPage.route())
+                        .whenComplete(() => bloc.refreshHomeStats()),
                   ),
                 ),
                 HomeCard(
@@ -120,7 +119,8 @@ class HomeView extends StatelessWidget {
                   image: Assets.images.logo2.svg(height: 87),
                   action: SecondaryButton(
                     text: 'View all',
-                    onPressed: () => Navigator.of(context).push(PaymentsPage.route()),
+                    onPressed: () => Navigator.of(context).push(PaymentsPage.route())
+                        .whenComplete(() => bloc.refreshHomeStats()),
                   ),
                 ),
                 HomeCard(
@@ -136,7 +136,8 @@ class HomeView extends StatelessWidget {
                   image: Assets.images.logo4.svg(height: 87),
                   action: SecondaryButton(
                     text: 'View all',
-                    onPressed: () => Navigator.of(context).push(NotesPage.route()),
+                    onPressed: () => Navigator.of(context).push(NotesPage.route())
+                        .whenComplete(() => bloc.refreshHomeStats()),
                   ),
                 ),
               ],

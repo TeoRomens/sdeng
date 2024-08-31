@@ -78,6 +78,16 @@ class AppBloc extends Cubit<AppState> {
     emit(const AppState.unauthenticated());
   }
 
+  Future<void> refreshHomeStats() async {
+    final homeValues = await _userRepository.getHomeValues(state.user!.id);
+    emit(state.copyWith(homeValues: homeValues));
+  }
+
+  Future<void> refreshUsername() async {
+    final sdengUser = await _userRepository.getUserData(state.user!.id);
+    emit(state.copyWith(sdengUser: sdengUser));
+  }
+
   @override
   Future<void> close() {
     _userSubscription.cancel();

@@ -15,7 +15,7 @@ class AthletesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AthletesCubit>();
+    final bloc = context.watch<AthletesCubit>();
 
     return RefreshIndicator.adaptive(
       onRefresh: () => bloc.getAthletesFromTeam(bloc.state.team!.id),
@@ -32,51 +32,50 @@ class AthletesView extends StatelessWidget {
                 content:
                 'Below you find all the athletes you have added to team ${bloc.state.team?.name}. Tap on a player to see the details.',
               ),
-              if (bloc.state.status == AthletesStatus.loading)
-                 const LoadingBox(),
-              if (bloc.state.athletes.isEmpty && bloc.state.status == AthletesStatus.populated)
-                EmptyState(
-                  actionText: 'New athlete',
-                  onPressed: () async {
-                    await showAppModal(
-                      context: context,
-                      content: AddAthleteModal(teamId: bloc.state.team!.id),
-                    ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id));
-                  },
-                ),
-              if (bloc.state.athletes.isNotEmpty && bloc.state.status == AthletesStatus.populated)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: bloc.state.athletes.length,
-                      itemBuilder: (_, index) => AthleteTile(
-                        athlete: bloc.state.athletes[index],
-                        trailing: const Padding(
-                          padding: EdgeInsets.only(right: AppSpacing.md),
-                          child: Icon(FeatherIcons.chevronRight),
-                        ),
-                        onTap: () => Navigator.of(context).push(
-                          AthletePage.route(athleteId: bloc.state.athletes[index].id),
-                        ),
-                      ),
-                      separatorBuilder: (_, index) => const Divider(height: 0, indent: 20),
-                    ),
-                    const Divider(indent: 70, height: 0),
-                    AppTextButton(
-                      text: 'Add athlete',
+              bloc.state.status == AthletesStatus.loading
+                ? const LoadingBox()
+                : bloc.state.athletes.isEmpty ?
+                    EmptyState(
+                      actionText: 'New athlete',
                       onPressed: () async {
                         await showAppModal(
                           context: context,
                           content: AddAthleteModal(teamId: bloc.state.team!.id),
                         ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id));
                       },
-                    ),
-                  ],
-                ),
+                    )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: bloc.state.athletes.length,
+                        itemBuilder: (_, index) => AthleteTile(
+                          athlete: bloc.state.athletes[index],
+                          trailing: const Padding(
+                            padding: EdgeInsets.only(right: AppSpacing.md),
+                            child: Icon(FeatherIcons.chevronRight),
+                          ),
+                          onTap: () => Navigator.of(context).push(
+                            AthletePage.route(athleteId: bloc.state.athletes[index].id),
+                          ),
+                        ),
+                        separatorBuilder: (_, index) => const Divider(height: 0, indent: 20),
+                      ),
+                      const Divider(indent: 70, height: 0),
+                      AppTextButton(
+                        text: 'Add athlete',
+                        onPressed: () async {
+                          await showAppModal(
+                            context: context,
+                            content: AddAthleteModal(teamId: bloc.state.team!.id),
+                          ).then((_) => bloc.getAthletesFromTeam(bloc.state.team!.id));
+                        },
+                      ),
+                    ],
+                  ),
               const SizedBox(height: 100),
             ],
           ),

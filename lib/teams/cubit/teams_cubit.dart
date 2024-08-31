@@ -38,7 +38,7 @@ class TeamsCubit extends Cubit<TeamsState> {
           teams: teamsWithAthletes,
           numAthletes: totAthletes));
     } catch (error, stackTrace) {
-      emit(state.copyWith(status: TeamsStatus.failure));
+      emit(state.copyWith(status: TeamsStatus.failure, error: 'Error loading teams.'));
       addError(error, stackTrace);
     }
   }

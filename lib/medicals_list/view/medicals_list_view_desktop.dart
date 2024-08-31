@@ -37,21 +37,22 @@ class MedicalsListViewDesktop extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Medicals List'),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xlg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (medicals.isEmpty)
-                EmptyState(
-                  showAction: false,
-                  actionText: '',
-                  onPressed: () {}
-                )
-              else
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xlg),
+        child: medicals.isEmpty
+          ? Center(
+            child: EmptyState(
+              showAction: false,
+              actionText: '',
+              onPressed: () {}
+            ),
+          )
+          : SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -85,9 +86,9 @@ class MedicalsListViewDesktop extends StatelessWidget {
                     );
                   },
                 ),
-            ],
+              ],
+            ),
           ),
-        ),
       ),
     );
   }

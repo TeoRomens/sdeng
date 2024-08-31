@@ -90,10 +90,8 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
                               vertical: AppSpacing.xs,
                             ),
                             title: const Text('None'),
-                            titleTextStyle: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(fontSize: 19),
+                            titleTextStyle: Theme.of(context).textTheme
+                                .headlineSmall?.copyWith(fontSize: 19),
                             subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                             trailing: const Padding(
                               padding: EdgeInsets.only(right: 10),
