@@ -30,49 +30,49 @@ class MedicalInfo extends StatelessWidget {
             height: AppSpacing.sm,
           ),
           bloc.state.status == AthleteStatus.loading
-              ? const LoadingBox()
-              : bloc.state.medical != null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Medical Visit',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            SecondaryButton(
-                              onPressed: () async {
-                                await showAppModal(
-                                    context: context,
-                                    content: EditMedicalModal(
-                                      medical: bloc.state.medical!,
-                                    )).then((_) => bloc.reloadAthlete());
-                              },
-                              text: 'Edit',
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: AppSpacing.sm,
-                        ),
-                        CustomContainer(
-                          icon: FeatherIcons.calendar,
-                          text: bloc.state.medical!.expire?.dMY ?? '',
-                        ),
-                        CustomContainer(
-                          icon: FeatherIcons.tag,
-                          text: bloc.state.medical!.type!.name,
-                        ),
-                      ],
-                    )
-                  : EmptyState(
-                      actionText: 'New medical',
-                      onPressed: () => showAppModal(
-                          context: context,
-                          content:
-                              AddMedicalModal(athlete: bloc.state.athlete!)))
+            ? const LoadingBox()
+            : bloc.state.medical != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Medical Visit',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      SecondaryButton(
+                        text: 'Edit',
+                        onPressed: () async {
+                          await showAppModal(
+                              context: context,
+                              content: EditMedicalModal(
+                                medical: bloc.state.medical!,
+                              )).whenComplete(() => bloc.reloadMedical());
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: AppSpacing.sm,
+                  ),
+                  CustomContainer(
+                    icon: FeatherIcons.calendar,
+                    text: bloc.state.medical!.expire?.dMY ?? '',
+                  ),
+                  CustomContainer(
+                    icon: FeatherIcons.tag,
+                    text: bloc.state.medical!.type!.name,
+                  ),
+                ],
+              )
+            : EmptyState(
+              actionText: 'New medical',
+              onPressed: () => showAppModal(
+                context: context,
+                content: AddMedicalModal(athlete: bloc.state.athlete!))
+              )
         ],
       ),
     );

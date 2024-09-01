@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:side_sheet/side_sheet.dart'; // Assuming you have a SideSheet package
 
@@ -19,7 +20,11 @@ Future<dynamic> showAppModal<T>({
   if (isPortrait) {
     return showModalBottomSheet<T>(
       context: context,
-      builder: (context) => content,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,),
+        child: content,
+      ),
       routeSettings: routeSettings,
       constraints: constraints,
       isScrollControlled: true,
@@ -34,7 +39,11 @@ Future<dynamic> showAppModal<T>({
     return SideSheet.right(
       barrierDismissible: isDismissible,
       context: context,
-      body: content,
+      body: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,),
+        child: content,
+      ),
       width: width ?? 500,
     );
   }

@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 /// A custom container widget that displays an icon, text, and an optional button.
@@ -36,7 +37,9 @@ class CustomContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: EdgeInsets.symmetric(
-          vertical: onPressed != null ? 5 : 12, horizontal: 14,),
+        vertical: onPressed != null ? 5 : 12,
+        horizontal: 14,
+      ),
       decoration: BoxDecoration(
         color: const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(8),
@@ -60,29 +63,12 @@ class CustomContainer extends StatelessWidget {
             ),
           ),
           if (onPressed != null)
-            ElevatedButton(
-              onPressed: onPressed,
-              style: ElevatedButton.styleFrom(
-                elevation: 0.2,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                visualDensity: VisualDensity.compact,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: const BorderSide(
-                    color: Color(0xFFD0D5DD),
-                    width: 0.6,
-                  ),
-                ),
-              ),
-              child: Text(
-                buttonText,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Color(0xFF344054),
-                  fontWeight: FontWeight.w600,
-                ),
+            SizedBox(
+              width: 60,
+              height: 36,
+              child: SecondaryButton(
+                onPressed: onPressed,
+                text: buttonText,
               ),
             ),
         ],

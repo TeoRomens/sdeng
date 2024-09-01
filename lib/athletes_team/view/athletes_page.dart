@@ -98,11 +98,12 @@ class AthletesPage extends StatelessWidget {
               team: context.read<AthletesCubit>().state.team!,
             ),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(FeatherIcons.edit, color: Colors.black, size: 20),
-              SizedBox(width: 12),
-              Text('Rename'),
+              const Icon(FeatherIcons.edit, color: Colors.black, size: 20),
+              const SizedBox(width: 12),
+              Text('Rename',
+                  style: Theme.of(context).textTheme.labelMedium),
             ],
           ),
         ),
@@ -111,11 +112,12 @@ class AthletesPage extends StatelessWidget {
           onTap: () => context.read<AthletesCubit>().deleteTeam(
             context.read<AthletesCubit>().state.team!.id,
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(FeatherIcons.trash, color: Colors.red, size: 20),
-              SizedBox(width: 12),
-              Text('Delete'),
+              const Icon(FeatherIcons.trash, color: Colors.red, size: 20),
+              const SizedBox(width: 12),
+              Text('Delete',
+                style: Theme.of(context).textTheme.labelMedium),
             ],
           ),
         ),

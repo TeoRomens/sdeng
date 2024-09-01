@@ -90,7 +90,7 @@ class AthletePage extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           'Delete',
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ],
                     ),

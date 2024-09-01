@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sdeng/athlete/cubit/athlete_cubit.dart';
 import 'package:sdeng/edit_athlete/view/edit_athlete_modal.dart';
 import 'package:sdeng/edit_parent/view/edit_parent_modal.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// A widget that displays detailed information about an athlete, including
 /// personal data and parent information.
@@ -61,33 +60,33 @@ class AthleteInfo extends StatelessWidget {
                       text: bloc.state.athlete!.taxCode,
                       onPressed: () async {
                         await Clipboard.setData(
-                            ClipboardData(text: bloc.state.athlete!.taxCode));
+                            ClipboardData(text: bloc.state.athlete?.taxCode ?? ''));
                       },
                       buttonText: 'Copy',
                     ),
                     CustomContainer(
-                        icon: FeatherIcons.calendar,
-                        text: bloc.state.athlete!.birthdate?.dMY ?? ''),
+                      icon: FeatherIcons.calendar,
+                      text: bloc.state.athlete?.birthdate?.dMY ?? ''),
                     CustomContainer(
-                        icon: FeatherIcons.map,
-                        text: bloc.state.athlete!.fullAddress ?? ''),
+                      icon: FeatherIcons.map,
+                      text: bloc.state.athlete?.fullAddress ?? ''),
                     CustomContainer(
                       icon: FeatherIcons.mail,
-                      text: bloc.state.athlete!.email ?? '',
+                      text: bloc.state.athlete?.email ?? '',
                       onPressed: () async {
-                        await launchUrl(Uri.parse(
-                            "mailto:${bloc.state.athlete!.email}?subject=&body="));
+                        await Clipboard.setData(
+                            ClipboardData(text: bloc.state.athlete?.email ?? ''));
                       },
-                      buttonText: 'Mail',
+                      buttonText: 'Copy',
                     ),
                     CustomContainer(
                       icon: FeatherIcons.phone,
                       text: bloc.state.athlete!.phone ?? '',
                       onPressed: () async {
-                        await launchUrl(
-                            Uri.parse("tel:${bloc.state.athlete!.phone}"));
+                        await Clipboard.setData(
+                            ClipboardData(text: bloc.state.athlete?.phone ?? ''));
                       },
-                      buttonText: 'Call',
+                      buttonText: 'Copy',
                     ),
                   ],
                 ),
@@ -129,18 +128,20 @@ class AthleteInfo extends StatelessWidget {
                     CustomContainer(
                       icon: FeatherIcons.mail,
                       text: bloc.state.parent?.email ?? '',
-                      onPressed: () {},
-                      buttonText: 'Mail',
-                    ),
-                    CustomContainer(
-                      icon: FeatherIcons.map,
-                      text: bloc.state.parent?.fullAddress ?? '',
+                      onPressed: () async {
+                        await Clipboard.setData(
+                            ClipboardData(text: bloc.state.parent?.email ?? ''));
+                      },
+                      buttonText: 'Copy',
                     ),
                     CustomContainer(
                       icon: FeatherIcons.phone,
                       text: bloc.state.parent?.phone ?? '',
-                      onPressed: () {},
-                      buttonText: 'Call',
+                      onPressed: () async {
+                        await Clipboard.setData(
+                            ClipboardData(text: bloc.state.parent?.phone ?? ''));
+                      },
+                      buttonText: 'Copy',
                     ),
                   ],
                 )

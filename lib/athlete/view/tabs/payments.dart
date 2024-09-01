@@ -29,169 +29,161 @@ class PaymentInfo extends StatelessWidget {
     return bloc.state.status == AthleteStatus.loading
         ? const LoadingBox()
         : Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.md, horizontal: AppSpacing.lg),
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          // Section for displaying or assigning a payment formula
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.md, horizontal: AppSpacing.lg),
+          child: ListView(
+            shrinkWrap: true,
             children: [
-              Text(
-                'Formula',
-                style: Theme.of(context).textTheme.headlineSmall,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Formula',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-          // If a payment formula is assigned, display it in a card
-          paymentFormula != null
+              const SizedBox(height: AppSpacing.md),
+              paymentFormula != null
               ? Card(
-            margin: EdgeInsets.zero,
-            color: Colors.white,
-            surfaceTintColor: Colors.white,
-            elevation: 0.5,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: const BorderSide(
-                    color: Color(0xFFE4E7EC), width: 0.5)),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 5),
-              visualDensity: VisualDensity.compact,
-              title: Text(paymentFormula.name),
-              trailing: const Icon(FeatherIcons.chevronRight),
-              titleTextStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Inter',
-                  color: Colors.black,
-                  height: 1.6),
-              subtitleTextStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Inter',
-                color: Color(0xFF475467),
-              ),
-              // Navigate to the PaymentFormulaPage when tapped
-              onTap: () => Navigator.of(context)
-                  .push(PaymentFormulaPage.route()),
-            ),
-          )
-          // If no payment formula is assigned, display a button to assign one
-              : SecondaryButton(
-            icon: FeatherIcons.plus,
-            text: 'Assign',
-            onPressed: () async {
-              // Show a modal to select and assign a payment formula
-              final String? formulaId = await showAppModal(
-                context: context,
-                content: const PaymentFormulaListView(),
-              );
-              await bloc
-                  .updatePaymentFormula(formulaId: formulaId)
-                  .whenComplete(() => bloc.reloadAthlete());
-            },
-          ),
-          const SizedBox(height: AppSpacing.xlg),
-          // Section for displaying recent transactions
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Recent transactions',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          // If there are recent payments, display them in a list
-          payments.isNotEmpty
-              ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Button to add a new payment
-              SecondaryButton(
-                icon: FeatherIcons.plus,
-                text: 'Add payment',
-                onPressed: () {
-                  showAppModal(
-                    context: context,
-                    content: AddPaymentModal(
-                      athlete: athlete,
-                      formula: paymentFormula,
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              // Display the list of recent payments
-              ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => ListTile(
-                    horizontalTitleGap: 16,
-                    contentPadding:
-                    const EdgeInsets.only(right: 10),
-                    visualDensity: VisualDensity.compact,
-                    leading: SizedBox(
-                      height: 34,
-                      child: payments[index].method ==
-                          PaymentMethod.transfer
-                          ? Assets.images.paymentSepa.svg()
-                          : payments[index].method ==
-                          PaymentMethod.cash
-                          ? Assets.images.paymentCash.svg()
-                          : Assets.images.paymentMastercard
-                          .svg(),
-                    ),
-                    title: Text(payments[index].cause),
-                    subtitle:
-                    Text(payments[index].createdAt.dMY),
-                    trailing: payments[index].amount > 0
-                        ? Text(
-                        '+ \$${payments[index].amount.toString()}')
-                        : Text(
-                        '- \$${payments[index].amount.toString()}'),
-                    titleTextStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Inter',
-                        color: Colors.black,
-                        height: 1.6),
-                    subtitleTextStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Inter',
-                      color: Color(0xFF475467),
-                    ),
-                    leadingAndTrailingTextStyle: TextStyle(
-                      color: payments[index].amount > 0
-                          ? const Color(0xFF079455)
-                          : AppColors.red,
+                margin: EdgeInsets.zero,
+                color: Colors.white,
+                surfaceTintColor: Colors.white,
+                elevation: 0.5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(
+                        color: Color(0xFFE4E7EC), width: 0.5)),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 5),
+                  visualDensity: VisualDensity.compact,
+                  title: Text(paymentFormula.name),
+                  trailing: const Icon(FeatherIcons.chevronRight),
+                  titleTextStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Inter',
-                    ),
-                    // Navigate to the PaymentDetailsPage when a payment is tapped
-                    onTap: () => Navigator.of(context).push(
-                        PaymentDetailsView.route(payments[index])),
+                      color: Colors.black,
+                      height: 1.6),
+                  subtitleTextStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Inter',
+                    color: Color(0xFF475467),
                   ),
-                  separatorBuilder: (_, index) => const Divider(),
-                  itemCount: payments.length),
-            ],
-          )
-          // If there are no recent payments, display an empty state
+                  // Navigate to the PaymentFormulaPage when tapped
+                  onTap: () => Navigator.of(context)
+                      .push(PaymentFormulaPage.route()),
+                ),
+              )
+              : SecondaryButton(
+                icon: FeatherIcons.plus,
+                text: 'Assign',
+                onPressed: () async {
+                  final String? formulaId = await showAppModal(
+                    context: context,
+                    content: const PaymentFormulaListView(),
+                  );
+                  await bloc.updatePaymentFormula(formulaId: formulaId)
+                      .whenComplete(() => bloc.reloadPaymentFormula());
+                },
+              ),
+              const SizedBox(height: AppSpacing.xlg),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recent transactions',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              payments.isNotEmpty
+                  ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Button to add a new payment
+                  SecondaryButton(
+                    icon: FeatherIcons.plus,
+                    text: 'Add payment',
+                    onPressed: () {
+                      showAppModal(
+                        context: context,
+                        content: AddPaymentModal(
+                          athlete: athlete,
+                          formula: paymentFormula,
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  // Display the list of recent payments
+                  ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => ListTile(
+                        horizontalTitleGap: 16,
+                        contentPadding:
+                        const EdgeInsets.only(right: 10),
+                        visualDensity: VisualDensity.compact,
+                        leading: SizedBox(
+                          height: 34,
+                          child: payments[index].method ==
+                              PaymentMethod.transfer
+                              ? Assets.images.paymentSepa.svg()
+                              : payments[index].method ==
+                              PaymentMethod.cash
+                              ? Assets.images.paymentCash.svg()
+                              : Assets.images.paymentMastercard
+                              .svg(),
+                        ),
+                        title: Text(payments[index].cause),
+                        subtitle:
+                        Text(payments[index].createdAt.dMY),
+                        trailing: payments[index].amount > 0
+                            ? Text(
+                            '+ \$${payments[index].amount.toString()}')
+                            : Text(
+                            '- \$${payments[index].amount.toString()}'),
+                        titleTextStyle: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Inter',
+                            color: Colors.black,
+                            height: 1.6),
+                        subtitleTextStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Inter',
+                          color: Color(0xFF475467),
+                        ),
+                        leadingAndTrailingTextStyle: TextStyle(
+                          color: payments[index].amount > 0
+                              ? const Color(0xFF079455)
+                              : AppColors.red,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Inter',
+                        ),
+                        // Navigate to the PaymentDetailsPage when a payment is tapped
+                        onTap: () => Navigator.of(context).push(
+                            PaymentDetailsView.route(payments[index])),
+                      ),
+                      separatorBuilder: (_, index) => const Divider(),
+                      itemCount: payments.length),
+                ],
+              )
               : EmptyState(
-            actionText: 'Add payment',
-            onPressed: () => showAppModal(
-                context: context,
-                content: AddPaymentModal(
-                  athlete: athlete,
-                  formula: paymentFormula,
-                )),
+                actionText: 'Add payment',
+                onPressed: () => showAppModal(
+                  context: context,
+                  content: AddPaymentModal(
+                    athlete: athlete,
+                    formula: paymentFormula,
+                  )),
           ),
         ],
       ),

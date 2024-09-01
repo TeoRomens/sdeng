@@ -93,13 +93,11 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
           },
           child: Text(
             'Next',
-            style: Theme.of(context)
-                .textTheme
+            style: Theme.of(context).textTheme
                 .titleMedium
                 ?.copyWith(color: AppColors.white),
           ),
         ),
-        const SizedBox(height: AppSpacing.xlg),
       ],
     );
   }
@@ -112,7 +110,6 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
       key: _formKey1,
       child: ListView(
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(
           AppSpacing.lg,
           AppSpacing.lg,
@@ -167,24 +164,12 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                 await BlocProvider.of<AddAthleteCubit>(context).addAthlete(
                   name: _nameController.text,
                   surname: _surnameController.text,
-                  taxId: _taxcodeController.text,
-                ).then((_) => Navigator.of(context).pop());
-              }
-            },
-            child: const Text('Skip'),
-          ),
-          PrimaryButton(
-            onPressed: () async {
-              if (_formKey1.currentState!.validate()) {
-                await BlocProvider.of<AddAthleteCubit>(context).addAthlete(
-                  name: _nameController.text,
-                  surname: _surnameController.text,
                   taxId: _taxcodeController.text.toUpperCase(),
                   birthdate: _birthController.text.toDateTime,
                   address: _addressController.text,
-                  email: _emailController.text,
+                  email: _emailController.text.toLowerCase(),
                   phone: _phoneController.text,
-                ).then((_) => Navigator.of(context).pop());
+                ).whenComplete(() => Navigator.of(context).pop());
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress
@@ -204,7 +189,6 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                       ?.copyWith(color: AppColors.white),
                 ),
           ),
-          const SizedBox(height: AppSpacing.xlg),
         ],
       ),
     );

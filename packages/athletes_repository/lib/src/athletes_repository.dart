@@ -165,7 +165,11 @@ class AthletesRepository {
       final athlete = await _apiClient.addAthlete(
         teamId: teamId,
         fullName: '$name $surname',
-        taxCode: taxCode,
+        taxCode: taxCode.trim(),
+        email: email?.trim(),
+        birthdate: birthdate,
+        phone: phone?.trim(),
+        address: address,
       );
       await _apiClient.addParent(
         athleteId: athlete.id,

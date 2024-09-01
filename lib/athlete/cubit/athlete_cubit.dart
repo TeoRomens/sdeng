@@ -50,8 +50,7 @@ class AthleteCubit extends Cubit<AthleteState> {
         _athletesRepository.getParentFromAthleteId(state.athleteId),
         _medicalsRepository.getMedicalFromAthleteId(state.athleteId),
         _paymentsRepository.getPaymentsFromAthleteId(state.athleteId),
-        _documentsRepository.getDocumentsFromAthleteId(
-            athleteId: state.athleteId),
+        _documentsRepository.getDocumentsFromAthleteId(athleteId: state.athleteId),
         _paymentsRepository.getPaymentFormulaFromAthleteId(state.athleteId),
       ]);
 
@@ -76,13 +75,12 @@ class AthleteCubit extends Cubit<AthleteState> {
   Future<void> reloadAthlete() async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
-      final result =
-      await _athletesRepository.getAthleteFromId(state.athleteId);
+      final result = await _athletesRepository.getAthleteFromId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, athlete: result));
     } catch (error, stackTrace) {
       emit(state.copyWith(
           status: AthleteStatus.failure,
-          error: 'Error while reloading athlete.'));
+          error: 'Error while loading athlete.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -92,13 +90,12 @@ class AthleteCubit extends Cubit<AthleteState> {
   Future<void> reloadParent() async {
     try {
       emit(state.copyWith(status: AthleteStatus.loading));
-      final result =
-      await _athletesRepository.getParentFromAthleteId(state.athleteId);
+      final result = await _athletesRepository.getParentFromAthleteId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, parent: result));
     } catch (error, stackTrace) {
       emit(state.copyWith(
           status: AthleteStatus.failure,
-          error: 'Error while reloading parent.'));
+          error: 'Error while loading parent.'));
       log(error.toString());
       addError(error, stackTrace);
     }
@@ -138,6 +135,7 @@ class AthleteCubit extends Cubit<AthleteState> {
 
   /// Uploads a file selected by the user and associates it with the athlete.
   Future<void> uploadFile() async {
+    emit(state.copyWith(status: AthleteStatus.loading));
     try {
       final filePickerResult = await FilePicker.platform.pickFiles();
       if (filePickerResult != null) {
@@ -194,13 +192,42 @@ class AthleteCubit extends Cubit<AthleteState> {
     required String? formulaId,
   }) async {
     try {
-      final updatedAthlete =
-      state.athlete!.copyWith(paymentFormulaId: formulaId);
+      final updatedAthlete = state.athlete!.copyWith(paymentFormulaId: formulaId);
       await _athletesRepository.updateAthlete(athlete: updatedAthlete);
     } catch (error, stackTrace) {
       emit(state.copyWith(
           status: AthleteStatus.failure,
           error: 'Error selecting this payment formula.'));
+      addError(error, stackTrace);
+    }
+  }
+
+  /// Reloads the medical information associated with the athlete from the repository.
+  Future<void> reloadMedical() async {
+    try {
+      emit(state.copyWith(status: AthleteStatus.loading));
+      final result = await _medicalsRepository.getMedicalFromAthleteId(state.athleteId);
+      emit(state.copyWith(status: AthleteStatus.loaded, medical: result));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error while loading medical visit.'));
+      log(error.toString());
+      addError(error, stackTrace);
+    }
+  }
+
+  /// Reloads the payment formula associated with the athlete from the repository.
+  Future<void> reloadPaymentFormula() async {
+    try {
+      emit(state.copyWith(status: AthleteStatus.loading));
+      final result = await _paymentsRepository.getPaymentFormulaFromAthleteId(state.athleteId);
+      emit(state.copyWith(status: AthleteStatus.loaded, paymentFormula: result));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error while loading payment formula.'));
+      log(error.toString());
       addError(error, stackTrace);
     }
   }

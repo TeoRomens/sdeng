@@ -25,15 +25,12 @@ class AthleteDetailsMobileState extends State<AthleteView>
   @override
   void initState() {
     super.initState();
-    // Initialize the TabController with 4 tabs.
     _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Obtain the current state of AthleteCubit.
     final bloc = context.watch<AthleteCubit>();
-    // Extract the athlete details from the cubit state.
     final athlete = bloc.state.athlete;
 
     return NestedScrollView(
@@ -63,7 +60,6 @@ class AthleteDetailsMobileState extends State<AthleteView>
           ),
         ),
       ],
-      // Create a TabBarView to display the content of each tab.
       body: TabBarView(
         controller: _tabController,
         children: const [
