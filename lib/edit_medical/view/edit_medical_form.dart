@@ -56,7 +56,7 @@ class EditMedicalForm extends StatelessWidget {
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
                 context: context,
-                initialDate: DateTime.now().add(const Duration(days: 365)),
+                initialDate: DateTime.now(),
                 firstDate: DateTime.now(),
                 lastDate: DateTime(2100),
               );

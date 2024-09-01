@@ -79,13 +79,11 @@ abstract class UITextStyle {
   /// Body Text 2 Text Style (the default)
   static final TextStyle bodyMedium = _baseTextStyle.copyWith(
     fontSize: 14,
-    color: const Color(0xFF475467),
   );
 
   /// Caption Text Style
   static final TextStyle bodySmall = _baseTextStyle.copyWith(
     fontSize: 12,
-    color: const Color(0xFF475467),
   );
 
   /// Caption Text Style

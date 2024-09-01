@@ -63,8 +63,14 @@ class MedicalInfo extends StatelessWidget {
                   ),
                   CustomContainer(
                     icon: FeatherIcons.tag,
-                    text: bloc.state.medical!.type!.name,
+                    text: bloc.state.medical?.type?.name ?? '',
                   ),
+                  if (bloc.state.medical?.expire != null) 
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 8),
+                      child: Text('${bloc.state.medical?.expire?.difference(DateTime.now()).inDays} days to expire',
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.black),),
+                    )
                 ],
               )
             : EmptyState(
