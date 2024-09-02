@@ -5,7 +5,6 @@ import 'package:medicals_repository/medicals_repository.dart';
 import 'package:notes_repository/notes_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
 import 'package:teams_repository/teams_repository.dart';
-import 'package:persistent_storage/persistent_storage.dart';
 import 'package:sdeng/app/view/app.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -31,11 +30,6 @@ void main() {
     ) async {
       // Initialize the API client for interacting with backend services.
       final apiClient = FlutterSdengApiClient();
-
-      // Set up persistent storage using SharedPreferences.
-      final persistentStorage = PersistentStorage(
-        sharedPreferences: sharedPreferences,
-      );
 
       // Initialize the authentication client.
       final authenticationClient = AuthenticationClient();
@@ -73,7 +67,6 @@ void main() {
 
       // Set up the AthletesRepository for managing athlete-related data.
       final athletesRepository = AthletesRepository(
-        storage: AthletesStorage(storage: persistentStorage),
         apiClient: apiClient,
       );
 

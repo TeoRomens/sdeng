@@ -57,7 +57,7 @@ class AthleteInfo extends StatelessWidget {
                   children: [
                     CustomContainer(
                       icon: FeatherIcons.alignLeft,
-                      text: bloc.state.athlete!.taxCode,
+                      text: bloc.state.athlete?.taxCode ?? '',
                       onPressed: () async {
                         await Clipboard.setData(
                             ClipboardData(text: bloc.state.athlete?.taxCode ?? ''));
@@ -81,7 +81,7 @@ class AthleteInfo extends StatelessWidget {
                     ),
                     CustomContainer(
                       icon: FeatherIcons.phone,
-                      text: bloc.state.athlete!.phone ?? '',
+                      text: bloc.state.athlete?.phone ?? '',
                       onPressed: () async {
                         await Clipboard.setData(
                             ClipboardData(text: bloc.state.athlete?.phone ?? ''));

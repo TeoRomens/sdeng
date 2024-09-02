@@ -138,7 +138,7 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
                 if(!full) {
                   if (value == null || value.isEmpty) return 'This field cannot be empty';
                   return state.date2
-                      .validator(value ?? '')
+                      .validator(value)
                       ?.text;
                 }
                 return null;

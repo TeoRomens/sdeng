@@ -10,7 +10,6 @@ import 'package:sdeng/splash/splash.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:teams_repository/teams_repository.dart';
 import 'package:sdeng/app/bloc/app_bloc.dart';
-import 'package:sdeng/theme_selector/bloc/theme_mode_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// The main application widget.

@@ -52,8 +52,8 @@ class TeamsCubit extends Cubit<TeamsState> {
     emit(state.copyWith(status: TeamsStatus.loading));
     try {
       final team = await _teamsRepository.addTeam(name: name);
-      state.teams.add(team);
-      emit(state.copyWith(status: TeamsStatus.populated, teams: state.teams));
+      final updatedTeams = List.of(state.teams)..add(team);
+      emit(state.copyWith(status: TeamsStatus.populated, teams: updatedTeams));
     } catch (error, stackTrace) {
       emit(state.copyWith(status: TeamsStatus.failure));
       addError(error, stackTrace);

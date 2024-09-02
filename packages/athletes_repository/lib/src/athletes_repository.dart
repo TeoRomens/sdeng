@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_sdeng_api/client.dart';
-import 'package:storage/storage.dart';
-
-part 'athletes_storage.dart';
 
 /// {@template article_failure}
 /// A base failure for the article repository failures.
@@ -97,7 +94,6 @@ class AthletesRepository {
   /// {@macro athletes_repository}
   const AthletesRepository({
     required FlutterSdengApiClient apiClient,
-    required AthletesStorage storage,
   })  : _apiClient = apiClient;
 
   final FlutterSdengApiClient _apiClient;

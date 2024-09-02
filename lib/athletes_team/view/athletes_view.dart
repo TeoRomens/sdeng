@@ -76,7 +76,7 @@ class AthletesView extends StatelessWidget {
                       ),
                     ],
                   ),
-              const SizedBox(height: 100),
+              const SizedBox(height: AppSpacing.lg),
             ],
           ),
         ),

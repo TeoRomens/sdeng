@@ -41,7 +41,14 @@ class AthletesPage extends StatelessWidget {
       child: BlocListener<AthletesCubit, AthletesState>(
         listener: (context, state) {
           if (state.status == AthletesStatus.failure) {
-            _showErrorSnackBar(context, state.error);
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  backgroundColor: AppColors.red,
+                  content: Text(state.error),
+                ),
+              );
           }
           if (state.status == AthletesStatus.teamDeleted) {
             Navigator.of(context).pop();
@@ -65,21 +72,10 @@ class AthletesPage extends StatelessWidget {
     );
   }
 
-  /// Displays an error [SnackBar] with the provided [message].
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.red,
-          content: Text(message),
-        ),
-      );
-  }
-
   /// Builds the popup menu with options to rename or delete the team.
   Widget _buildPopupMenu(BuildContext context) {
     return PopupMenuButton(
+      key: const Key('AthletesTeamPage_popUpMenu_button'),
       padding: EdgeInsets.zero,
       shape: OutlineInputBorder(
         borderSide: const BorderSide(color: Color(0xffcccccc), width: 0.5),
@@ -95,7 +91,7 @@ class AthletesPage extends StatelessWidget {
           onTap: () async => await showAppModal(
             context: context,
             content: RenameTeamModal(
-              team: context.read<AthletesCubit>().state.team!,
+              team: team,
             ),
           ),
           child: Row(
@@ -110,7 +106,7 @@ class AthletesPage extends StatelessWidget {
         PopupMenuItem(
           height: 40,
           onTap: () => context.read<AthletesCubit>().deleteTeam(
-            context.read<AthletesCubit>().state.team!.id,
+            team.id,
           ),
           child: Row(
             children: [

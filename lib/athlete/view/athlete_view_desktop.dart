@@ -26,22 +26,18 @@ class AthleteDetailsDesktopState extends State<AthleteViewDesktop>
   @override
   void initState() {
     super.initState();
-    // Initialize the TabController with 3 tabs for the right column.
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Obtain the current state of AthleteCubit.
     final bloc = context.watch<AthleteCubit>();
-    // Extract the athlete details from the cubit state.
     final athlete = bloc.state.athlete;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
-          // Left column: Displays athlete's basic information and personal details.
           Expanded(
             flex: 1,
             child: Column(
@@ -51,12 +47,11 @@ class AthleteDetailsDesktopState extends State<AthleteViewDesktop>
                   taxCode: athlete?.taxCode ?? 'Loading...',
                 ),
                 const Expanded(
-                  child: AthleteInfo(), // Widget to display athlete's personal details
+                  child: AthleteInfo(),
                 ),
               ],
             ),
           ),
-          // Right column: Contains a TabBar and TabBarView for additional information.
           Expanded(
             flex: 1,
             child: Column(
