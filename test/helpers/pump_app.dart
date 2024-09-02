@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:medicals_repository/medicals_repository.dart';
-import 'package:mockingjay/mockingjay.dart'
-    show MockNavigator, MockNavigatorProvider;
+import 'package:mockingjay/mockingjay.dart' show MockNavigator, MockNavigatorProvider;
 import 'package:mocktail/mocktail.dart';
 import 'package:notes_repository/notes_repository.dart';
 import 'package:payments_repository/payments_repository.dart';
