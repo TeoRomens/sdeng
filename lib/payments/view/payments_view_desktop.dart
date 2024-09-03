@@ -91,7 +91,7 @@ class PaymentsViewDesktop extends StatelessWidget {
                             payment: bloc.state.payments[index],
                             onTap: () => Navigator.of(context).push(
                               PaymentDetailsView.route(bloc.state.payments[index]),
-                            ),
+                            ).whenComplete(() => bloc.getPayments()),
                           ),
                           separatorBuilder: (BuildContext context, int index) => const Divider(
                             height: 0,

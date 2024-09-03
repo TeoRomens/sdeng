@@ -23,14 +23,14 @@ class HomeView extends StatelessWidget {
     final bloc = context.watch<AppBloc>();
 
     return BlocListener<AppBloc, AppState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.showProfileOverlay) {
           showAppModal(
             isDismissible: false,
             enableDrag: false,
             context: context,
             content: ProfileModal(userId: state.sdengUser!.id),
-          );
+          ).whenComplete(() => bloc.refreshUsername());
         }
       },
       child: Scaffold(

@@ -56,15 +56,11 @@ class AppBloc extends Cubit<AppState> {
       ));
 
       if (sdengUser.societyAddress == null ||
-          sdengUser.societyEmail == null ||
           sdengUser.societyName == null ||
-          sdengUser.societyPhone == null ||
           sdengUser.societyPiva == null) {
         // Wait for the home screen to build the listeners
         await Future.delayed(const Duration(milliseconds: 250));
-        emit(state.copyWith(
-          showProfileOverlay: true,
-        ));
+        emit(state.copyWith(showProfileOverlay: true));
       }
     }
   }
@@ -85,7 +81,12 @@ class AppBloc extends Cubit<AppState> {
 
   Future<void> refreshUsername() async {
     final sdengUser = await _userRepository.getUserData(state.user!.id);
-    emit(state.copyWith(sdengUser: sdengUser));
+    if (sdengUser.societyAddress == null ||
+        sdengUser.societyName == null ||
+        sdengUser.societyPiva == null) {
+      emit(state.copyWith(sdengUser: sdengUser, showProfileOverlay: true));
+    }
+    emit(state.copyWith(sdengUser: sdengUser, showProfileOverlay: false));
   }
 
   @override

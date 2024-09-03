@@ -18,7 +18,10 @@ class SettingsPage extends StatelessWidget {
     return BlocListener<AppBloc, AppState>(
       listener: (context, state) {
         if (state.status == AppStatus.unauthenticated) {
-          Navigator.of(context).pushReplacement(LoginPage.route());
+          Navigator.of(context).pushAndRemoveUntil(
+            LoginPage.route(),
+            (Route<dynamic> route) => false,
+          );
         }
       },
       child: Scaffold(
