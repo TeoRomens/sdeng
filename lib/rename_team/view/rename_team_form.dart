@@ -59,7 +59,7 @@ class RenameTeamForm extends StatelessWidget {
                       strokeCap: StrokeCap.round,
                     ),
                   )
-                : const Text('Save'),
+                : Text('Save', style: Theme.of(context).textTheme.labelLarge,),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],
@@ -76,7 +76,7 @@ class _ModalTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: AppSpacing.sm),
       child: Text(
-        'Edit Parent',
+        'Rename Team',
         style: Theme.of(context).textTheme.headlineMedium,
         textAlign: TextAlign.center,
       ),

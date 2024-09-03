@@ -35,14 +35,12 @@ class AthleteDetailsMobileState extends State<AthleteView>
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        // Display athlete's basic information in a card.
         SliverToBoxAdapter(
           child: AthleteInfoCard(
             name: athlete?.fullName ?? 'Loading...',
             taxCode: athlete?.taxCode ?? 'Loading...',
           ),
         ),
-        // Create a TabBar for navigating between different sections.
         SliverToBoxAdapter(
           child: SizedBox(
             height: 36,

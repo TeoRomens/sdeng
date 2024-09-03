@@ -89,8 +89,7 @@ class EditParentForm extends StatelessWidget {
                   surname: surnameController.text,
                   email: emailController.text,
                   phone: phoneController.text,
-                )
-                    .then((_) => Navigator.of(context).pop());
+                ).then((_) => Navigator.of(context).pop());
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress
@@ -102,7 +101,7 @@ class EditParentForm extends StatelessWidget {
                     strokeCap: StrokeCap.round,
                   ),
                 )
-              : const Text('Save'),
+              : Text('Save', style: Theme.of(context).textTheme.labelLarge,),
           ),
 
           const SizedBox(height: AppSpacing.xlg),

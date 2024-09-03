@@ -59,7 +59,7 @@ class AddTeamForm extends StatelessWidget {
                   strokeCap: StrokeCap.round,
                 ),
               )
-              : const Text('Add'),
+              : Text('Add', style: Theme.of(context).textTheme.labelLarge,),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

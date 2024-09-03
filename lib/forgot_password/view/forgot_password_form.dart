@@ -68,26 +68,26 @@ class ForgotPasswordForm extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xlg),
                     PrimaryButton(
                       child: state.status.isInProgress
-                          ? const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox.square(
-                            dimension: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                              color: AppColors.white,
-                              strokeCap: StrokeCap.round,
+                        ? const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: AppColors.white,
+                                strokeCap: StrokeCap.round,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                          : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Send',
-                            style: UITextStyle.titleMedium.copyWith(color: AppColors.white),
-                          ),
+                          ],
+                        )
+                        : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Send',
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
                         ],
                       ),
                       onPressed: () async {

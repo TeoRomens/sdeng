@@ -122,15 +122,15 @@ class EditAthleteForm extends StatelessWidget {
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress
-                ? const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: AppColors.white,
-                strokeCap: StrokeCap.round,
-              ),
-            )
-                : const Text('Save'),
+              ? const SizedBox.square(
+                dimension: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.white,
+                  strokeCap: StrokeCap.round,
+                ),
+              )
+              : Text('Save', style: Theme.of(context).textTheme.labelLarge),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

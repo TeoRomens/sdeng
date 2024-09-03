@@ -91,11 +91,8 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
               setState(() => _currentPageIndex = 1);
             }
           },
-          child: Text(
-            'Next',
-            style: Theme.of(context).textTheme
-                .titleMedium
-                ?.copyWith(color: AppColors.white),
+          child: Text('Next',
+            style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
       ],
@@ -183,10 +180,7 @@ class _AddAthleteFormState extends State<AddAthleteForm> {
                 )
               : Text(
                   'Done',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: AppColors.white),
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
           ),
         ],

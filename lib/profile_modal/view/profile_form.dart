@@ -131,20 +131,16 @@ class ProfileFormState extends State<ProfileForm> {
               }
             },
             child: bloc.state.status == FormzSubmissionStatus.inProgress
-                ? const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: AppColors.white,
-                strokeCap: StrokeCap.round,
-              ),
-            )
-                : Text(
-              'Save',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: AppColors.white),
+              ? const SizedBox.square(
+                dimension: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.white,
+                  strokeCap: StrokeCap.round,
+                ),
+              )
+              : Text('Save',
+                  style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
           const SizedBox(height: AppSpacing.xlg),

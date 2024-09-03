@@ -186,20 +186,19 @@ class _EditPaymentFormulaFormState extends State<EditPaymentFormulaForm> {
                   date1: _date1Controller.text.toDateTime!,
                   amount2: full ? null : num.parse(_amount2Controller.text),
                   date2: full ? null : _date2Controller.text.toDateTime!,
-                )
-                    .then((_) => Navigator.of(context).pop());
+                ).then((_) => Navigator.of(context).pop());
               }
             },
             child: state.status == PaymentFormulaStatus.loading
                 ? const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: AppColors.white,
-                strokeCap: StrokeCap.round,
-              ),
-            )
-                : const Text('Save'),
+                  dimension: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppColors.white,
+                    strokeCap: StrokeCap.round,
+                  ),
+                )
+                : Text('Save', style: Theme.of(context).textTheme.labelLarge,),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

@@ -31,9 +31,11 @@ class AthleteInfo extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Personal Data',
-                style: Theme.of(context).textTheme.headlineSmall,
+              Flexible(
+                child: Text(
+                  'Personal Data',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
               ),
               SecondaryButton(
                 onPressed: () async {

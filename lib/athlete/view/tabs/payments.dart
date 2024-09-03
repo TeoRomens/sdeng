@@ -78,7 +78,6 @@ class PaymentInfo extends StatelessWidget {
                 ),
               )
               : SecondaryButton(
-                icon: FeatherIcons.plus,
                 text: 'Assign',
                 onPressed: () async {
                   final String? formulaId = await showAppModal(
@@ -106,7 +105,6 @@ class PaymentInfo extends StatelessWidget {
                 children: [
                   // Button to add a new payment
                   SecondaryButton(
-                    icon: FeatherIcons.plus,
                     text: 'Add payment',
                     onPressed: () {
                       showAppModal(

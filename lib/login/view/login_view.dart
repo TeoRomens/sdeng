@@ -133,10 +133,7 @@ class LoginView extends StatelessWidget {
                                   children: [
                                     Text(
                                       'Login',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(color: AppColors.white),
+                                      style: Theme.of(context).textTheme.labelLarge
                                     ),
                                   ],
                                 ),

@@ -72,20 +72,19 @@ class AddNoteForm extends StatelessWidget {
                     .addNote(
                   content: _contentController.text,
                   author: _authorController.text,
-                )
-                    .then((_) => Navigator.of(context).pop());
+                ).then((_) => Navigator.of(context).pop());
               }
             },
             child: state.status == NotesStatus.loading
-                ? const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: AppColors.white,
-                strokeCap: StrokeCap.round,
-              ),
-            )
-                : const Text('Add'),
+              ? const SizedBox.square(
+                dimension: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.white,
+                  strokeCap: StrokeCap.round,
+                ),
+              )
+              : Text('Add', style: Theme.of(context).textTheme.labelLarge,),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

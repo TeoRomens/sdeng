@@ -4,12 +4,10 @@ class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     required this.text,
     this.onPressed,
-    this.icon,
     super.key,
   });
 
   final VoidCallback? onPressed;
-  final IconData? icon;
   final String text;
 
   @override
@@ -31,26 +29,13 @@ class SecondaryButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(
-              icon,
-              size: 16,
-              color: const Color(0xFF344054),
-            ),
-            const SizedBox(width: 8),
-          ],
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF344054),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Color(0xFF344054),
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

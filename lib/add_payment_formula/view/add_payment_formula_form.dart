@@ -160,7 +160,7 @@ class _AddPaymentFormulaFormState extends State<AddPaymentFormulaForm> {
                     ).then((_) => Navigator.of(context).pop());
               }
             },
-            child: const Text('Add'),
+            text: 'Add',
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],

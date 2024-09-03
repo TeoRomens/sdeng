@@ -34,28 +34,11 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null) ...[
-            Icon(
-              icon,
-              size: 18,
-              color: AppColors.white,
-            ),
-            const SizedBox(width: 5),
-          ],
-          child ??
-              Text(
-                text ?? 'Button',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-        ],
-      ),
+      child: child ??
+          Text(
+            text ?? 'Button',
+            style: Theme.of(context).textTheme.labelLarge
+          ),
     );
   }
 }

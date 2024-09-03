@@ -100,24 +100,23 @@ class EditMedicalForm extends StatelessWidget {
             onPressed: () async {
               if (formKey.currentState!.validate()) {
                 await context
-                    .read<EditMedicalCubit>()
-                    .updateMedical(
-                  expire: expireController.text.toDateTime,
-                  medType: medType,
-                )
-                    .then((_) => Navigator.of(context).pop());
+                  .read<EditMedicalCubit>()
+                  .updateMedical(
+                    expire: expireController.text.toDateTime,
+                    medType: medType,
+                  ).whenComplete(() => Navigator.of(context).pop());
               }
             },
             child: state.status == FormzSubmissionStatus.inProgress
                 ? const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: AppColors.white,
-                strokeCap: StrokeCap.round,
-              ),
-            )
-                : const Text('Save'),
+                  dimension: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppColors.white,
+                    strokeCap: StrokeCap.round,
+                  ),
+                )
+                : Text('Save', style: Theme.of(context).textTheme.labelLarge,),
           ),
           const SizedBox(height: AppSpacing.xlg),
         ],
