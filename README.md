@@ -26,38 +26,23 @@
 - **Testing**: Flutter's testing framework and Mocktail for widget and user-based testing.
 
 ## Screenshots 📷
+- Login  
+  <img alt="Login Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true"/>
+- Home
+  <img alt="Home Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true"/>
+- Athlete Management  
+  <img alt="Athlete Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true"/>
+- Athlete Payments Management  
+  <img alt="Athlete Payments Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true"/>
 
-<div class="image-gallery">
-  <!-- Mobile Images -->
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true" alt="Login Screenshot" />
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true" alt="Home Screenshot" />
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true" alt="Athlete Screenshot" />
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true" alt="Athlete Payments Screenshot" />
+## Desktop Screenshots 📷
+- Home
+  <img alt="Home Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true">
+- Athlete Management  
+  <img alt="Athlete Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true"/>
+- Medical Visits  
+  <img alt="Medical Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true"/>
 
-  <!-- Desktop Images -->
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true" alt="Home Desktop Screenshot" />
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true" alt="Athlete Desktop Screenshot" />
-  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true" alt="Medical Visits Screenshot" />
-</div>
-
-.image-gallery {
-display: grid;
-grid-template-columns: repeat(3, 1fr); /* Default: 3 columns for mobile */
-gap: 10px; /* Add spacing between images */
-}
-
-.image-gallery img {
-width: 100%;
-height: auto;
-border: 1px solid #ddd; /* Optional styling */
-border-radius: 5px; /* Optional styling */
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional styling */
-}
-
-@media (min-width: 768px) {
-.image-gallery {
-grid-template-columns: repeat(2, 1fr); /* 2 columns for desktop */
-}
 
 ## Installation
 
