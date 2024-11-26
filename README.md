@@ -26,10 +26,23 @@
 - **Testing**: Flutter's testing framework and Mocktail for widget and user-based testing.
 
 ## Screenshots 📷
-- Login and Registration  
-  ![Login Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/login.png?raw=true)
-- Team and Athlete Management  
-  ![Teams Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/athlete.png?raw=true)
+- Login  
+  ![Login Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true)
+- Home
+  ![Home Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true)
+- Athlete Management  
+  ![Athlete Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true)
+- Athlete Payments Management  
+  ![Athlete Payments Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true)
+
+## Desktop Screenshots 📷
+- Home
+  ![Home Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true)
+- Athlete Management  
+  ![Athlete Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true)
+- Medical Visits  
+  ![Medical Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true)
+
 
 ## Installation
 
