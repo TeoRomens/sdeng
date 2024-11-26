@@ -26,41 +26,15 @@
 - **Testing**: Flutter's testing framework and Mocktail for widget and user-based testing.
 
 ## Screenshots 📷
-- Login  
-  <img alt="Login Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true"/>
-- Home
-  <img alt="Home Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true"/>
-- Athlete Management  
-  <img alt="Athlete Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true"/>
-- Athlete Payments Management  
-  <img alt="Athlete Payments Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true"/>
+<img alt="Login Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true"/>
+<img alt="Home Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true"/>
+<img alt="Athlete Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true"/>
+<img alt="Athlete Payments Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true"/>
 
 ## Desktop Screenshots 📷
-- Home
-  <img alt="Home Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true">
-- Athlete Management  
-  <img alt="Athlete Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true"/>
-- Medical Visits  
-  <img alt="Medical Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true"/>
-
-
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/sdeng.git
-
-2. Navigate to the project directory:
-   ```bash
-   cd sdeng
-   
-3. Install dependencies:
-   ```bash
-   flutter pub get
-   
-4. Run the app:
-   ```bash
-   flutter run
+<img alt="Home Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true">
+<img alt="Athlete Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true"/>
+<img alt="Medical Screenshot" height="400" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true"/>
 
 ## Architecture Overview 
 - **Client**: A Flutter-based app handling user interaction and state management (BloC). 
