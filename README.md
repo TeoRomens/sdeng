@@ -27,21 +27,21 @@
 
 ## Screenshots 📷
 - Login  
-  ![Login Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true)
+  <img alt="Login Screenshot" height="200" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/login.png?raw=true"/>
 - Home
-  ![Home Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true)
+  <img alt="Home Screenshot" height="200" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home.png?raw=true"/>
 - Athlete Management  
-  ![Athlete Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true)
+  <img alt="Athlete Screenshot" height="200" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete.png?raw=true"/>
 - Athlete Payments Management  
-  ![Athlete Payments Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true)
+  <img alt="Athlete Payments Screenshot" height="200" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-payments.png?raw=true"/>
 
 ## Desktop Screenshots 📷
 - Home
-  ![Home Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true)
+  <img src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/home-desktop.png?raw=true" height="100">
 - Athlete Management  
-  ![Athlete Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true)
+  <img alt="Athlete Screenshot" height="100" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/athlete-desktop.png?raw=true"/>
 - Medical Visits  
-  ![Medical Screenshot](https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true)
+  <img alt="Medical Screenshot" height="100" src="https://github.com/TeoRomens/sdeng/blob/main/screenshots/med-visits-desktop.png?raw=true"/>
 
 
 ## Installation
