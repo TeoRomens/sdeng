@@ -27,9 +27,9 @@
 
 ## Screenshots 📷
 - Login and Registration  
-  ![Login Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/login.png)
+  ![Login Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/login.png?raw=true)
 - Team and Athlete Management  
-  ![Teams Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/athlete.png)
+  ![Teams Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/athlete.png?raw=true)
 
 ## Installation
 
