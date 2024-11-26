@@ -84,8 +84,10 @@ class PaymentInfo extends StatelessWidget {
                     context: context,
                     content: const PaymentFormulaListView(),
                   );
-                  await bloc.updatePaymentFormula(formulaId: formulaId)
+                  if(formulaId?.isNotEmpty ?? false) {
+                    await bloc.updatePaymentFormula(formulaId: formulaId)
                       .whenComplete(() => bloc.reloadPaymentFormula());
+                  }
                 },
               ),
               const SizedBox(height: AppSpacing.xlg),
@@ -113,7 +115,7 @@ class PaymentInfo extends StatelessWidget {
                           athlete: athlete,
                           formula: paymentFormula,
                         ),
-                      );
+                      ).whenComplete(() => bloc.reloadPayments());
                     },
                   ),
                   const SizedBox(height: AppSpacing.sm),

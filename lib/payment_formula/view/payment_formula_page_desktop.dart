@@ -104,7 +104,8 @@ class _PaymentFormulaViewState extends State<PaymentFormulaView> {
                                             paymentFormula:
                                                 paymentsFormulas[index],
                                           ),
-                                        ),
+                                        ).then((_) =>
+                                        context.read<PaymentFormulaCubit>().getPaymentFormulas()),
                                     icon: const Icon(FeatherIcons.edit2)),
                               ),
                             );

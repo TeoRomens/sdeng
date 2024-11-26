@@ -1,5 +1,4 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/client.dart';
@@ -84,21 +83,6 @@ class _PaymentFormulaListViewState extends State<PaymentFormulaListView> {
                     else
                       Column(
                         children: [
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.lg,
-                              vertical: AppSpacing.xs,
-                            ),
-                            title: const Text('None'),
-                            titleTextStyle: Theme.of(context).textTheme
-                                .headlineSmall?.copyWith(fontSize: 19),
-                            subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
-                            trailing: const Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Icon(FeatherIcons.chevronRight),
-                            ),
-                            onTap: () => Navigator.of(context).pop(null),
-                          ),
                           ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

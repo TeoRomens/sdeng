@@ -347,8 +347,8 @@ class FlutterSdengApiClient {
         .select()
         .single()
         .catchError(
-          (Object err) =>
-              throw FlutterSdengApiRequestFailure(message: err.toString()),
+          (Object err) {
+              throw FlutterSdengApiRequestFailure(message: err.toString());},
         );
 
     return Athlete.fromMap(res);

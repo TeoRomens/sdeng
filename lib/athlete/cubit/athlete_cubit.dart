@@ -205,7 +205,6 @@ class AthleteCubit extends Cubit<AthleteState> {
   /// Reloads the medical information associated with the athlete from the repository.
   Future<void> reloadMedical() async {
     try {
-      emit(state.copyWith(status: AthleteStatus.loading));
       final result = await _medicalsRepository.getMedicalFromAthleteId(state.athleteId);
       emit(state.copyWith(status: AthleteStatus.loaded, medical: result));
     } catch (error, stackTrace) {
@@ -227,6 +226,20 @@ class AthleteCubit extends Cubit<AthleteState> {
       emit(state.copyWith(
           status: AthleteStatus.failure,
           error: 'Error while loading payment formula.'));
+      log(error.toString());
+      addError(error, stackTrace);
+    }
+  }
+
+  /// Reloads the medical information associated with the athlete from the repository.
+  Future<void> reloadPayments() async {
+    try {
+      final result = await _paymentsRepository.getPaymentsFromAthleteId(state.athleteId);
+      emit(state.copyWith(status: AthleteStatus.loaded, payments: result));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(
+          status: AthleteStatus.failure,
+          error: 'Error while loading payments.'));
       log(error.toString());
       addError(error, stackTrace);
     }
