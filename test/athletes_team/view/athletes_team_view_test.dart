@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sdeng_api/api.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:sdeng/athlete/view/athlete_page.dart';
 import 'package:sdeng/athletes_team/athletes.dart';
 import 'package:sdeng/add_athlete/view/add_athlete_modal.dart';
 

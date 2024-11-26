@@ -26,12 +26,10 @@
 - **Testing**: Flutter's testing framework and Mocktail for widget and user-based testing.
 
 ## Screenshots 📷
-
-*(Add your screenshots here)*
 - Login and Registration  
-  ![Login Screenshot](link_to_image)
+  ![Login Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/login.png)
 - Team and Athlete Management  
-  ![Teams Screenshot](link_to_image)
+  ![Teams Screenshot](https://github.com/TeoRomens/sdeng/tree/main/screenshots/athlete.png)
 
 ## Installation
 

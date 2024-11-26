@@ -13,12 +13,8 @@ class MockTeamsRepository extends Mock implements TeamsRepository {}
 class MockTeamsCubit extends MockCubit<TeamsState> implements TeamsCubit {}
 
 void main() {
-  late MockTeamsRepository mockTeamsRepository;
-  late MockTeamsCubit mockTeamsCubit;
 
   setUp(() {
-    mockTeamsRepository = MockTeamsRepository();
-    mockTeamsCubit = MockTeamsCubit();
   });
 
   testWidgets('renders TeamsView when in portrait mode', (WidgetTester tester) async {
